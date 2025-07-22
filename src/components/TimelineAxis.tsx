@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Stage, Layer, Line, Text } from 'react-konva';
 import { useStageZoom } from '../hooks/useStageControls';
+import PeriodsLoader from './PeriodsLoader';
 
 const TimelineAxis = () => {
     const { stageScale, stagePos, cursor, handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
@@ -91,6 +92,8 @@ const TimelineAxis = () => {
                     stroke="#333"
                     strokeWidth={2 / stageScale * 2}
                 />
+
+                <PeriodsLoader />
 
                 {/* Anos e marcadores */}
                 {visibleYears.map((year) => {

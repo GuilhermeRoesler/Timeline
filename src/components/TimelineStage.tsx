@@ -1,7 +1,7 @@
-import { Stage } from "react-konva"
+import { Stage, Layer } from "react-konva";
 import { useStageZoom } from '../hooks/useStageControls';
 
-const TimelineStage = ({ children }: any) => {
+const TimelineStage = ({ children }: { children: React.ReactNode }) => {
     const { stageScale, stagePos, cursor, handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
     return (
         <Stage
@@ -21,9 +21,11 @@ const TimelineStage = ({ children }: any) => {
                 cursor: cursor,
             }}
         >
-            {children}
+            <Layer>
+                {children}
+            </Layer>
         </Stage>
-    )
-}
+    );
+};
 
-export default TimelineStage
+export default TimelineStage;

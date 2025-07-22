@@ -1,6 +1,26 @@
 const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: boolean, setIsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const periods = localStorage.getItem('periods');
+        const newPeriod = {
+            title: (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value,
+            description: (e.currentTarget.elements.namedItem('description') as HTMLInputElement).value,
+            start: Number((e.currentTarget.elements.namedItem('start') as HTMLInputElement).value),
+            end: Number((e.currentTarget.elements.namedItem('end') as HTMLInputElement).value),
+            color: (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value,
+        }
+
+        if (periods) {
+            const periodsArray = JSON.parse(periods);
+            periodsArray.push(newPeriod);
+            localStorage.setItem('periods', JSON.stringify(periodsArray));
+        } else {
+            localStorage.setItem('periods', JSON.stringify([newPeriod]));
+        }
+        e.currentTarget.reset();
+        alert('Período adicionado com sucesso!');
+
         setIsSidePanelOpen(false);
     }
 
@@ -15,13 +35,15 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: b
             <form onSubmit={handleSubmit}>
                 <h2>Adicionar</h2>
                 <label>Título</label>
-                <input type="text" placeholder="Título" spellCheck />
+                <input type="text" name="title" placeholder="Título" spellCheck={false} required />
                 <label>Descrição</label>
-                <textarea placeholder="Descrição"></textarea>
+                <textarea name="description" placeholder="Descrição"></textarea>
                 <label>Começo</label>
-                <input type="date" spellCheck />
+                <input type="number" name="start" spellCheck={false} required />
                 <label>Fim</label>
-                <input type="date" spellCheck />
+                <input type="number" name="end" spellCheck={false} required />
+                <label>Cor</label>
+                <input type="color" name="color" />
                 <button>Criar</button>
             </form>
         </div>
