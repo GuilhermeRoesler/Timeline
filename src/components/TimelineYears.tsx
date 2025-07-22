@@ -1,30 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Line, Text } from 'react-konva';
 import { useStageZoom } from '../hooks/useStageControls';
 import { timelineY, baseYear, yearSpacing } from '../constants';
 
 const TimelineYears = () => {
-    const { stageScale, stagePos } = useStageZoom();
-    // Calcular quais anos mostrar baseado na posição e zoom atual
-    const visibleYears = useMemo(() => {
-        const stageWidth = window.innerWidth;
-
-        // Calcular a área visível considerando posição e zoom
-        const leftBound = (-stagePos.x) / stageScale;
-        const rightBound = (stageWidth - stagePos.x) / stageScale;
-
-        // Calcular quais anos estão visíveis
-        const startYear = Math.floor(leftBound / yearSpacing) + baseYear;
-        const endYear = Math.ceil(rightBound / yearSpacing) + baseYear;
-
-        // const idealCalculation = Math.floor(5 / stageScale * 4);
-        const years = [];
-        for (let year = startYear - 5; year <= endYear + 5; year++) {
-            years.push(year);
-        }
-
-        return years;
-    }, [stagePos.x, stageScale]);
+    const { visibleYears } = useStageZoom();
 
     return (
         <>
