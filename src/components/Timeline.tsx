@@ -1,8 +1,12 @@
 import TimelineAxis from "./TimelineAxis"
+import Toolbar from "./Toolbar"
 
 const Timeline = () => {
     return (
-        <TimelineAxis />
+        <>
+            <Toolbar />
+            <TimelineAxis />
+        </>
     )
 }
 
