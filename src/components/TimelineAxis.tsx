@@ -17,11 +17,20 @@ const TimelineAxis = () => {
         if (scale >= .08) return 10;
         if (scale >= .04) return 20;
         if (scale >= .03) return 25;
-        if (scale >= .16) return 50;
+        if (scale >= .016) return 50;
         if (scale >= .007) return 100;
         if (scale >= .003) return 200;
         if (scale >= .0015) return 500;
         if (scale >= 0) return 1000;
+        return 1;
+    }
+
+    function getMarkerStep(yearStep: number) {
+        if (yearStep <= 10) return yearStep;
+        if (yearStep === 20) return 10;
+        if (yearStep === 25) return 5;
+        if (yearStep === 50) return 5;
+        if (yearStep === 100) return 10;
         return 1;
     }
 
@@ -52,8 +61,7 @@ const TimelineAxis = () => {
             years.push(year);
         }
 
-        console.log(stagePos.x)
-        console.log(10000 / stageScale - stagePos.x)
+        // console.log(yearSpacing / getYearStep(stageScale) * getYearStep(stageScale));
 
         return years;
     }, [stagePos.x, stageScale]);
@@ -110,17 +118,18 @@ const TimelineAxis = () => {
                             />
 
                             {/* Marcadores menores para subdivisões (opcional) */}
-                            {Array.from({ length: 9 }, (_, i) => (
+                            {Array.from({ length: getMarkerStep(getYearStep(stageScale)) - 1 }, (_, i) => (
                                 <Line
                                     key={`${year}-${i}`}
                                     points={[
-                                        x + (i + 1) * (yearSpacing / 10 * getYearStep(stageScale)),
-                                        timelineY - 10,
-                                        x + (i + 1) * (yearSpacing / 10 * getYearStep(stageScale)),
-                                        timelineY + 10
+                                        x + (i + 1) * yearSpacing * (getYearStep(stageScale) / getMarkerStep(getYearStep(stageScale))),
+                                        timelineY - 10 / stageScale * .8,
+                                        x + (i + 1) * yearSpacing * (getYearStep(stageScale) / getMarkerStep(getYearStep(stageScale))),
+                                        timelineY + 10 / stageScale * .8
                                     ]}
+                                    // stroke="red"
                                     stroke="#666"
-                                    strokeWidth={0.5}
+                                    strokeWidth={0.5 / stageScale}
                                 />
                             ))}
                         </React.Fragment>

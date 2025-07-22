@@ -1,23 +1,8 @@
-const Toolbar = () => {
+const Toolbar = ({ setIsSidePanelOpen }: { setIsSidePanelOpen: (isSidePanelOpen: boolean) => void }) => {
     return (
-        <div
-            style={{
-                position: "fixed",
-                top: 20,
-                left: 20,
-                background: "#fff",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                borderRadius: 8,
-                padding: "12px 24px",
-                zIndex: 1000,
-                display: "flex",
-                alignItems: "center",
-                gap: "16px",
-                fontFamily: 'Poppins'
-            }}
-        >
-            <span style={{ fontWeight: "bold", fontSize: 18, color: "#333" }}>Timeline</span>
-            <button>Criar</button>
+        <div className="toolbar">
+            <span style={{ fontWeight: "bold", fontSize: 24, color: "#333" }}>Timeline</span>
+            <button onClick={() => setIsSidePanelOpen(true)}>Criar</button>
             <button>Salvar</button>
         </div>
     )
