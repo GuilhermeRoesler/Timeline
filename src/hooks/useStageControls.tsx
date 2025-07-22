@@ -1,13 +1,13 @@
 import { useState, useCallback } from "react";
 
 export const useStageZoom = () => {
-    const [stageScale, setStageScale] = useState(1);
+    const [stageScale, setStageScale] = useState(.75);
     const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
     const [cursor, setCursor] = useState('grab');
 
     const handleWheel = (e: any) => {
         e.evt.preventDefault();
-        const scaleBy = 1.05;
+        const scaleBy = 1.2;
         const stage = e.target.getStage();
         const oldScale = stage.scaleX();
         const pointer = stage.getPointerPosition();
@@ -18,7 +18,11 @@ export const useStageZoom = () => {
         };
 
         const direction = e.evt.deltaY > 0 ? -1 : 1;
-        const newScale = direction > 0 ? oldScale * scaleBy * 1.1 : oldScale / scaleBy / 1.1;
+        const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+        if (newScale > .75) {
+            return;
+        }
 
         const newPos = {
             x: pointer.x - mousePointTo.x * newScale,
