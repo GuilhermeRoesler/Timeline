@@ -37,6 +37,13 @@
   color: white;
 }
 
+.toolbar span {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* SIDE PANEL */
+
 .side-panel {
   position: fixed;
   top: 80px;
@@ -64,6 +71,11 @@
   margin-bottom: 16px;
 }
 
+.side-panel form label {
+  user-select: none;
+  margin-inline: 3px 10px;
+}
+
 .side-panel form input,
 .side-panel form textarea {
   margin-bottom: 16px;
@@ -72,6 +84,11 @@
   border-radius: 4px;
   outline: none;
   background: transparent;
+}
+
+.side-panel form textarea {
+  height: 100px;
+  resize: none;
 }
 
 .side-panel form button {
