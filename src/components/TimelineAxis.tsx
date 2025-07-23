@@ -2,14 +2,11 @@ import React, { useMemo } from 'react';
 import { Stage, Layer, Line, Text } from 'react-konva';
 import { useStageZoom } from '../hooks/useStageControls';
 import PeriodsLoader from './PeriodsLoader';
+import EventsLoader from './EventsLoader';
+import { timelineY, baseYear, yearSpacing } from '../constants';
 
 const TimelineAxis = () => {
     const { stageScale, stagePos, cursor, handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
-
-    // Configurações da timeline
-    const timelineY = window.innerHeight / 2; // Meio da tela verticalmente
-    const yearSpacing = 100; // Espaçamento entre anos em pixels
-    const baseYear = 2010; // Ano de referência
 
     function getYearStep(scale: number) {
         if (scale >= .6) return 1;
@@ -94,6 +91,7 @@ const TimelineAxis = () => {
                 />
 
                 <PeriodsLoader />
+                <EventsLoader />
 
                 {/* Anos e marcadores */}
                 {visibleYears.map((year) => {

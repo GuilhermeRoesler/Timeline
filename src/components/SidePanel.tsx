@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { addPeriod, addEvent } from "../utils/periodEventHandler";
 
 const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: boolean, setIsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const [selectedType, setSelectedType] = useState("period");
@@ -6,24 +7,11 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: b
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const periods = localStorage.getItem('periods');
-        const newPeriod = {
-            title: (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value,
-            description: (e.currentTarget.elements.namedItem('description') as HTMLInputElement).value,
-            start: Number((e.currentTarget.elements.namedItem('start') as HTMLInputElement).value),
-            end: Number((e.currentTarget.elements.namedItem('end') as HTMLInputElement).value),
-            color: (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value,
+        if (selectedType === "period") {
+            addPeriod(e);
+        } else if (selectedType === "event") {
+            addEvent(e);
         }
-
-        if (periods) {
-            const periodsArray = JSON.parse(periods);
-            periodsArray.push(newPeriod);
-            localStorage.setItem('periods', JSON.stringify(periodsArray));
-        } else {
-            localStorage.setItem('periods', JSON.stringify([newPeriod]));
-        }
-        e.currentTarget.reset();
-        alert('Período adicionado com sucesso!');
 
         setIsSidePanelOpen(false);
     }
@@ -61,6 +49,9 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: b
 
                 <label htmlFor="side-panel-description-id">Descrição</label>
                 <textarea name="description" id="side-panel-description-id" placeholder="Descrição (opcional)"></textarea>
+
+                <label htmlFor="side-panel-image-id">Imagem</label>
+                <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
 
                 {selectedType === "period" ? (
                     <>

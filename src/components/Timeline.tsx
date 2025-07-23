@@ -1,6 +1,7 @@
 import { useState } from "react"
 import TimelineAxis from "./TimelineAxis"
 import Toolbar from "./Toolbar"
+import DetailsBalloon from "./DetailsBalloon"
 import SidePanel from "./SidePanel"
 
 const Timeline = () => {
@@ -10,6 +11,7 @@ const Timeline = () => {
         <>
             <Toolbar setIsSidePanelOpen={setIsSidePanelOpen} />
             <TimelineAxis />
+            <DetailsBalloon />
             <SidePanel isSidePanelOpen={isSidePanelOpen} setIsSidePanelOpen={setIsSidePanelOpen} />
         </>
     )
