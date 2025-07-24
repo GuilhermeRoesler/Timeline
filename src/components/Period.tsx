@@ -1,10 +1,10 @@
-import { type Period as PeriodType } from "../models/period"
+import { type Period as PeriodType } from "../types/period"
 import { Rect, Text } from "react-konva";
-import { useStageZoom } from "../hooks/useStageControls";
+import { useStageControlsStore } from "../store/stageControlsStore";
 import { timelineY, baseYear, yearSpacing } from "../constants";
 
 const Period = ({ period }: { period: PeriodType }) => {
-    const { stageScale } = useStageZoom();
+    const stageScale = useStageControlsStore((state) => state.stageScale);
 
     const xStart = (period.start - baseYear) * yearSpacing;
     const xEnd = (period.end - baseYear) * yearSpacing;
@@ -14,20 +14,20 @@ const Period = ({ period }: { period: PeriodType }) => {
         <>
             <Rect
                 x={xStart}
-                y={timelineY - 110 / stageScale}
+                y={timelineY - 110}
                 width={width}
-                height={80 / stageScale}
+                height={80}
                 fill={period.color || "#8ecae6"}
                 opacity={0.7}
                 cornerRadius={12 / stageScale}
             />
             <Text
                 x={xStart + 8 / stageScale}
-                y={timelineY - 90 / stageScale}
+                y={timelineY - 90}
                 text={period.title}
-                fontSize={18 / stageScale}
+                fontSize={18}
                 fill="#222"
-                width={width - 16 / stageScale}
+                width={width - 16}
                 align="left"
             />
         </>

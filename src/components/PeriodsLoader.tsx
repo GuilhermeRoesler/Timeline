@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { type Period as PeriodType } from '../models/period';
+import { type Period as PeriodType } from '../types/period';
 import Period from './Period';
 
 const PeriodsLoader = () => {

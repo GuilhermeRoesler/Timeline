@@ -1,10 +1,10 @@
-import { type Event as EventType } from "../models/event"
+import { type Event as EventType } from "../types/event"
 import { Circle } from "react-konva";
 import { timelineY, baseYear, yearSpacing } from "../constants";
-import { useEventsDetails } from "../hooks/useEventDetails";
+import { useEventDetailsStore } from "../store/eventDetailsStore";
 
 const Event = ({ event }: { event: EventType }) => {
-    const { setIsHovered } = useEventsDetails();
+    const setEvent = useEventDetailsStore((state) => state.setEvent);
 
     const x = (event.year - baseYear) * yearSpacing;
 
@@ -16,8 +16,8 @@ const Event = ({ event }: { event: EventType }) => {
                 radius={20}
                 fill={event.color || "#ffb703"}
                 opacity={0.7}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onMouseEnter={() => setEvent(event)}
+                onMouseLeave={() => setEvent(null)}
             />
         </>
     )

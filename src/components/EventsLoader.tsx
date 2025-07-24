@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { type Event as EventType } from "../models/event"
+import { type Event as EventType } from "../types/event"
 import Event from "./Event"
 
 const EventsLoader = () => {
