@@ -1,6 +1,6 @@
 import { Line } from 'react-konva';
 import { useStageControlsStore } from '../store/stageControlsStore';
-import { timelineY } from '../constants';
+import { TIMELINE_Y } from '../constants';
 
 const TimelineMainLine = () => {
     const stageScale = useStageControlsStore((state) => state.stageScale);
@@ -10,9 +10,9 @@ const TimelineMainLine = () => {
         <Line
             points={[
                 -10000 / stageScale - stagePos.x / stageScale,
-                timelineY,
+                TIMELINE_Y,
                 10000 / stageScale - stagePos.x / stageScale,
-                timelineY]}
+                TIMELINE_Y]}
             stroke="#333"
             strokeWidth={2 / stageScale * 2}
         />

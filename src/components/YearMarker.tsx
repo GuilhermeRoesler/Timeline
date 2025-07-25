@@ -1,9 +1,9 @@
 import { Line, Text } from "react-konva"
-import { timelineY, baseYear, yearSpacing } from "../constants";
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../constants";
 import { useStageControlsStore } from "../store/stageControlsStore";
 
 const YearMarker = ({ year }: { year: number }) => {
-    const x = (year - baseYear) * yearSpacing;
+    const x = (year - BASE_YEAR) * YEAR_SPACING;
     const stageScale = useStageControlsStore((state) => state.stageScale);
 
     return (
@@ -11,16 +11,16 @@ const YearMarker = ({ year }: { year: number }) => {
             <Line
                 points={[
                     x,
-                    timelineY - (20 / stageScale * .7),
+                    TIMELINE_Y - (20 / stageScale * .7),
                     x,
-                    timelineY + (20 / stageScale * .7)]}
+                    TIMELINE_Y + (20 / stageScale * .7)]}
                 stroke="#666"
                 strokeWidth={1 / stageScale * 2}
             />
 
             <Text
                 x={x}
-                y={timelineY + 25 / stageScale}
+                y={TIMELINE_Y + 25 / stageScale}
                 text={year.toString()}
                 fontSize={14 / stageScale}
                 fill="#333"

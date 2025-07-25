@@ -2,21 +2,21 @@ import { type Period as PeriodType } from "../types/period"
 import { Rect } from "react-konva";
 import { useStageControlsStore } from "../store/stageControlsStore";
 import { useDetailsBalloonStore } from "../store/detailsBalloonStore";
-import { timelineY, baseYear, yearSpacing } from "../constants";
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../constants";
 
 const Period = ({ period }: { period: PeriodType }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);
     const setPeriod = useDetailsBalloonStore((state) => state.setPeriod);
 
-    const xStart = (period.start - baseYear) * yearSpacing;
-    const xEnd = (period.end - baseYear) * yearSpacing;
+    const xStart = (period.start - BASE_YEAR) * YEAR_SPACING;
+    const xEnd = (period.end - BASE_YEAR) * YEAR_SPACING;
     const width = xEnd - xStart;
 
     return (
         <>
             <Rect
                 x={xStart}
-                y={timelineY - 110}
+                y={TIMELINE_Y - 110}
                 width={width}
                 height={80}
                 fill={period.color || "#8ecae6"}

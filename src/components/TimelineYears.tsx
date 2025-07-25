@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Line } from 'react-konva';
 import { useStageControlsStore } from '../store/stageControlsStore';
-import { timelineY, baseYear, yearSpacing } from '../constants';
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from '../constants';
 import { getYearStep, getMarkerStep } from '../utils/timelineYearsUtils';
 
 import YearMarker from './YearMarker';
@@ -22,8 +22,8 @@ const TimelineYears = () => {
         const rightBound = (stageWidth - stagePos.x) / stageScale;
 
         // Calcular quais anos estão visíveis
-        const startYear = Math.floor(leftBound / yearSpacing) + baseYear;
-        const endYear = Math.ceil(rightBound / yearSpacing) + baseYear;
+        const startYear = Math.floor(leftBound / YEAR_SPACING) + BASE_YEAR;
+        const endYear = Math.ceil(rightBound / YEAR_SPACING) + BASE_YEAR;
 
         const yearStep = getYearStep(stageScale);
 
@@ -45,7 +45,7 @@ const TimelineYears = () => {
     return (
         <>
             {visibleYears.map((year) => {
-                const x = (year - baseYear) * yearSpacing;
+                const x = (year - BASE_YEAR) * YEAR_SPACING;
                 const yearStep = getYearStep(stageScale);
                 const markerStep = getMarkerStep(yearStep);
 
