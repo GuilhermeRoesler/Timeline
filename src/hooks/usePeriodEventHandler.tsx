@@ -33,6 +33,7 @@ export const usePeriodEventHandler = () => {
 
     const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        e.currentTarget.reset(); // Clear the form after submission
 
         const id = ulid();
         const title = (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value;
