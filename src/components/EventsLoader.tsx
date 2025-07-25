@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react"
-import { type Event as EventType } from "../types/event"
+import { useEffect } from "react"
 import Event from "./Event"
+import { useEventsLoaderStore } from "../store/periodsEventsLoaderStore"
 
 const EventsLoader = () => {
-    const [events, setEvents] = useState<EventType[]>([]);
+    const events = useEventsLoaderStore(state => state.events)
+    const loadEventsFromLocalStorage = useEventsLoaderStore(state => state.loadEventsFromLocalStorage)
 
     useEffect(() => {
-        const events = localStorage.getItem('events');
-        if (events) setEvents(JSON.parse(events));
+        loadEventsFromLocalStorage();
     }, []);
 
     return (

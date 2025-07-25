@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { addPeriod, addEvent } from "../utils/periodEventHandler";
+import { usePeriodEventHandler } from "../hooks/usePeriodEventHandler";
 
 const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: boolean, setIsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const [selectedType, setSelectedType] = useState("period");
+    const { addPeriod, addEvent } = usePeriodEventHandler();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
