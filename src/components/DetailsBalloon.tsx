@@ -63,8 +63,10 @@ const DetailsBalloon = () => {
                 translate: `-20px calc(-50% - 100px * ${stageScale})`,
                 animation: animation,
             }}>
-            <h3>{localPeriod.title}</h3>
-            <p>{localPeriod.description}</p>
+            <h3 className="title">{localPeriod.title}</h3>
+            <p className="period">{localPeriod.start} - {localPeriod.end}</p>
+            <p className="description">{localPeriod.description}</p>
+            <img src={localPeriod.image} alt={localPeriod.title} />
         </div>
     )
 }
