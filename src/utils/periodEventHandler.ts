@@ -1,11 +1,15 @@
+import { ulid } from "ulid";
+
 export const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
     const periods = localStorage.getItem('periods');
     const newPeriod = {
+        id: ulid(),
         title: (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value,
         description: (e.currentTarget.elements.namedItem('description') as HTMLInputElement).value,
+        image: (e.currentTarget.elements.namedItem('image') as HTMLInputElement).files?.[0]?.name || '',
+        color: (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value,
         start: Number((e.currentTarget.elements.namedItem('start') as HTMLInputElement).value),
         end: Number((e.currentTarget.elements.namedItem('end') as HTMLInputElement).value),
-        color: (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value,
     }
 
     if (periods) {
@@ -21,10 +25,12 @@ export const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
 export const addEvent = (e: React.FormEvent<HTMLFormElement>) => {
     const events = localStorage.getItem('events');
     const newEvent = {
+        id: ulid(),
         title: (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value,
         description: (e.currentTarget.elements.namedItem('description') as HTMLInputElement).value,
-        year: Number((e.currentTarget.elements.namedItem('year') as HTMLInputElement).value),
+        image: (e.currentTarget.elements.namedItem('image') as HTMLInputElement).files?.[0]?.name || '',
         color: (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value,
+        year: Number((e.currentTarget.elements.namedItem('year') as HTMLInputElement).value),
     }
 
     if (events) {

@@ -5,5 +5,4 @@ export interface Event {
     image: string;
     color: string;
     year: number;
-    level: number;
 }
