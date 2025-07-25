@@ -17,7 +17,7 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: b
     }
 
     return (
-        <div className="side-panel" style={{ translate: isSidePanelOpen ? "0" : "100%" }}>
+        <div className="side-panel" style={{ translate: isSidePanelOpen ? "0 -50%" : "100% -50%" }}>
             <div className="open-close-area" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}>
                 <i className={`fa-solid fa-chevron-${isSidePanelOpen ? 'right' : 'left'}`}></i>
             </div>

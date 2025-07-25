@@ -1,10 +1,10 @@
 import { type Event as EventType } from "../types/event"
 import { Circle } from "react-konva";
 import { timelineY, baseYear, yearSpacing } from "../constants";
-import { useEventDetailsStore } from "../store/eventDetailsStore";
+import { useDetailsBalloonStore } from "../store/detailsBalloonStore";
 
 const Event = ({ event }: { event: EventType }) => {
-    const setEvent = useEventDetailsStore((state) => state.setEvent);
+    const setEvent = useDetailsBalloonStore((state) => state.setEvent);
 
     const x = (event.year - baseYear) * yearSpacing;
 

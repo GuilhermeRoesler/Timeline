@@ -9,6 +9,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+body {
+  overflow: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -46,7 +50,7 @@
 
 .side-panel {
   position: fixed;
-  top: 80px;
+  top: 50%;
   right: 30px;
   width: 400px;
   height: calc(100% - 100px);
@@ -132,13 +136,54 @@
 
 .details-balloon {
   position: absolute;
-  top: 50%;
-  left: 75px;
-  translate: 0 -50%;
+  width: 350px;
+  aspect-ratio: 1 / .8;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 16px;
+  padding: 1rem;
   z-index: 1000;
   font-family: 'Poppins';
+  transition: all 0.3s ease-in-out;
+  animation: detailsBalloonFadeIn 0.3s ease-in-out;
+}
+
+/* .details-balloon::after {
+  content: '';
+  position: absolute;
+  bottom: 50%;
+  left: -55px;
+  translate: 0 50%;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  background-color: inherit;
+  width: 60px;
+  aspect-ratio: 1;
+} */
+
+@keyframes detailsBalloonFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.details-balloon h3 {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.details-balloon p {
+  font-size: .8rem;
+  color: #555;
+  margin-bottom: 0.3rem;
 }
