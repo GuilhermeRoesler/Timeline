@@ -48,8 +48,10 @@ const DetailsBalloon = () => {
                 translate: '0 -50%',
                 animation: animation,
             }}>
-            <h3>{localEvent.title}</h3>
-            <p>{localEvent.description}</p>
+            <h3 className="title">{localEvent.title}</h3>
+            <p className="date">{localEvent.year}</p>
+            <p className="description">{localEvent.description}</p>
+            {localEvent.image && <img src={localEvent.image} alt={localEvent.title} />}
         </div>
     )
 
@@ -64,9 +66,9 @@ const DetailsBalloon = () => {
                 animation: animation,
             }}>
             <h3 className="title">{localPeriod.title}</h3>
-            <p className="period">{localPeriod.start} - {localPeriod.end}</p>
+            <p className="date">{localPeriod.start} - {localPeriod.end}</p>
             <p className="description">{localPeriod.description}</p>
-            <img src={localPeriod.image} alt={localPeriod.title} />
+            {localPeriod.image && <img src={localPeriod.image} alt={localPeriod.title} />}
         </div>
     )
 }

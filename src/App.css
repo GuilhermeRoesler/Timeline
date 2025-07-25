@@ -176,6 +176,7 @@ body {
 
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    scale: 1.02;
   }
 }
 
@@ -185,13 +186,13 @@ body {
 }
 
 .details-balloon .description,
-.details-balloon .period {
+.details-balloon .date {
   font-size: .8rem;
   color: #444;
   margin-bottom: 0.3rem;
 }
 
-.details-balloon .period {
+.details-balloon .date {
   color: #666;
   translate: 0 -0.2rem;
   font-style: italic;
