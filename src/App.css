@@ -173,6 +173,7 @@ body {
   z-index: 1000;
   font-family: 'Poppins';
   transition: all 0.3s ease-in-out;
+  /* animation: detailsBalloonFadeIn 0.3s ease-in-out forwards; */
 
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);

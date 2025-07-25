@@ -17,14 +17,18 @@ const DetailsBalloon = () => {
 
     useEffect(() => {
         if (event) {
-            setLocalEvent(event);
-            setAnimation('detailsBalloonFadeIn 0.3s ease-in-out');
-            setLocalPeriod(null);
+            setTimeout(() => {
+                setLocalEvent(event);
+                setAnimation('detailsBalloonFadeIn 0.3s ease-in-out');
+                setLocalPeriod(null);
+            }, 300);
         }
         if (period) {
-            setLocalPeriod(period);
-            setAnimation('detailsBalloonFadeIn 0.3s ease-in-out');
-            setLocalEvent(null);
+            setTimeout(() => {
+                setLocalPeriod(period);
+                setAnimation('detailsBalloonFadeIn 0.3s ease-in-out');
+                setLocalEvent(null);
+            }, 300);
         }
     }, [event, period]);
 
