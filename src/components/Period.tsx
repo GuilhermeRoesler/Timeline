@@ -1,5 +1,5 @@
 import { type Period as PeriodType } from "../types/period"
-import { Rect, Text } from "react-konva";
+import { Rect } from "react-konva";
 import { useStageControlsStore } from "../store/stageControlsStore";
 import { useDetailsBalloonStore } from "../store/detailsBalloonStore";
 import { timelineY, baseYear, yearSpacing } from "../constants";
@@ -25,7 +25,7 @@ const Period = ({ period }: { period: PeriodType }) => {
                 onMouseEnter={() => setPeriod(period)}
                 onMouseLeave={() => setPeriod(null)}
             />
-            <Text
+            {/* <Text
                 x={xStart + 8 / stageScale}
                 y={timelineY - 90}
                 text={period.title}
@@ -33,7 +33,7 @@ const Period = ({ period }: { period: PeriodType }) => {
                 fill="#222"
                 width={width - 16}
                 align="left"
-            />
+            /> */}
         </>
     )
 }

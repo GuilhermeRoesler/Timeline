@@ -149,7 +149,31 @@ body {
   z-index: 1000;
   font-family: 'Poppins';
   transition: all 0.3s ease-in-out;
-  animation: detailsBalloonFadeIn 0.3s ease-in-out;
+  /* animation: detailsBalloonFadeIn 0.3s ease-in-out; */
+}
+
+@keyframes detailsBalloonFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detailsBalloonFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 /* .details-balloon::after {
@@ -164,16 +188,8 @@ body {
   aspect-ratio: 1;
 } */
 
-@keyframes detailsBalloonFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.details-balloon:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .details-balloon h3 {
