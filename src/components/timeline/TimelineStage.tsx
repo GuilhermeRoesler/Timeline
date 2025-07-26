@@ -1,6 +1,6 @@
 import { Stage, Layer } from "react-konva";
-import { useStageZoom } from '../hooks/useStageControls';
-import { useStageControlsStore } from '../store/stageControlsStore';
+import { useStageZoom } from '../../hooks/useStageControls';
+import { useStageControlsStore } from '../../store/stageControlsStore';
 
 const TimelineStage = ({ children }: { children: React.ReactNode }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);

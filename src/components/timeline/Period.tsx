@@ -1,8 +1,8 @@
-import { type Period as PeriodType } from "../types/period"
+import { type Period as PeriodType } from "../../types/period"
 import { Rect } from "react-konva";
-import { useStageControlsStore } from "../store/stageControlsStore";
-import { useDetailsBalloonStore } from "../store/detailsBalloonStore";
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, PERIOD_HEIGHT, LEVEL_SPACING } from "../constants";
+import { useStageControlsStore } from "../../store/stageControlsStore";
+import { useDetailsBalloonStore } from "../../store/detailsBalloonStore";
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, PERIOD_HEIGHT, LEVEL_SPACING } from "../../constants";
 
 const Period = ({ period }: { period: PeriodType }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);

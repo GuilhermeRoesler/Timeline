@@ -1,8 +1,8 @@
 import { useState } from "react"
-import TimelineAxis from "./TimelineAxis"
-import Toolbar from "./Toolbar"
+import TimelineAxis from "./timeline/TimelineAxis"
+import Toolbar from "./panels/Toolbar"
 import DetailsBalloon from "./DetailsBalloon"
-import SidePanel from "./SidePanel"
+import SidePanel from "./panels/SidePanel"
 
 const Timeline = () => {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);

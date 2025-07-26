@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { usePeriodEventHandler } from "../hooks/usePeriodEventHandler";
+import { usePeriodEventHandler } from "../../hooks/usePeriodEventHandler";
 
 const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: boolean, setIsSidePanelOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const [selectedType, setSelectedType] = useState("period");
@@ -51,9 +51,6 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: b
                 <label htmlFor="side-panel-description-id">Descrição</label>
                 <textarea name="description" id="side-panel-description-id" placeholder="Descrição (opcional)"></textarea>
 
-                <label htmlFor="side-panel-image-id">Imagem</label>
-                <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
-
                 {selectedType === "period" ? (
                     <>
                         <label htmlFor="side-panel-start-id">Começo</label>
@@ -71,6 +68,9 @@ const SidePanel = ({ isSidePanelOpen, setIsSidePanelOpen }: { isSidePanelOpen: b
 
                 <label htmlFor="side-panel-color-id">Cor</label>
                 <input type="color" name="color" id="side-panel-color-id" defaultValue={"#8ecae6"} />
+
+                <label htmlFor="side-panel-image-id">Imagem</label>
+                <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
 
                 <button>Criar</button>
             </form>

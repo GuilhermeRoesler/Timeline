@@ -1,7 +1,7 @@
-import { type Event as EventType } from "../types/event"
+import { type Event as EventType } from "../../types/event"
 import { Circle } from "react-konva";
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, EVENT_RADIUS } from "../constants";
-import { useDetailsBalloonStore } from "../store/detailsBalloonStore";
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, EVENT_RADIUS } from "../../constants";
+import { useDetailsBalloonStore } from "../../store/detailsBalloonStore";
 
 const Event = ({ event }: { event: EventType }) => {
     const setEvent = useDetailsBalloonStore((state) => state.setEvent);

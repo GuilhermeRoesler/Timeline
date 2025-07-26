@@ -1,4 +1,4 @@
-import { exportTimeline, importTimeline } from "../utils/fileOperations"
+import { exportTimeline, importTimeline } from "../../utils/fileOperations"
 
 const Toolbar = ({ setIsSidePanelOpen }: { setIsSidePanelOpen: (isSidePanelOpen: boolean) => void }) => {
     return (

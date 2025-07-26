@@ -1,6 +1,6 @@
 import { Line, Text } from "react-konva"
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../constants";
-import { useStageControlsStore } from "../store/stageControlsStore";
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../../constants";
+import { useStageControlsStore } from "../../store/stageControlsStore";
 
 const YearMarker = ({ year }: { year: number }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);

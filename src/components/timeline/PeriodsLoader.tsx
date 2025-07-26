@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Period from './Period';
-import { usePeriodsLoaderStore } from "../store/periodsEventsLoaderStore";
+import { usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
 
 const PeriodsLoader = () => {
     const periods = usePeriodsLoaderStore((state) => state.periods);

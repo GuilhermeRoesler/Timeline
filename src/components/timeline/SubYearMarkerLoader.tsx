@@ -1,5 +1,5 @@
 import { Line } from "react-konva"
-import { TIMELINE_Y, YEAR_SPACING } from "../constants"
+import { TIMELINE_Y, YEAR_SPACING } from "../../constants"
 
 const SubYearMarkerLoader = ({ x, year, i, yearStep, markerStep, stageScale }: { x: number, year: number, i: number, yearStep: number, markerStep: number, stageScale: number }) => {
     return (
