@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { usePeriodEventHandler } from "../../hooks/usePeriodEventHandler";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 
@@ -7,7 +6,8 @@ import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, Sid
 
 const SidePanelForm = () => {
     const selectedType = useSidePanelStore(state => state.selectedType)
-    const [imageSelectedType, setImageSelectedType] = useState("search") // search or upload
+    const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
+    const setImageSelectedType = useSidePanelStore(state => state.setImageSelectedType)
     const { addPeriod, addEvent } = usePeriodEventHandler();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,6 +19,7 @@ const SidePanelForm = () => {
             addEvent(e);
         }
 
+        e.currentTarget.reset(); // Clear the form after submission
         useSidePanelStore.getState().setIsSidePanelOpen(false);
     }
 
@@ -29,7 +30,6 @@ const SidePanelForm = () => {
 
             <SidePanelTitle />
             <SidePanelDescription />
-
             {selectedType === "period" ? (
                 <>
                     <SidePanelStart />
@@ -38,7 +38,6 @@ const SidePanelForm = () => {
             ) : (
                 <SidePanelYear />
             )}
-
             <SidePanelColor />
 
             <div>
