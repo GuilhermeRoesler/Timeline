@@ -61,7 +61,7 @@ const SidePanelForm = () => {
 
             <label htmlFor="side-panel-image-id">Imagem</label>
             {imageSelectedType === "search" ? (
-                <input type="text" name="imageSearch" id="side-panel-image-id" placeholder="Pesquisar imagem" />
+                <input type="text" name="imageSearch" id="side-panel-image-id" placeholder="URL da imagem" />
             ) : (
                 <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
             )}
