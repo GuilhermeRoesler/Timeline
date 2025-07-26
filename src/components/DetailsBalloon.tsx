@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDetailsBalloonStore } from "../store/detailsBalloonStore"
 import { useStageControlsStore } from "../store/stageControlsStore";
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../constants";
+import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, LEVEL_SPACING, PERIOD_HEIGHT } from "../constants";
 import { type Event } from "../types/event";
 import { type Period } from "../types/period";
 
@@ -65,7 +65,7 @@ const DetailsBalloon = () => {
             onMouseLeave={() => setIsHovered(false)}
             style={{
                 left: `${((localPeriod.end - BASE_YEAR) * YEAR_SPACING + stagePos.x / stageScale) * stageScale}px`,
-                top: `${(TIMELINE_Y + stagePos.y / stageScale) * stageScale - 120}px`,
+                top: `${(TIMELINE_Y + stagePos.y / stageScale) * stageScale - localPeriod.level * (PERIOD_HEIGHT + LEVEL_SPACING) * stageScale}px`,
                 translate: `-20px calc(-50% - 100px * ${stageScale})`,
                 animation: animation,
             }}>
