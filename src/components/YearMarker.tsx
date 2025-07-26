@@ -3,8 +3,21 @@ import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../constants";
 import { useStageControlsStore } from "../store/stageControlsStore";
 
 const YearMarker = ({ year }: { year: number }) => {
-    const x = (year - BASE_YEAR) * YEAR_SPACING;
     const stageScale = useStageControlsStore((state) => state.stageScale);
+    const x = (year - BASE_YEAR) * YEAR_SPACING;
+
+    let offsetX = 16 / stageScale;
+    switch (year.toString().length) {
+        case 3:
+            offsetX = 11 / stageScale;
+            break;
+        case 2:
+            offsetX = 7 / stageScale;
+            break;
+        case 1:
+            offsetX = 4 / stageScale;
+            break;
+    }
 
     return (
         <>
@@ -25,7 +38,7 @@ const YearMarker = ({ year }: { year: number }) => {
                 fontSize={14 / stageScale}
                 fill="#333"
                 align="center"
-                offsetX={16 / stageScale} // Centralizar o texto
+                offsetX={offsetX} // Centralizar o texto
                 fontStyle={year % 10 === 0 ? 'bold' : 'normal'}
             />
         </>
