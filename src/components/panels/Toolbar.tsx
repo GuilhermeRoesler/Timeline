@@ -1,6 +1,9 @@
 import { exportTimeline, importTimeline } from "../../utils/fileOperations"
+import { useSidePanelStore } from "../../store/sidePanelStore"
 
-const Toolbar = ({ setIsSidePanelOpen }: { setIsSidePanelOpen: (isSidePanelOpen: boolean) => void }) => {
+const Toolbar = () => {
+    const setIsSidePanelOpen = useSidePanelStore(state => state.setIsSidePanelOpen)
+
     return (
         <div className="toolbar">
             <span style={{ fontWeight: "bold", fontSize: 24, color: "#333" }}>Timeline</span>

@@ -78,6 +78,7 @@ body {
 .side-panel form label {
   user-select: none;
   margin-inline: 3px 10px;
+  margin-bottom: 2px;
 }
 
 .side-panel form input,
@@ -174,6 +175,10 @@ body {
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     scale: 1.02;
+  }
+
+  &>* {
+    user-select: none;
   }
 }
 
