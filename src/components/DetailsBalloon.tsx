@@ -4,6 +4,7 @@ import { useStageControlsStore } from "../store/stageControlsStore";
 import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, LEVEL_SPACING, PERIOD_HEIGHT } from "../constants";
 import { type Event } from "../types/event";
 import { type Period } from "../types/period";
+import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
 
 const DetailsBalloon = () => {
     const stageScale = useStageControlsStore((state) => state.stageScale);
@@ -14,6 +15,17 @@ const DetailsBalloon = () => {
     const [localPeriod, setLocalPeriod] = useState<Period | null>(null);
     const [isHovered, setIsHovered] = useState(false)
     const [animation, setAnimation] = useState('');
+
+    const handleDelete = () => {
+        if (localEvent) {
+            useEventsLoaderStore.getState().removeEvent(localEvent.id);
+            setLocalEvent(null);
+        } else if (localPeriod) {
+            usePeriodsLoaderStore.getState().removePeriod(localPeriod.id);
+            setLocalPeriod(null);
+        }
+        setAnimation('detailsBalloonFadeOut 0.3s ease-in-out');
+    }
 
     useEffect(() => {
         if (event) {
@@ -56,6 +68,7 @@ const DetailsBalloon = () => {
             <p className="date">{localEvent.year}</p>
             <p className="description">{localEvent.description}</p>
             {localEvent.image && <img src={localEvent.image} alt={localEvent.title} />}
+            <button className="delete" onClick={handleDelete}>Delete</button>
         </div>
     )
 
@@ -73,6 +86,7 @@ const DetailsBalloon = () => {
             <p className="date">{localPeriod.start} - {localPeriod.end}</p>
             <p className="description">{localPeriod.description}</p>
             {localPeriod.image && <img src={localPeriod.image} alt={localPeriod.title} />}
+            <button className="delete" onClick={handleDelete}>Delete</button>
         </div>
     )
 }
