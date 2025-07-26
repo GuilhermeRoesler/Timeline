@@ -11,7 +11,9 @@ const Period = ({ period }: { period: PeriodType }) => {
     const xStart = (period.start - BASE_YEAR) * YEAR_SPACING;
     const xEnd = (period.end - BASE_YEAR) * YEAR_SPACING;
     const width = xEnd - xStart;
-    const y = TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * (period.level + 1);
+    const y = period.level > 0
+        ? TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * period.level
+        : TIMELINE_Y + (PERIOD_HEIGHT + LEVEL_SPACING) * -period.level;
 
     return (
         <>

@@ -10,7 +10,7 @@ export const usePeriodEventHandler = () => {
 
     // Function to calculate the level based on overlapping periods
     const calculateLevel = (start: number, end: number) => {
-        let level = 0;
+        let level = 1;
 
         while (true) {
             const filteredPeriods = periods.filter(period => period.level === level);
@@ -26,14 +26,17 @@ export const usePeriodEventHandler = () => {
             if (!conflict) {
                 return level; // No conflict, return the current level
             } else {
-                level++;
+                if (level > 0) {
+                    level = -level; // Switch to negative levels if conflicts exist
+                } else if (level < 0) {
+                    level = -level + 1; // Increment negative level}
+                }
             }
         }
     }
 
     const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        e.currentTarget.reset(); // Clear the form after submission
 
         const id = ulid();
         const title = (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value;
@@ -44,6 +47,7 @@ export const usePeriodEventHandler = () => {
         const end = Number((e.currentTarget.elements.namedItem('end') as HTMLInputElement).value);
         const level = calculateLevel(start, end);
         console.log('level', level)
+        e.currentTarget.reset(); // Clear the form after submission
 
         const newPeriod = { id, title, description, image, color, start, end, level } as Period;
 
