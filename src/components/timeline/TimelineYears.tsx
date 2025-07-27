@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Line } from 'react-konva';
 import { useStageControlsStore } from '../../store/stageControlsStore';
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from '../../constants';
+import { BASE_YEAR, YEAR_SPACING } from '../../constants';
 import { getYearStep, getMarkerStep } from '../../utils/timelineYearsUtils';
 
 import YearMarker from './YearMarker';

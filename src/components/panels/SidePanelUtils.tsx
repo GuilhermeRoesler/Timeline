@@ -20,7 +20,7 @@ export const SidePanelStart = () => {
     return (
         <>
             <label htmlFor="side-panel-start-id">Começo</label>
-            <input type="number" name="start" id="side-panel-start-id" spellCheck={false} required />
+            <input type="date" name="start" id="side-panel-start-id" spellCheck={false} required defaultValue={"2010-01-01"} />
         </>
     )
 }
@@ -29,7 +29,7 @@ export const SidePanelEnd = () => {
     return (
         <>
             <label htmlFor="side-panel-end-id">Fim</label>
-            <input type="number" name="end" id="side-panel-end-id" spellCheck={false} required />
+            <input type="date" name="end" id="side-panel-end-id" spellCheck={false} required defaultValue={"2010-01-01"} />
         </>
     )
 }
@@ -38,7 +38,7 @@ export const SidePanelYear = () => {
     return (
         <>
             <label htmlFor="side-panel-year-id">Ano</label>
-            <input type="number" name="year" id="side-panel-year-id" spellCheck={false} required />
+            <input type="date" name="year" id="side-panel-year-id" spellCheck={false} required defaultValue={"2010-01-01"} />
         </>
     )
 }
