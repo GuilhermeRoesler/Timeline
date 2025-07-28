@@ -1,6 +1,6 @@
 import TimelineAxis from "./timeline/TimelineAxis"
 import Toolbar from "./panels/Toolbar"
-import DetailsBalloon from "./DetailsBalloon"
+import InfoCard from "./InfoCard"
 import SidePanel from "./panels/SidePanel"
 
 const Timeline = () => {
@@ -9,7 +9,7 @@ const Timeline = () => {
         <>
             <Toolbar />
             <TimelineAxis />
-            <DetailsBalloon />
+            <InfoCard />
             <SidePanel />
         </>
     )

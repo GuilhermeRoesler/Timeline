@@ -5,8 +5,12 @@ type SidePanelState = {
     setIsSidePanelOpen: (value: boolean) => void;
     selectedType: "period" | "event";
     setSelectedType: (type: "period" | "event") => void;
-    imageSelectedType: "search" | "upload";
-    setImageSelectedType: (type: "search" | "upload") => void;
+    imageSelectedType: "search" | "link" | "upload";
+    setImageSelectedType: (type: "search" | "link" | "upload") => void;
+    titleValue: string;
+    linkValue: string;
+    linkIndex: number;
+    setLinkIndex: (index: number) => void;
 }
 
 export const useSidePanelStore = create<SidePanelState>(set => ({
@@ -15,5 +19,9 @@ export const useSidePanelStore = create<SidePanelState>(set => ({
     selectedType: "period",
     setSelectedType: (type: "period" | "event") => set({ selectedType: type }),
     imageSelectedType: "search",
-    setImageSelectedType: (type: "search" | "upload") => set({ imageSelectedType: type }),
+    setImageSelectedType: (type: "search" | "link" | "upload") => set({ imageSelectedType: type }),
+    titleValue: "",
+    linkValue: "",
+    linkIndex: 0,
+    setLinkIndex: (index: number) => set({ linkIndex: index }),
 }))

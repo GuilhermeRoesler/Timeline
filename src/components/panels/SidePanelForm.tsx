@@ -2,12 +2,14 @@ import { usePeriodEventHandler } from "../../hooks/usePeriodEventHandler";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 
 import SidePanelFormType from "./SidePanelFormType";
+import SidePanelImageType from "./SidePanelImageType";
 import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelYear } from "./SidePanelUtils";
+import ImageSection from "./ImageSection";
 
 const SidePanelForm = () => {
     const selectedType = useSidePanelStore(state => state.selectedType)
-    const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
-    const setImageSelectedType = useSidePanelStore(state => state.setImageSelectedType)
+    // const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
+    // const setImageSelectedType = useSidePanelStore(state => state.setImageSelectedType)
     const { addPeriod, addEvent } = usePeriodEventHandler();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,32 +41,8 @@ const SidePanelForm = () => {
                 <SidePanelYear />
             )}
             <SidePanelColor />
-
-            <div>
-                <input
-                    type="radio"
-                    name="imageType"
-                    value="search"
-                    id="side-panel-search-type-id"
-                    checked={imageSelectedType === "search"}
-                    onChange={() => setImageSelectedType("search")} />
-                <label htmlFor="side-panel-search-type-id">Search</label>
-                <input
-                    type="radio"
-                    name="imageType"
-                    value="upload"
-                    id="side-panel-upload-type-id"
-                    checked={imageSelectedType === "upload"}
-                    onChange={() => setImageSelectedType("upload")} />
-                <label htmlFor="side-panel-upload-type-id">Upload</label>
-            </div>
-
-            <label htmlFor="side-panel-image-id">Imagem</label>
-            {imageSelectedType === "search" ? (
-                <input type="text" name="imageSearch" id="side-panel-image-id" placeholder="URL da imagem" />
-            ) : (
-                <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
-            )}
+            <SidePanelImageType />
+            <ImageSection />
 
             <button>Criar</button>
         </form>
