@@ -8,19 +8,20 @@ import ImageSection from "./ImageSection";
 const SidePanelEditForm = () => {
     const editPeriod = useSidePanelStore(state => state.editPeriod)
     const editEvent = useSidePanelStore(state => state.editEvent)
-    const { addPeriod, addEvent } = usePeriodEventHandler();
+    const { updatePeriod, addEvent } = usePeriodEventHandler();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (editPeriod) {
-            addPeriod(e);
+            updatePeriod(e);
         } else if (editEvent) {
             addEvent(e);
         }
 
         e.currentTarget.reset(); // Clear the form after submission
         useSidePanelStore.getState().setIsSidePanelOpen(false);
+        useSidePanelStore.setState({ editPeriod: null, editEvent: null });
     }
 
     return (

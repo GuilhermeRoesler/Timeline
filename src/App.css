@@ -442,6 +442,7 @@ input[type="file"]::file-selector-button:hover {
   font-size: .8rem;
   color: #444;
   margin-bottom: 0.3rem;
+  text-align: justify;
 }
 
 .details-balloon .date {
@@ -457,6 +458,11 @@ input[type="file"]::file-selector-button:hover {
   border-radius: 4px;
 }
 
+.details-balloon .delete-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .details-balloon .delete {
   background-color: #ff4d4d;
   color: white;
@@ -466,9 +472,7 @@ input[type="file"]::file-selector-button:hover {
   cursor: pointer;
   outline: none;
   font-size: 0.8rem;
-  margin-bottom: 0.5rem;
   transition: .3s ease-in-out;
-  float: right;
 }
 
 .details-balloon .delete:hover {

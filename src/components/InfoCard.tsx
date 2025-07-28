@@ -88,7 +88,7 @@ const DetailsBalloon = () => {
             <p className="date">{localPeriod.start.getYear()} - {localPeriod.end.getYear()}</p>
             <p className="description">{localPeriod.description === "" ? "Add a description here..." : localPeriod.description}</p>
             {localPeriod.image && <img src={localPeriod.image} alt={localPeriod.title} />}
-            <button className="delete" onClick={handleDelete}>Delete</button>
+            <div className="delete-container"><button className="delete" onClick={handleDelete}>Delete</button></div>
         </div>
     )
 }

@@ -1,12 +1,15 @@
+import { useEffect } from "react"
 import { useSidePanelStore } from "../../store/sidePanelStore"
 
 export const SidePanelTitle = () => {
     const titleValue = useSidePanelStore(state => state.titleValue)
     const editPeriod = useSidePanelStore(state => state.editPeriod)
 
-    if (editPeriod) {
-        useSidePanelStore.setState({ titleValue: editPeriod.title });
-    }
+    useEffect(() => {
+        if (editPeriod) {
+            useSidePanelStore.setState({ titleValue: editPeriod.title });
+        }
+    }, [editPeriod])
 
     return (
         <>

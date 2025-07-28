@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 import ImageDisplay from "./ImageDisplay";
 import ImageMiniBrowse from "./ImageMiniBrowse";
@@ -6,6 +7,13 @@ const ImageSection = () => {
     const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
     const titleValue = useSidePanelStore(state => state.titleValue)
     const linkValue = useSidePanelStore(state => state.linkValue)
+    const editPeriod = useSidePanelStore(state => state.editPeriod)
+
+    useEffect(() => {
+        if (imageSelectedType === "link" && editPeriod) {
+            useSidePanelStore.setState({ linkValue: editPeriod.image });
+        }
+    }, [imageSelectedType, editPeriod])
 
     const handleSendSearch = () => {
 
