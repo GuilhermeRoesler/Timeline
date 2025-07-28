@@ -3,7 +3,7 @@ export class SimpleDate {
 
     constructor(data: string) {
         if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) {
-            throw new Error("Formato inválido. Use YYYY-MM-DD.");
+            throw new Error(`Formato ${data} inválido. Use YYYY-MM-DD.`);
         }
         this.valor = data;
     }
