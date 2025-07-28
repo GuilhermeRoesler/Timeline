@@ -2,6 +2,7 @@ import { type Period as PeriodType } from "../../types/period"
 import { Rect } from "react-konva";
 import { useStageControlsStore } from "../../store/stageControlsStore";
 import { useDetailsBalloonStore } from "../../store/detailsBalloonStore";
+import { useSidePanelStore } from "../../store/sidePanelStore";
 import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, PERIOD_HEIGHT, LEVEL_SPACING } from "../../constants";
 
 const Period = ({ period }: { period: PeriodType }) => {
@@ -27,6 +28,7 @@ const Period = ({ period }: { period: PeriodType }) => {
                 cornerRadius={12 / stageScale}
                 onMouseEnter={() => setPeriod(period)}
                 onMouseLeave={() => setPeriod(null)}
+                onClick={() => useSidePanelStore.setState({ editPeriod: period })} // Abre o painel de edição(period)}
             />
             {/* <Text
                 x={xStart + 8 / stageScale}

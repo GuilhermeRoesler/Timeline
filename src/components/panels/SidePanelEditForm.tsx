@@ -1,21 +1,21 @@
 import { usePeriodEventHandler } from "../../hooks/usePeriodEventHandler";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 
-import SidePanelFormType from "./SidePanelFormType";
 import SidePanelImageType from "./SidePanelImageType";
 import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelDate } from "./SidePanelUtils";
 import ImageSection from "./ImageSection";
 
-const SidePanelForm = () => {
-    const selectedType = useSidePanelStore(state => state.selectedType)
+const SidePanelEditForm = () => {
+    const editPeriod = useSidePanelStore(state => state.editPeriod)
+    const editEvent = useSidePanelStore(state => state.editEvent)
     const { addPeriod, addEvent } = usePeriodEventHandler();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (selectedType === "period") {
+        if (editPeriod) {
             addPeriod(e);
-        } else if (selectedType === "event") {
+        } else if (editEvent) {
             addEvent(e);
         }
 
@@ -25,12 +25,11 @@ const SidePanelForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Adicionar</h2>
-            <SidePanelFormType />
+            <h2>Editar</h2>
 
             <SidePanelTitle />
             <SidePanelDescription />
-            {selectedType === "period" ? (
+            {editPeriod ? (
                 <>
                     <SidePanelStart />
                     <SidePanelEnd />
@@ -42,9 +41,9 @@ const SidePanelForm = () => {
             <SidePanelImageType />
             <ImageSection />
 
-            <button>Criar</button>
+            <button>Atualizar</button>
         </form>
     )
 }
 
-export default SidePanelForm
+export default SidePanelEditForm

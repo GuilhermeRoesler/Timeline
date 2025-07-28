@@ -1,7 +1,10 @@
 import { useSidePanelStore } from "../../store/sidePanelStore";
 import SidePanelForm from "./SidePanelForm";
+import SidePanelEditForm from "./SidePanelEditForm";
 
 const SidePanel = () => {
+    const editPeriod = useSidePanelStore(state => state.editPeriod)
+    const editEvent = useSidePanelStore(state => state.editEvent)
     const isSidePanelOpen = useSidePanelStore(state => state.isSidePanelOpen)
     const setIsSidePanelOpen = useSidePanelStore(state => state.setIsSidePanelOpen)
 
@@ -11,7 +14,7 @@ const SidePanel = () => {
                 <i className={`fa-solid fa-chevron-${isSidePanelOpen ? 'right' : 'left'}`}></i>
             </div>
             <i className="fa-solid fa-xmark" onClick={() => setIsSidePanelOpen(false)}></i>
-            <SidePanelForm />
+            {(editPeriod || editEvent) ? <SidePanelEditForm /> : <SidePanelForm />}
         </div>
     )
 }
