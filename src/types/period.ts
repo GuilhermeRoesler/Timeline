@@ -1,10 +1,14 @@
+import { SimpleDate } from "../lib/SimpleDate";
+
+export type DateString = `${number}-${number}-${number}`;
+
 export interface Period {
     id: string;
     title: string;
     description: string;
     image: string;
     color: string;
-    start: number;
-    end: number;
+    start: SimpleDate;
+    end: SimpleDate;
     level: number;
 }

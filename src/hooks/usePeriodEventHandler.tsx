@@ -3,6 +3,7 @@ import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEve
 import { useSidePanelStore } from "../store/sidePanelStore";
 import { type Period } from "../types/period";
 import { type Event } from "../types/event";
+import { SimpleDate } from "../lib/SimpleDate";
 
 export const usePeriodEventHandler = () => {
     const periods = usePeriodsLoaderStore(state => state.periods)
@@ -20,7 +21,7 @@ export const usePeriodEventHandler = () => {
                 return level; // No periods at this level, return it
             }
             const conflict = filteredPeriods.some(period => {
-                if (period.start < end && period.end > start) {
+                if (period.start.getYear() < end && period.end.getYear() > start) {
                     return true; // Overlapping period found
                 };
             });
@@ -47,10 +48,9 @@ export const usePeriodEventHandler = () => {
             ? (e.currentTarget.elements.namedItem('image') as HTMLInputElement).files?.[0]?.name || ''
             : '';
         const color = (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value;
-        const start = Number((e.currentTarget.elements.namedItem('start') as HTMLInputElement).value);
-        const end = Number((e.currentTarget.elements.namedItem('end') as HTMLInputElement).value);
-        const level = calculateLevel(start, end);
-        console.log('level', level)
+        const start = new SimpleDate((e.currentTarget.elements.namedItem('start') as HTMLInputElement).value);
+        const end = new SimpleDate((e.currentTarget.elements.namedItem('end') as HTMLInputElement).value);
+        const level = calculateLevel(start.getYear(), end.getYear());
 
         const newPeriod = { id, title, description, image, color, start, end, level } as Period;
         addPeriodToStore(newPeriod);
@@ -67,7 +67,7 @@ export const usePeriodEventHandler = () => {
                 ? (e.currentTarget.elements.namedItem('image') as HTMLInputElement).files?.[0]?.name || ''
                 : '',
             color: (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value,
-            year: Number((e.currentTarget.elements.namedItem('year') as HTMLInputElement).value),
+            date: new SimpleDate((e.currentTarget.elements.namedItem('date') as HTMLInputElement).value),
         } as Event;
 
         addEventToStore(newEvent);

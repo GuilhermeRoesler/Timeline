@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { SimpleDate } from "../lib/SimpleDate";
 import { type Period } from "../types/period";
 import { type Event } from "../types/event";
 
@@ -19,7 +20,8 @@ export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
     addPeriod: (period) => {
         set((state) => {
             const updatedPeriods = [...state.periods, period]
-            localStorage.setItem('periods', JSON.stringify(updatedPeriods));
+            const updatedPeriodsToLocalStorage = [...state.periods, { ...period, start: period.start.toString(), end: period.end.toString() }]
+            localStorage.setItem('periods', JSON.stringify(updatedPeriodsToLocalStorage));
             return { periods: updatedPeriods };
         });
     },
@@ -40,8 +42,12 @@ export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
         });
     },
     loadPeriodsFromLocalStorage: () => {
-        const periods = localStorage.getItem('periods');
-        if (periods) set({ periods: JSON.parse(periods) });
+        const periodsFromLocalStorage = localStorage.getItem('periods');
+        if (periodsFromLocalStorage) {
+            const periodsRaw = JSON.parse(periodsFromLocalStorage);
+            const periods = periodsRaw.map((period: any) => ({ ...period, start: new SimpleDate(period.start), end: new SimpleDate(period.end) }))
+            set({ periods });
+        }
     },
     savePeriodsToLocalStorage: () => {
         localStorage.setItem('periods', JSON.stringify(get().periods));
@@ -66,7 +72,8 @@ export const useEventsLoaderStore = create<EventsLoaderState>((set, get) => ({
     addEvent: (event) => {
         set((state) => {
             const updatedEvents = [...state.events, event]
-            localStorage.setItem('events', JSON.stringify(updatedEvents));
+            const updatedEventsToLocalStorage = [...state.events, { ...event, date: event.date.toString() }]
+            localStorage.setItem('events', JSON.stringify(updatedEventsToLocalStorage));
             return { events: updatedEvents };
         });
     },
@@ -87,8 +94,12 @@ export const useEventsLoaderStore = create<EventsLoaderState>((set, get) => ({
         })
     },
     loadEventsFromLocalStorage: () => {
-        const events = localStorage.getItem('events');
-        if (events) set({ events: JSON.parse(events) });
+        const eventsFromLocalStorage = localStorage.getItem('events');
+        if (eventsFromLocalStorage) {
+            const eventsRaw = JSON.parse(eventsFromLocalStorage);
+            const events = eventsRaw.map((event: any) => ({ ...event, date: new SimpleDate(event.date) }))
+            set({ events });
+        }
     },
     saveEventsToLocalStorage: () => {
         localStorage.setItem('events', JSON.stringify(get().events));

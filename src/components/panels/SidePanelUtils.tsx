@@ -37,7 +37,7 @@ export const SidePanelStart = () => {
         <>
             <label htmlFor="side-panel-start-id">Começo</label>
             <input type="date" name="start" id="side-panel-start-id" spellCheck={false} required
-                defaultValue={editPeriod ? editPeriod.start : "2010-01-01"} />
+                defaultValue={editPeriod ? editPeriod.start.toString() : "2010-01-01"} />
         </>
     )
 }
@@ -49,7 +49,7 @@ export const SidePanelEnd = () => {
         <>
             <label htmlFor="side-panel-end-id">Fim</label>
             <input type="date" name="end" id="side-panel-end-id" spellCheck={false} required
-                defaultValue={editPeriod ? editPeriod.end : "2010-01-01"} />
+                defaultValue={editPeriod ? editPeriod.end.toString() : "2010-01-01"} />
         </>
     )
 }
@@ -59,9 +59,9 @@ export const SidePanelDate = () => {
 
     return (
         <>
-            <label htmlFor="side-panel-year-id">Ano</label>
-            <input type="date" name="year" id="side-panel-year-id" spellCheck={false} required
-                defaultValue={editEvent ? editEvent.year : "2010-01-01"} />
+            <label htmlFor="side-panel-date-id">Ano</label>
+            <input type="date" name="date" id="side-panel-date-id" spellCheck={false} required
+                defaultValue={editEvent ? editEvent.date.toString() : "2010-01-01"} />
         </>
     )
 }

@@ -8,9 +8,11 @@ import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, PERIOD_HEIGHT, LEVEL_SPACING } fro
 const Period = ({ period }: { period: PeriodType }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);
     const setPeriod = useDetailsBalloonStore((state) => state.setPeriod);
+    // console.log(typeof period.start)
+    // console.log(period.start.getFullYear())
 
-    const xStart = (period.start - BASE_YEAR) * YEAR_SPACING;
-    const xEnd = (period.end - BASE_YEAR) * YEAR_SPACING;
+    const xStart = (period.start.getYear() - BASE_YEAR) * YEAR_SPACING;
+    const xEnd = (period.end.getYear() - BASE_YEAR) * YEAR_SPACING;
     const width = xEnd - xStart;
     const y = period.level > 0
         ? TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * period.level

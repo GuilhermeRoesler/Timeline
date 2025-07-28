@@ -59,14 +59,14 @@ const DetailsBalloon = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={{
-                left: `${(((localEvent.year) - BASE_YEAR) * YEAR_SPACING + stagePos.x / stageScale + 10) * stageScale}px`,
+                left: `${(((localEvent.date.getYear()) - BASE_YEAR) * YEAR_SPACING + stagePos.x / stageScale + 10) * stageScale}px`,
                 top: `${(TIMELINE_Y + stagePos.y / stageScale) * stageScale - 130}px`,
                 translate: '0 -50%',
                 animation: animation,
             }}>
             <h3 className="title">{localEvent.title}</h3>
             <i className="fa-solid fa-xmark" onClick={() => setIsHovered(false)}></i>
-            <p className="date">{localEvent.year}</p>
+            <p className="date">{localEvent.date.getYear()}</p>
             <p className="description">{localEvent.description}</p>
             {localEvent.image && <img src={localEvent.image} alt={localEvent.title} />}
             <button className="delete" onClick={handleDelete}>Delete</button>
@@ -78,14 +78,14 @@ const DetailsBalloon = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={{
-                left: `${((localPeriod.end - BASE_YEAR) * YEAR_SPACING + stagePos.x / stageScale) * stageScale}px`,
+                left: `${((localPeriod.end.getYear() - BASE_YEAR) * YEAR_SPACING + stagePos.x / stageScale) * stageScale}px`,
                 top: `${(TIMELINE_Y + stagePos.y / stageScale) * stageScale - localPeriod.level * (PERIOD_HEIGHT + LEVEL_SPACING) * stageScale}px`,
                 translate: `-20px calc(-50% - 100px * ${stageScale})`,
                 animation: animation,
             }}>
             <h3 className="title">{localPeriod.title}</h3>
             <i className="fa-solid fa-xmark" onClick={() => setIsHovered(false)}></i>
-            <p className="date">{localPeriod.start} - {localPeriod.end}</p>
+            <p className="date">{localPeriod.start.getYear()} - {localPeriod.end.getYear()}</p>
             <p className="description">{localPeriod.description === "" ? "Add a description here..." : localPeriod.description}</p>
             {localPeriod.image && <img src={localPeriod.image} alt={localPeriod.title} />}
             <button className="delete" onClick={handleDelete}>Delete</button>
