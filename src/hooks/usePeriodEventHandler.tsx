@@ -87,5 +87,20 @@ export const usePeriodEventHandler = () => {
         usePeriodsLoaderStore.getState().updatePeriod(updatedPeriod);
     }
 
-    return { addPeriod, addEvent, updatePeriod };
+    const updateEvent = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const title = (e.currentTarget.elements.namedItem('title') as HTMLInputElement).value;
+        const description = (e.currentTarget.elements.namedItem('description') as HTMLInputElement).value;
+        const image = imageSelectedType === "upload"
+            ? (e.currentTarget.elements.namedItem('image') as HTMLInputElement).files?.[0]?.name || ''
+            : (e.currentTarget.elements.namedItem('imageLink') as HTMLInputElement).value;
+        const color = (e.currentTarget.elements.namedItem('color') as HTMLInputElement).value;
+        const date = new SimpleDate((e.currentTarget.elements.namedItem('date') as HTMLInputElement).value);
+
+        const updatedEvent = { ...useSidePanelStore.getState().editEvent, title, description, image, color, date } as Event;
+        useEventsLoaderStore.getState().updateEvent(updatedEvent);
+    }
+
+    return { addPeriod, addEvent, updatePeriod, updateEvent };
 }

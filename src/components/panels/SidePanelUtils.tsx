@@ -4,12 +4,15 @@ import { useSidePanelStore } from "../../store/sidePanelStore"
 export const SidePanelTitle = () => {
     const titleValue = useSidePanelStore(state => state.titleValue)
     const editPeriod = useSidePanelStore(state => state.editPeriod)
+    const editEvent = useSidePanelStore(state => state.editEvent)
 
     useEffect(() => {
         if (editPeriod) {
             useSidePanelStore.setState({ titleValue: editPeriod.title });
+        } else if (editEvent) {
+            useSidePanelStore.setState({ titleValue: editEvent.title });
         }
-    }, [editPeriod])
+    }, [editPeriod, editEvent])
 
     return (
         <>
@@ -22,12 +25,13 @@ export const SidePanelTitle = () => {
 
 export const SidePanelDescription = () => {
     const editPeriod = useSidePanelStore(state => state.editPeriod)
+    const editEvent = useSidePanelStore(state => state.editEvent)
 
     return (
         <>
             <label htmlFor="side-panel-description-id">Descrição</label>
             <textarea name="description" id="side-panel-description-id" placeholder="Descrição (opcional)"
-                defaultValue={editPeriod ? editPeriod.description : ""}></textarea>
+                defaultValue={editPeriod ? editPeriod.description : editEvent ? editEvent.description : ""}></textarea>
         </>
     )
 }
@@ -71,12 +75,13 @@ export const SidePanelDate = () => {
 
 export const SidePanelColor = () => {
     const editPeriod = useSidePanelStore(state => state.editPeriod)
+    const editEvent = useSidePanelStore(state => state.editEvent)
 
     return (
         <>
             <label htmlFor="side-panel-color-id">Cor</label>
             <input type="color" name="color" id="side-panel-color-id"
-                defaultValue={editPeriod ? editPeriod.color : "#8ecae6"} />
+                defaultValue={editPeriod ? editPeriod.color : editEvent ? editEvent.color : "#8ecae6"} />
         </>
     )
 }

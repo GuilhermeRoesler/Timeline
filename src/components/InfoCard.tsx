@@ -67,9 +67,9 @@ const DetailsBalloon = () => {
             <h3 className="title">{localEvent.title}</h3>
             <i className="fa-solid fa-xmark" onClick={() => setIsHovered(false)}></i>
             <p className="date">{localEvent.date.getYear()}</p>
-            <p className="description">{localEvent.description}</p>
+            <p className="description">{localEvent.description === "" ? "Add a description here..." : localEvent.description}</p>
             {localEvent.image && <img src={localEvent.image} alt={localEvent.title} />}
-            <button className="delete" onClick={handleDelete}>Delete</button>
+            <div className="delete-container"><button className="delete" onClick={handleDelete}>Delete</button></div>
         </div>
     )
 
