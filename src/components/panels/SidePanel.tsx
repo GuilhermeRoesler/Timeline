@@ -21,6 +21,10 @@ const SidePanel = () => {
         if (editPeriod || editEvent) {
             setIsSidePanelOpen(true)
             useSidePanelStore.setState({ imageSelectedType: "link" })
+            if (editPeriod)
+                useSidePanelStore.setState({ linkValue: editPeriod.image });
+            else if (editEvent)
+                useSidePanelStore.setState({ linkValue: editEvent.image });
         } else if (!editPeriod && !editEvent) {
             useSidePanelStore.setState({ imageSelectedType: "search", titleValue: "" })
         }

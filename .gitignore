@@ -26,3 +26,4 @@ dist-ssr
 todo.txt
 Test.tsx
 test.json
+.env
