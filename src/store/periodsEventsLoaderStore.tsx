@@ -16,7 +16,10 @@ type PeriodsLoaderState = {
 
 export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
     periods: [],
-    setPeriods: (periods) => set({ periods }),
+    setPeriods: (periods) => {
+        get().savePeriodsToLocalStorage(periods)
+        set({ periods })
+    },
     addPeriod: (period) => {
         set((state) => {
             const updatedPeriods = [...state.periods, period]
