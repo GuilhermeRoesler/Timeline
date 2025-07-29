@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 import ImageDisplay from "./ImageDisplay";
 import ImageMiniBrowse from "./ImageMiniBrowse";
@@ -8,18 +8,7 @@ const ImageSection = () => {
     const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
     const titleValue = useSidePanelStore(state => state.titleValue)
     const linkValue = useSidePanelStore(state => state.linkValue)
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
     const searchRef = useRef<HTMLInputElement>(null)
-
-    // useEffect(() => {
-    //     if (editPeriod && linkValue === "") {
-    //         console.log('oi')
-    //     }
-    // }, [editPeriod])
-
-    useEffect(() => {
-        console.log(linkValue)
-    }, [linkValue])
 
     const handleSendSearch = async (e: React.MouseEvent) => {
         e.preventDefault()
@@ -34,7 +23,6 @@ const ImageSection = () => {
             })
             const results = answer.data.results
             useSidePanelStore.setState({ links: results.map((result: any) => result.urls.small) })
-            console.log(results.map((result: any) => result.urls.small))
         } catch (erro) {
             console.error(erro)
         }

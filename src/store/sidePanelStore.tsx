@@ -10,6 +10,11 @@ type SidePanelState = {
     imageSelectedType: "search" | "link" | "upload";
     setImageSelectedType: (type: "search" | "link" | "upload") => void;
     titleValue: string;
+    descriptionValue: string;
+    startValue: string;
+    endValue: string;
+    dateValue: string;
+    colorValue: string;
     linkValue: string;
     linkIndex: number;
     setLinkIndex: (index: number) => void;
@@ -28,6 +33,11 @@ export const useSidePanelStore = create<SidePanelState>(set => ({
     imageSelectedType: "search",
     setImageSelectedType: (type: "search" | "link" | "upload") => set({ imageSelectedType: type }),
     titleValue: "",
+    descriptionValue: "",
+    startValue: "2010-01-01",
+    endValue: "2010-01-01",
+    dateValue: "2010-01-01",
+    colorValue: "#000000",
     linkValue: "",
     linkIndex: 0,
     setLinkIndex: (index: number) => set({ linkIndex: index }),
