@@ -9,6 +9,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+:root {
+  --shadow-main: 3px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
 body {
   overflow: hidden;
 }
@@ -137,6 +141,64 @@ input[type="file"]::file-selector-button:hover {
 
 .toolbar .more-item p {
   font-size: .9rem;
+}
+
+/* SETTINGS */
+
+.settings-modal {
+  position: fixed;
+  margin: auto;
+  height: 90%;
+  /* width: min(90%, 600px); */
+  aspect-ratio: 1/1.4;
+  padding: 2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  box-shadow: var(--shadow-main);
+  opacity: 0;
+  transition: all .3s allow-discrete;
+}
+
+.settings-modal[open] {
+  opacity: 1;
+}
+
+.settings-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0);
+  transition: all .3s allow-discrete;
+}
+
+.settings-modal[open]::backdrop {
+  background-color: rgba(0, 0, 0, .8);
+}
+
+@starting-style {
+  .settings-modal[open] {
+    opacity: 0;
+  }
+
+  .settings-modal[open]::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+.settings-modal>p {
+  max-width: 40ch;
+  margin-block: 1em;
+  color: #333;
+}
+
+.settings-modal>button {
+  background-color: black;
+  color: #ddd;
+  padding: .5em 1em;
+  border-radius: .5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  /* float: right; */
+  margin-left: auto;
+  display: block;
 }
 
 /* SIDE PANEL */

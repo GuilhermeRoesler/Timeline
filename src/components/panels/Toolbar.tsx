@@ -4,9 +4,11 @@ import { useSidePanelStore } from "../../store/sidePanelStore"
 import { colorize } from "../../utils/colorUtils"
 import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore"
 import { adjustLayer } from "../../utils/levelUtils"
+import SettingsModal from "./SettingsModal"
 
 const Toolbar = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     const handleOpen = () => {
         useSidePanelStore.setState({ imageSelectedType: "search", isSidePanelOpen: true, editPeriod: null, editEvent: null });
@@ -39,13 +41,14 @@ const Toolbar = () => {
                             <span className="material-symbols-outlined">palette</span>
                             <p>Colorize</p>
                         </div>
-                        <div className="more-item" title="Settings">
+                        <div className="more-item" title="Settings" onClick={() => setIsDialogOpen(true)}>
                             <span className="material-symbols-outlined">settings</span>
                             <p>Settings</p>
                         </div>
                     </div>
                 )}
             </span>
+            <SettingsModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
         </div>
     )
 }
