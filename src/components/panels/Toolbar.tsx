@@ -3,12 +3,18 @@ import { exportTimeline, importTimeline } from "../../utils/fileOperations"
 import { useSidePanelStore } from "../../store/sidePanelStore"
 import { colorize } from "../../utils/colorUtils"
 import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore"
+import { adjustLayer } from "../../utils/levelUtils"
 
 const Toolbar = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const handleOpen = () => {
         useSidePanelStore.setState({ imageSelectedType: "search", isSidePanelOpen: true, editPeriod: null, editEvent: null });
+    }
+
+    const adjustLayers = () => {
+        const adjustedLayers = adjustLayer(usePeriodsLoaderStore.getState().periods);
+        usePeriodsLoaderStore.getState().setPeriods(adjustedLayers);
     }
 
     const applyColorize = () => {
@@ -25,7 +31,7 @@ const Toolbar = () => {
             <span className="material-symbols-outlined" title="More" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>more_vert
                 {isSettingsOpen && (
                     <div className="more-container">
-                        <div className="more-item" title="Adjust Layers">
+                        <div className="more-item" title="Adjust Layers" onClick={adjustLayers}>
                             <span className="material-symbols-outlined">stacks</span>
                             <p>Adjust Layers</p>
                         </div>
