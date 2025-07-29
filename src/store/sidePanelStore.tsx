@@ -4,11 +4,8 @@ import { type Event } from "../types/event";
 
 type SidePanelState = {
     isSidePanelOpen: boolean;
-    setIsSidePanelOpen: (value: boolean) => void;
     selectedType: "period" | "event";
-    setSelectedType: (type: "period" | "event") => void;
     imageSelectedType: "search" | "link" | "upload";
-    setImageSelectedType: (type: "search" | "link" | "upload") => void;
     titleValue: string;
     descriptionValue: string;
     startValue: string;
@@ -16,22 +13,17 @@ type SidePanelState = {
     dateValue: string;
     colorValue: string;
     linkValue: string;
-    linkIndex: number;
-    setLinkIndex: (index: number) => void;
+    resetFields: () => void;
     links: string[];
+    linkIndex: number;
     editPeriod: Period | null;
-    setEditPeriod: (period: Period | null) => void;
     editEvent: Event | null;
-    setEditEvent: (event: Event | null) => void;
 }
 
 export const useSidePanelStore = create<SidePanelState>(set => ({
     isSidePanelOpen: false,
-    setIsSidePanelOpen: (value: boolean) => set({ isSidePanelOpen: value }),
     selectedType: "period",
-    setSelectedType: (type: "period" | "event") => set({ selectedType: type }),
     imageSelectedType: "search",
-    setImageSelectedType: (type: "search" | "link" | "upload") => set({ imageSelectedType: type }),
     titleValue: "",
     descriptionValue: "",
     startValue: "2010-01-01",
@@ -39,11 +31,9 @@ export const useSidePanelStore = create<SidePanelState>(set => ({
     dateValue: "2010-01-01",
     colorValue: "#000000",
     linkValue: "",
-    linkIndex: 0,
-    setLinkIndex: (index: number) => set({ linkIndex: index }),
+    resetFields: () => set({ isSidePanelOpen: false, imageSelectedType: "search", titleValue: "", descriptionValue: "", startValue: "2010-01-01", endValue: "2010-01-01", dateValue: "2010-01-01", colorValue: "#000000", linkValue: "", editPeriod: null, editEvent: null }),
     links: [""],
+    linkIndex: 0,
     editPeriod: null,
-    setEditPeriod: (period: Period | null) => set({ editPeriod: period }),
     editEvent: null,
-    setEditEvent: (event: Event | null) => set({ editEvent: event }),
 }))

@@ -19,9 +19,7 @@ const SidePanelForm = () => {
             addEvent(e);
         }
 
-        e.currentTarget.reset(); // Clear the form after submission
-        useSidePanelStore.getState().setIsSidePanelOpen(false);
-        useSidePanelStore.setState({ titleValue: "", linkValue: "" })
+        useSidePanelStore.getState().resetFields();
     }
 
     return (

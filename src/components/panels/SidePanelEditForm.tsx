@@ -20,8 +20,7 @@ const SidePanelEditForm = () => {
         }
 
         e.currentTarget.reset(); // Clear the form after submission
-        useSidePanelStore.getState().setIsSidePanelOpen(false);
-        useSidePanelStore.setState({ editPeriod: null, editEvent: null });
+        useSidePanelStore.getState().resetFields();
     }
 
     return (
