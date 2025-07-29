@@ -1,18 +1,7 @@
-import { useEffect } from "react"
 import { useSidePanelStore } from "../../store/sidePanelStore"
 
 export const SidePanelTitle = () => {
     const titleValue = useSidePanelStore(state => state.titleValue)
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-    const editEvent = useSidePanelStore(state => state.editEvent)
-
-    useEffect(() => {
-        if (editPeriod) {
-            useSidePanelStore.setState({ titleValue: editPeriod.title });
-        } else if (editEvent) {
-            useSidePanelStore.setState({ titleValue: editEvent.title });
-        }
-    }, [editPeriod, editEvent])
 
     return (
         <>
@@ -25,16 +14,6 @@ export const SidePanelTitle = () => {
 
 export const SidePanelDescription = () => {
     const descriptionValue = useSidePanelStore(state => state.descriptionValue)
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-    const editEvent = useSidePanelStore(state => state.editEvent)
-
-    useEffect(() => {
-        if (editPeriod) {
-            useSidePanelStore.setState({ descriptionValue: editPeriod.description });
-        } else if (editEvent) {
-            useSidePanelStore.setState({ descriptionValue: editEvent.description });
-        }
-    }, [editPeriod, editEvent])
 
     return (
         <>
@@ -47,12 +26,6 @@ export const SidePanelDescription = () => {
 
 export const SidePanelStart = () => {
     const startValue = useSidePanelStore(state => state.startValue)
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-
-    useEffect(() => {
-        if (editPeriod)
-            useSidePanelStore.setState({ startValue: editPeriod.start.toString() });
-    }, [editPeriod])
 
     return (
         <>
@@ -65,12 +38,6 @@ export const SidePanelStart = () => {
 
 export const SidePanelEnd = () => {
     const endValue = useSidePanelStore(state => state.endValue)
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-
-    useEffect(() => {
-        if (editPeriod)
-            useSidePanelStore.setState({ endValue: editPeriod.end.toString() });
-    }, [editPeriod])
 
     return (
         <>
@@ -83,12 +50,6 @@ export const SidePanelEnd = () => {
 
 export const SidePanelDate = () => {
     const dateValue = useSidePanelStore(state => state.dateValue)
-    const editEvent = useSidePanelStore(state => state.editEvent)
-
-    useEffect(() => {
-        if (editEvent)
-            useSidePanelStore.setState({ dateValue: editEvent.date.toString() });
-    }, [editEvent])
 
     return (
         <>
@@ -101,15 +62,6 @@ export const SidePanelDate = () => {
 
 export const SidePanelColor = () => {
     const colorValue = useSidePanelStore(state => state.colorValue)
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-    const editEvent = useSidePanelStore(state => state.editEvent)
-
-    useEffect(() => {
-        if (editPeriod)
-            useSidePanelStore.setState({ colorValue: editPeriod.color });
-        else if (editEvent)
-            useSidePanelStore.setState({ colorValue: editEvent.color });
-    }, [editPeriod, editEvent])
 
     return (
         <>

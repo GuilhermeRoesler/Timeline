@@ -2,48 +2,91 @@ import { useRef, useEffect } from "react";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 import SidePanelForm from "./SidePanelForm";
 import SidePanelEditForm from "./SidePanelEditForm";
+import { getDefaultColor } from "../../utils/colorUtils";
+import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
 
 const SidePanel = () => {
     const editPeriod = useSidePanelStore(state => state.editPeriod)
     const editEvent = useSidePanelStore(state => state.editEvent)
-    const setEditPeriod = useSidePanelStore(state => state.setEditPeriod)
-    const setEditEvent = useSidePanelStore(state => state.setEditEvent)
     const isSidePanelOpen = useSidePanelStore(state => state.isSidePanelOpen)
     const sidePanelRef = useRef<HTMLDivElement>(null)
-    const setIsSidePanelOpen = useSidePanelStore(state => state.setIsSidePanelOpen)
+    const periods = usePeriodsLoaderStore(state => state.periods);
+    const events = useEventsLoaderStore(state => state.events);
+    // const colorValue = useSidePanelStore(state => state.colorValue)
+
+    // Atualize colorValue sempre que periods ou events mudarem
+    useEffect(() => {
+        // if (colorValue === "")
+        useSidePanelStore.setState({ colorValue: getDefaultColor(periods, events) });
+    }, [periods, events]);
 
     useEffect(() => {
-        if (isSidePanelOpen || editPeriod || editEvent)
-            sidePanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-    }, [isSidePanelOpen, editPeriod, editEvent])
+        sidePanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
 
-    useEffect(() => {
-        if (editPeriod || editEvent) {
-            setIsSidePanelOpen(true)
-            useSidePanelStore.setState({ imageSelectedType: "link" })
-            if (editPeriod)
-                useSidePanelStore.setState({ linkValue: editPeriod.image });
-            else if (editEvent)
-                useSidePanelStore.setState({ linkValue: editEvent.image });
-        } else if (!editPeriod && !editEvent) {
-            useSidePanelStore.setState({ imageSelectedType: "search", titleValue: "" })
+        // Caso entre em modo de edição, abre o painel
+        if (editPeriod || editEvent)
+            useSidePanelStore.setState({ isSidePanelOpen: true, imageSelectedType: "link" })
+
+        // Caso haja um período selecionado, ajusta os valores dos campos
+        if (editPeriod)
+            useSidePanelStore.setState({
+                titleValue: editPeriod.title,
+                descriptionValue: editPeriod.description,
+                startValue: editPeriod.start.toString(),
+                endValue: editPeriod.end.toString(),
+                colorValue: editPeriod.color,
+                linkValue: editPeriod.image
+            });
+
+        // Caso haja um evento selecionado, ajusta os valores dos campos
+        if (editEvent)
+            useSidePanelStore.setState({
+                titleValue: editEvent.title,
+                descriptionValue: editEvent.description,
+                dateValue: editEvent.date.toString(),
+                colorValue: editEvent.color,
+                linkValue: editEvent.image
+            });
+
+        // Caso não haja ninguém do modo de edição, limpa os campos
+        if (!editPeriod && !editEvent) {
+            useSidePanelStore.setState({
+                imageSelectedType: "search",
+                titleValue: "",
+                descriptionValue: "",
+                startValue: "2010-01-01",
+                endValue: "2010-01-01",
+                dateValue: "2010-01-01",
+                colorValue: getDefaultColor(periods, events),
+                linkValue: "",
+            })
         }
     }, [editPeriod, editEvent])
 
+    // Clear editPeriod when editEvent is set
+    useEffect(() => {
+        if (editEvent) {
+            useSidePanelStore.setState({ editPeriod: null })
+        }
+    }, [editEvent])
+
+    // Clear editEvent when editPeriod is set
+    useEffect(() => {
+        if (editPeriod) {
+            useSidePanelStore.setState({ editEvent: null })
+        }
+    }, [editPeriod])
+
     const handleClose = () => {
-        setIsSidePanelOpen(false)
-        setEditPeriod(null)
-        setEditEvent(null)
+        useSidePanelStore.setState({ imageSelectedType: "search", isSidePanelOpen: false, editPeriod: null, editEvent: null })
     }
 
     const handleSwitch = () => {
-        setIsSidePanelOpen(!isSidePanelOpen)
-        setEditPeriod(null)
-        setEditEvent(null)
+        useSidePanelStore.setState({ imageSelectedType: "search", isSidePanelOpen: !isSidePanelOpen, editPeriod: null, editEvent: null })
     }
 
     return (
-        <div ref={sidePanelRef} className="side-panel" style={{ translate: (isSidePanelOpen || editPeriod || editEvent) ? "0 -50%" : "100% -50%" }}>
+        <div ref={sidePanelRef} className="side-panel" style={{ translate: (isSidePanelOpen) ? "0 -50%" : "100% -50%" }}>
             <div className="open-close-area" onClick={handleSwitch}>
                 <i className={`fa-solid fa-chevron-${isSidePanelOpen ? 'right' : 'left'}`}></i>
             </div>
