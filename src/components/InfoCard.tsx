@@ -84,7 +84,7 @@ const DetailsBalloon = () => {
             <div className="assistant">
                 {sameYearEvents.map((event, index) => (
                     <div key={index} className="item" onClick={() => setSameYearEventsIndex(index)}
-                        style={{ backgroundColor: hexToRgba(event.color, 0.4), opacity: index === sameYearEventsIndex ? 1 : 0.5 }}>
+                        style={{ backgroundColor: hexToRgba(event.color, 0.7), opacity: index === sameYearEventsIndex ? 1 : 0.5 }}>
                         <h3 className="title">{event.title}</h3>
                         <p className="description">{event.description === "" ? "Add a description here..." : event.description}</p>
                     </div>

@@ -36,7 +36,11 @@ export function getDefaultColor(periods: Period[], events: Event[]) {
 export function colorize(periods: Period[], events: Event[]) {
     const sortedPeriods = periods.sort((a: any, b: any) => new Date(a.start).getTime() - new Date(b.start).getTime());
     const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({ ...period, color: DEFAULT_COLORS[index % DEFAULT_COLORS.length] }));
-    return colorizedPeriods;
+
+    const sortedEvents = events.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const colorizedEvents = sortedEvents.map((event: any, index: number) => ({ ...event, color: DEFAULT_COLORS[index % DEFAULT_COLORS.length] }));
+
+    return { colorizedPeriods, colorizedEvents };
 }
 
 export function hexToRgba(hex: string, alpha: number): string {

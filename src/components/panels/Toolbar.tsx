@@ -21,8 +21,9 @@ const Toolbar = () => {
     }
 
     const applyColorize = () => {
-        const colorized = colorize(usePeriodsLoaderStore.getState().periods, useEventsLoaderStore.getState().events);
-        usePeriodsLoaderStore.getState().setPeriods(colorized);
+        const { colorizedPeriods, colorizedEvents } = colorize(usePeriodsLoaderStore.getState().periods, useEventsLoaderStore.getState().events);
+        usePeriodsLoaderStore.getState().setPeriods(colorizedPeriods);
+        useEventsLoaderStore.getState().setEvents(colorizedEvents);
     }
 
     useEffect(() => {
