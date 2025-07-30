@@ -38,3 +38,19 @@ export function colorize(periods: Period[], events: Event[]) {
     const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({ ...period, color: DEFAULT_COLORS[index % DEFAULT_COLORS.length] }));
     return colorizedPeriods;
 }
+
+export function hexToRgba(hex: string, alpha: number): string {
+    // Remove o sinal de "#" se estiver presente
+    const cleanedHex = hex.replace('#', '');
+
+    // Converte valores curtos como "F00" para "FF0000"
+    const fullHex = cleanedHex.length === 3
+        ? cleanedHex.split('').map(char => char + char).join('')
+        : cleanedHex;
+
+    const r = parseInt(fullHex.substring(0, 2), 16);
+    const g = parseInt(fullHex.substring(2, 4), 16);
+    const b = parseInt(fullHex.substring(4, 6), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
