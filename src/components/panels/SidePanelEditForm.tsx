@@ -6,8 +6,7 @@ import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, Sid
 import ImageSection from "./ImageSection";
 
 const SidePanelEditForm = () => {
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-    const editEvent = useSidePanelStore(state => state.editEvent)
+    const { editPeriod, editEvent } = useSidePanelStore(state => state)
     const { updatePeriod, updateEvent } = usePeriodEventHandler();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

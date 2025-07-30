@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { exportTimeline, importTimeline } from "../../utils/fileOperations"
 import { useSidePanelStore } from "../../store/sidePanelStore"
 import { colorize } from "../../utils/colorUtils"
 import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore"
 import { adjustLayer } from "../../utils/levelUtils"
 import SettingsModal from "./SettingsModal"
+import { useSettingsStore } from "../../store/settingsStore"
 
 const Toolbar = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -23,6 +24,10 @@ const Toolbar = () => {
         const colorized = colorize(usePeriodsLoaderStore.getState().periods, useEventsLoaderStore.getState().events);
         usePeriodsLoaderStore.getState().setPeriods(colorized);
     }
+
+    useEffect(() => {
+        useSettingsStore.getState().loadSettingsFromLocalStorage();
+    }, []);
 
     return (
         <div className="toolbar">
@@ -48,7 +53,7 @@ const Toolbar = () => {
                     </div>
                 )}
             </span>
-            <SettingsModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
+            {isDialogOpen && <SettingsModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />}
         </div>
     )
 }

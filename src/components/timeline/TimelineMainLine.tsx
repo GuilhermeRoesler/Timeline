@@ -1,10 +1,9 @@
 import { Line } from 'react-konva';
 import { useStageControlsStore } from '../../store/stageControlsStore';
-import { TIMELINE_Y } from '../../constants';
+import { TIMELINE_Y } from '../../store/settingsStore';
 
 const TimelineMainLine = () => {
-    const stageScale = useStageControlsStore((state) => state.stageScale);
-    const stagePos = useStageControlsStore((state) => state.stagePos);
+    const { stageScale, stagePos } = useStageControlsStore((state) => state);
 
     return (
         <Line

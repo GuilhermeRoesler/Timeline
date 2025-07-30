@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { useStageControlsStore } from '../../store/stageControlsStore';
-import { BASE_YEAR, YEAR_SPACING } from '../../constants';
 import { getYearStep, getMarkerStep } from '../../utils/timelineYearsUtils';
+import { useSettingsStore } from '../../store/settingsStore';
 
 import YearMarker from './YearMarker';
 import SubYearMarkerLoader from './SubYearMarkerLoader';
 
 const TimelineYears = () => {
-    const stageScale = useStageControlsStore((state) => state.stageScale);
-    const stagePos = useStageControlsStore((state) => state.stagePos);
-    const visibleYears = useStageControlsStore((state) => state.visibleYears);
-    const setVisibleYears = useStageControlsStore((state) => state.setVisibleYears);
+    const { stageScale, stagePos, visibleYears, setVisibleYears } = useStageControlsStore((state) => state);
+    const { BASE_YEAR, YEAR_SPACING } = useSettingsStore((state) => state);
 
     // Calcular quais anos mostrar baseado na posição e zoom atual
     useEffect(() => {

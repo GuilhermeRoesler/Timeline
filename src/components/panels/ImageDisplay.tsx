@@ -2,17 +2,14 @@ import { useState } from "react"
 import { useSidePanelStore } from "../../store/sidePanelStore";
 
 const ImageDisplay = () => {
-    const links = useSidePanelStore(state => state.links)
-    const linkIndex = useSidePanelStore(state => state.linkIndex)
-    const setLinkIndex = useSidePanelStore(state => state.setLinkIndex)
-    const setImageSelectedType = useSidePanelStore(state => state.setImageSelectedType)
+    const { links, linkIndex } = useSidePanelStore(state => state)
     const [animation, setAnimation] = useState('')
 
     const handleForward = () => {
         if (animation === '') {
             setAnimation('sidePanelSwitchImage 1s ease forwards')
             setTimeout(() => {
-                setLinkIndex(linkIndex + 1);
+                useSidePanelStore.setState({ linkIndex: linkIndex + 1 })
             }, 500);
             setTimeout(() => {
                 setAnimation('')
@@ -24,7 +21,7 @@ const ImageDisplay = () => {
         if (animation === '') {
             setAnimation('sidePanelSwitchImage 1s ease forwards reverse')
             setTimeout(() => {
-                setLinkIndex(linkIndex - 1);
+                useSidePanelStore.setState({ linkIndex: linkIndex - 1 })
             }, 500);
             setTimeout(() => {
                 setAnimation('')
@@ -34,7 +31,7 @@ const ImageDisplay = () => {
 
     const handleClick = () => {
         useSidePanelStore.setState({ linkValue: links[linkIndex % links.length] })
-        setImageSelectedType("link")
+        useSidePanelStore.setState({ imageSelectedType: "link" })
     }
     if (!links.every(valor => valor === "")) {
         return (

@@ -1,4 +1,7 @@
 import { useRef, useEffect } from "react"
+import SettingsSidebar from "./SettingsSidebar";
+import SettingsBody from "./SettingsBody";
+import { useSettingsStore } from "../../store/settingsStore";
 
 const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolean, setIsDialogOpen: (value: boolean) => void }) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -11,6 +14,8 @@ const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolea
     const handleClose = () => {
         dialogRef.current?.close()
         setIsDialogOpen(false)
+        console.log("Saving settings to local storage");
+        useSettingsStore.getState().saveSettingsToLocalStorage();
     }
 
     const hanleClickOutside = (e: React.MouseEvent) => {
@@ -27,7 +32,11 @@ const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolea
     }
 
     return (
-        <dialog className="settings-modal" ref={dialogRef} onClick={hanleClickOutside} aria-labelledby="modal-title" aria-describedby="modal-content">
+        <dialog className="settings-modal" ref={dialogRef} onClick={hanleClickOutside}
+            aria-labelledby="modal-title" aria-describedby="modal-content">
+            <i className="fa-solid fa-xmark" onClick={handleClose}></i>
+            <SettingsSidebar />
+            <SettingsBody />
         </dialog>
     )
 }

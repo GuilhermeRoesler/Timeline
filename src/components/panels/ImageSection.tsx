@@ -5,9 +5,7 @@ import ImageMiniBrowse from "./ImageMiniBrowse";
 import axios from "axios";
 
 const ImageSection = () => {
-    const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
-    const titleValue = useSidePanelStore(state => state.titleValue)
-    const linkValue = useSidePanelStore(state => state.linkValue)
+    const { imageSelectedType, titleValue, linkValue } = useSidePanelStore(state => state)
     const searchRef = useRef<HTMLInputElement>(null)
 
     const handleSendSearch = async (e: React.MouseEvent) => {

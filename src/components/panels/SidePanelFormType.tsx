@@ -2,7 +2,6 @@ import { useSidePanelStore } from "../../store/sidePanelStore"
 
 const SidePanelFormType = () => {
     const selectedType = useSidePanelStore(state => state.selectedType)
-    const setSelectedType = useSidePanelStore(state => state.setSelectedType)
 
     return (
         <div>
@@ -12,7 +11,7 @@ const SidePanelFormType = () => {
                 value="period"
                 id="side-panel-period-id"
                 checked={selectedType === "period"}
-                onChange={() => setSelectedType("period")} />
+                onChange={() => useSidePanelStore.setState({ selectedType: "period" })} />
             <label htmlFor="side-panel-period-id">Período</label>
             <input
                 type="radio"
@@ -20,7 +19,7 @@ const SidePanelFormType = () => {
                 value="event"
                 id="side-panel-event-id"
                 checked={selectedType === "event"}
-                onChange={() => setSelectedType("event")} />
+                onChange={() => useSidePanelStore.setState({ selectedType: "event" })} />
             <label htmlFor="side-panel-event-id">Evento</label>
         </div>
     )

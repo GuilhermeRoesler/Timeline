@@ -1,9 +1,10 @@
 import { Line, Text } from "react-konva"
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING } from "../../constants";
 import { useStageControlsStore } from "../../store/stageControlsStore";
+import { TIMELINE_Y, useSettingsStore } from "../../store/settingsStore";
 
 const YearMarker = ({ year }: { year: number }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);
+    const { BASE_YEAR, YEAR_SPACING } = useSettingsStore((state) => state);
     const x = (year - BASE_YEAR) * YEAR_SPACING;
 
     let offsetX = 16 / stageScale;

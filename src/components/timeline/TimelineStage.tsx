@@ -3,9 +3,7 @@ import { useStageZoom } from '../../hooks/useStageControls';
 import { useStageControlsStore } from '../../store/stageControlsStore';
 
 const TimelineStage = ({ children }: { children: React.ReactNode }) => {
-    const stageScale = useStageControlsStore((state) => state.stageScale);
-    const stagePos = useStageControlsStore((state) => state.stagePos);
-    const cursor = useStageControlsStore((state) => state.cursor);
+    const { stageScale, stagePos, cursor } = useStageControlsStore((state) => state);
 
     const { handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
 

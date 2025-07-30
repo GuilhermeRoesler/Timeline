@@ -1,20 +1,19 @@
 import { useState, useEffect } from "react";
 import { useDetailsBalloonStore } from "../store/detailsBalloonStore"
 import { useStageControlsStore } from "../store/stageControlsStore";
-import { TIMELINE_Y, BASE_YEAR, YEAR_SPACING, LEVEL_SPACING, PERIOD_HEIGHT } from "../constants";
 import { type Event } from "../types/event";
 import { type Period } from "../types/period";
 import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
+import { TIMELINE_Y, useSettingsStore } from "../store/settingsStore";
 
 const DetailsBalloon = () => {
-    const stageScale = useStageControlsStore((state) => state.stageScale);
-    const stagePos = useStageControlsStore((state) => state.stagePos);
-    const event = useDetailsBalloonStore((state) => state.event);
-    const period = useDetailsBalloonStore((state) => state.period);
+    const { stageScale, stagePos } = useStageControlsStore((state) => state);
+    const { event, period } = useDetailsBalloonStore((state) => state);
     const [localEvent, setLocalEvent] = useState<Event | null>(null);
     const [localPeriod, setLocalPeriod] = useState<Period | null>(null);
     const [isHovered, setIsHovered] = useState(false)
     const [animation, setAnimation] = useState('');
+    const { YEAR_SPACING, BASE_YEAR, PERIOD_HEIGHT, LEVEL_SPACING } = useSettingsStore((state) => state);
 
     const handleDelete = () => {
         if (localEvent) {

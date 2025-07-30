@@ -6,9 +6,7 @@ import { getDefaultColor } from "../../utils/colorUtils";
 import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
 
 const SidePanel = () => {
-    const editPeriod = useSidePanelStore(state => state.editPeriod)
-    const editEvent = useSidePanelStore(state => state.editEvent)
-    const isSidePanelOpen = useSidePanelStore(state => state.isSidePanelOpen)
+    const { editPeriod, editEvent, isSidePanelOpen } = useSidePanelStore(state => state)
     const sidePanelRef = useRef<HTMLDivElement>(null)
     const periods = usePeriodsLoaderStore(state => state.periods);
     const events = useEventsLoaderStore(state => state.events);
@@ -22,7 +20,9 @@ const SidePanel = () => {
 
     useEffect(() => {
         sidePanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [isSidePanelOpen]);
 
+    useEffect(() => {
         // Caso entre em modo de edição, abre o painel
         if (editPeriod || editEvent)
             useSidePanelStore.setState({ isSidePanelOpen: true, imageSelectedType: "link" })

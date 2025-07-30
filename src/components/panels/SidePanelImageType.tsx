@@ -2,7 +2,6 @@ import { useSidePanelStore } from "../../store/sidePanelStore";
 
 const SidePanelImageType = () => {
     const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
-    const setImageSelectedType = useSidePanelStore(state => state.setImageSelectedType)
 
     return (
         <div>
@@ -12,7 +11,7 @@ const SidePanelImageType = () => {
                 value="link"
                 id="side-panel-link-type-id"
                 checked={imageSelectedType === "link"}
-                onChange={() => setImageSelectedType("link")} />
+                onChange={() => useSidePanelStore.setState({ imageSelectedType: "link" })} />
             <label htmlFor="side-panel-link-type-id">Link</label>
             <input
                 type="radio"
@@ -20,7 +19,7 @@ const SidePanelImageType = () => {
                 value="search"
                 id="side-panel-search-type-id"
                 checked={imageSelectedType === "search"}
-                onChange={() => setImageSelectedType("search")} />
+                onChange={() => useSidePanelStore.setState({ imageSelectedType: "search" })} />
             <label htmlFor="side-panel-search-type-id">Search</label>
             <input
                 type="radio"
@@ -28,7 +27,7 @@ const SidePanelImageType = () => {
                 value="upload"
                 id="side-panel-upload-type-id"
                 checked={imageSelectedType === "upload"}
-                onChange={() => setImageSelectedType("upload")} />
+                onChange={() => useSidePanelStore.setState({ imageSelectedType: "upload" })} />
             <label htmlFor="side-panel-upload-type-id">Upload</label>
         </div>
     )
