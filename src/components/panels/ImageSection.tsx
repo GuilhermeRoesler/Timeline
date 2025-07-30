@@ -17,6 +17,20 @@ const ImageSection = () => {
         useSidePanelStore.setState({ links })
     }
 
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            const dataUrl = reader.result as string;
+            useSidePanelStore.setState({ linkValue: dataUrl })
+        };
+
+        reader.readAsDataURL(file);
+    }
+
     if (imageSelectedType === "link") {
         return (
             <>
@@ -51,7 +65,7 @@ const ImageSection = () => {
             <>
                 <span style={{ fontSize: 12, color: "red" }}>Not recomended because of space in localStorage</span>
                 <label htmlFor="side-panel-image-id">Imagem</label>
-                <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
+                <input type="file" name="image" id="side-panel-image-id" accept="image/*" onChange={e => handleFileUpload(e)} />
             </>
         )
     }
