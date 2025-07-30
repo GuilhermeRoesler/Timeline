@@ -5,7 +5,6 @@ import SidePanelFormType from "./SidePanelFormType";
 import SidePanelImageType from "./SidePanelImageType";
 import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelDate } from "./SidePanelUtils";
 import ImageSection from "./ImageSection";
-import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
 import { colorize } from "../../utils/colorUtils";
 import { useSettingsStore } from "../../store/settingsStore";
 
@@ -23,10 +22,8 @@ const SidePanelForm = () => {
         }
 
         useSidePanelStore.getState().resetFields();
-        if (useSettingsStore.getState().COLORIZE_ON_CREATE) {
-            const colorized = colorize(usePeriodsLoaderStore.getState().periods, useEventsLoaderStore.getState().events);
-            usePeriodsLoaderStore.getState().setPeriods(colorized);
-        }
+        if (useSettingsStore.getState().COLORIZE_ON_CREATE)
+            colorize();
     }
 
     return (

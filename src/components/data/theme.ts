@@ -1,0 +1,39 @@
+export const themeNames = [
+    "default",
+    "leaves",
+    "lemon",
+]
+
+export const themeColors = [
+    [
+        '#6F34DC',
+        '#A645E0',
+        '#DD59C9',
+        '#D11A6A',
+        '#E36E4B',
+        '#EFAE2C',
+        '#F3DD31',
+        '#C5E24C',
+        '#68C74F',
+        '#83DFCA',
+        '#31B4DE',
+        '#426DCC',
+    ],
+    [
+        '#406f0f',
+        '#6c7f0f',
+        '#8d8d0f',
+        '#a68f0f',
+        '#c68f0f',
+        '#e68f0f',
+        '#f68f0f',
+    ],
+    [
+        '#406f0f',
+        '#66a206',
+        '#9ac311',
+        '#c9e20b',
+        '#e0e109',
+        '#eff316',
+    ]
+]

@@ -1,44 +1,39 @@
-import type { Period } from "../types/period";
-import type { Event } from "../types/event";
-
-export const DEFAULT_COLORS = [
-    '#6F34DC',
-    '#A645E0',
-    '#DD59C9',
-    '#D11A6A',
-    '#E36E4B',
-    '#EFAE2C',
-    '#F3DD31',
-    '#C5E24C',
-    '#68C74F',
-    '#83DFCA',
-    '#31B4DE',
-    '#426DCC',
-];
+import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
+import { useSettingsStore } from "../store/settingsStore";
+import { themeColors } from "../components/data/theme";
 
 // Função pura para obter a próxima cor padrão
-export function getDefaultColor(periods: Period[], events: Event[]) {
-    // const DEFAULT_COLORS = [
-    //     '#6F34DC', '#A645E0', '#DD59C9', '#D11A6A', '#E36E4B', '#EFAE2C',
-    //     '#F3DD31', '#C5E24C', '#68C74F', '#83DFCA', '#31B4DE', '#426DCC',
-    // ];
+export function getDefaultColor() {
+    const { periods } = usePeriodsLoaderStore.getState();
+    const { events } = useEventsLoaderStore.getState();
+    const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
+    const color = themeColors[THEME_INDEX];
+
     const usedColors = [
         ...periods.map(p => (p.color || "").toUpperCase()),
         ...events.map(e => (e.color || "").toUpperCase())
-    ].filter(c => c && DEFAULT_COLORS.includes(c));
+    ].filter(c => c && color.includes(c));
     const lastColor = usedColors.length > 0
         ? usedColors[usedColors.length - 1]
-        : DEFAULT_COLORS[0];
-    const idx = DEFAULT_COLORS.indexOf(lastColor);
-    return DEFAULT_COLORS[(idx + 1) % DEFAULT_COLORS.length];
+        : color[0];
+    const idx = color.indexOf(lastColor);
+    return color[(idx + 1) % color.length];
 }
 
-export function colorize(periods: Period[], events: Event[]) {
+export function colorize() {
+    const { periods } = usePeriodsLoaderStore.getState();
+    const { events } = useEventsLoaderStore.getState();
+    const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
+    const color = themeColors[THEME_INDEX];
+
     const sortedPeriods = periods.sort((a: any, b: any) => new Date(a.start).getTime() - new Date(b.start).getTime());
-    const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({ ...period, color: DEFAULT_COLORS[index % DEFAULT_COLORS.length] }));
+    const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({ ...period, color: color[index % color.length] }));
 
     const sortedEvents = events.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    const colorizedEvents = sortedEvents.map((event: any, index: number) => ({ ...event, color: DEFAULT_COLORS[index % DEFAULT_COLORS.length] }));
+    const colorizedEvents = sortedEvents.map((event: any, index: number) => ({ ...event, color: color[index % color.length] }));
+
+    usePeriodsLoaderStore.getState().setPeriods(colorizedPeriods);
+    useEventsLoaderStore.getState().setEvents(colorizedEvents);
 
     return { colorizedPeriods, colorizedEvents };
 }

@@ -1,7 +1,14 @@
 import { useSettingsStore } from "../../store/settingsStore"
+import { themeNames } from "../data/theme"
+import { colorize } from "../../utils/colorUtils"
 
 const SettingsBody = () => {
     const { settingsIndex, BASE_YEAR, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE } = useSettingsStore(state => state)
+
+    const switchTheme = (index: number) => {
+        useSettingsStore.setState({ THEME_INDEX: index })
+        colorize();
+    }
 
     if (settingsIndex === 0)
         return (
@@ -69,6 +76,16 @@ const SettingsBody = () => {
                         <label htmlFor="cb1"></label>
                     </div>
                     <p className="description">Auto colorir ao criar períodos</p>
+                </div>
+                <div className="setting-item">
+                    <p className="title">Theme:</p>
+                    <select name="theme" id="settings-theme-id" onChange={(e) => switchTheme(e.target.selectedIndex)}
+                        value={themeNames[useSettingsStore.getState().THEME_INDEX]}>
+                        {themeNames.map((theme, index) => (
+                            <option key={index} value={theme}>{theme}</option>
+                        ))}
+                    </select>
+                    <p className="description">Tema aplicado aos períodos e eventos</p>
                 </div>
             </div>
         )

@@ -14,7 +14,6 @@ const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolea
     const handleClose = () => {
         dialogRef.current?.close()
         setIsDialogOpen(false)
-        console.log("Saving settings to local storage");
         useSettingsStore.getState().saveSettingsToLocalStorage();
     }
 

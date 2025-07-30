@@ -15,7 +15,7 @@ const SidePanel = () => {
     // Atualize colorValue sempre que periods ou events mudarem
     useEffect(() => {
         // if (colorValue === "")
-        useSidePanelStore.setState({ colorValue: getDefaultColor(periods, events) });
+        useSidePanelStore.setState({ colorValue: getDefaultColor() });
     }, [periods, events]);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const SidePanel = () => {
                 startValue: "2010-01-01",
                 endValue: "2010-01-01",
                 dateValue: "2010-01-01",
-                colorValue: getDefaultColor(periods, events),
+                colorValue: getDefaultColor(),
                 linkValue: "",
             })
         }

@@ -49,6 +49,7 @@ const ImageSection = () => {
     if (imageSelectedType === "upload") {
         return (
             <>
+                <span style={{ fontSize: 12, color: "red" }}>Not recomended because of space in localStorage</span>
                 <label htmlFor="side-panel-image-id">Imagem</label>
                 <input type="file" name="image" id="side-panel-image-id" accept="image/*" />
             </>

@@ -291,7 +291,9 @@ input[type="file"]::file-selector-button:hover {
   padding-block: 10px;
 }
 
-.settings-body .setting-item input {
+.settings-body .setting-item input,
+.settings-body .setting-item .checkbox-wrapper,
+.settings-body .setting-item select {
   grid-row: span 2;
   height: 30px;
 }
@@ -375,6 +377,24 @@ input[type="file"]::file-selector-button:hover {
 .settings-body .setting-item .description {
   font-size: .8rem;
   color: #666;
+}
+
+.settings-body .setting-item select {
+  background: transparent;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  /* appearance: none; */
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.settings-body .setting-item option {
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+  padding: 5px;
 }
 
 /* SIDE PANEL */
