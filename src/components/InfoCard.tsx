@@ -7,7 +7,7 @@ import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEve
 import { TIMELINE_Y, useSettingsStore } from "../store/settingsStore";
 import { hexToRgba } from "../utils/colorUtils";
 
-const DetailsBalloon = () => {
+const InfoCard = () => {
     const { stageScale, stagePos } = useStageControlsStore((state) => state);
     const { event, period } = useDetailsBalloonStore((state) => state);
     const [localEvent, setLocalEvent] = useState<Event | null>(null);
@@ -115,4 +115,4 @@ const DetailsBalloon = () => {
     )
 }
 
-export default DetailsBalloon
+export default InfoCard

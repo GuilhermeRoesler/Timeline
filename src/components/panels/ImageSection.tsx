@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useSidePanelStore } from "../../store/sidePanelStore";
 import ImageDisplay from "./ImageDisplay";
 import ImageMiniBrowse from "./ImageMiniBrowse";
-import axios from "axios";
+import { fetchImages } from "../../services/unsplashService";
 
 const ImageSection = () => {
     const { imageSelectedType, titleValue, linkValue } = useSidePanelStore(state => state)
@@ -11,19 +11,10 @@ const ImageSection = () => {
     const handleSendSearch = async (e: React.MouseEvent) => {
         e.preventDefault()
 
-        try {
-            const apiKey = import.meta.env.VITE_UNSPLASH_API_KEY;
-            const answer = await axios.get("https://api.unsplash.com/search/photos", {
-                params: {
-                    query: searchRef.current?.value,
-                    client_id: apiKey
-                }
-            })
-            const results = answer.data.results
-            useSidePanelStore.setState({ links: results.map((result: any) => result.urls.small) })
-        } catch (erro) {
-            console.error(erro)
-        }
+        if (!searchRef.current) return
+
+        const links = await fetchImages(searchRef.current?.value)
+        useSidePanelStore.setState({ links })
     }
 
     if (imageSelectedType === "link") {
@@ -46,7 +37,7 @@ const ImageSection = () => {
                 <label htmlFor="side-panel-image-id">Imagem</label>
                 <div className="search">
                     <input ref={searchRef} type="search" name="image" id="side-panel-image-id" placeholder="Pesquise aqui..."
-                        value={titleValue} onChange={(e) => useSidePanelStore.setState({ titleValue: e.target.value })} />
+                        defaultValue={titleValue} />
                     <button onClick={e => handleSendSearch(e)}><i className="material-symbols-outlined">send</i></button>
                 </div>
                 <ImageDisplay />

@@ -71,7 +71,10 @@ type EventsLoaderState = {
 
 export const useEventsLoaderStore = create<EventsLoaderState>((set, get) => ({
     events: [],
-    setEvents: (events) => set({ events }),
+    setEvents: (events) => {
+        get().saveEventsToLocalStorage(events);
+        set({ events })
+    },
     addEvent: (event) => {
         set((state) => {
             const updatedEvents = [...state.events, event]

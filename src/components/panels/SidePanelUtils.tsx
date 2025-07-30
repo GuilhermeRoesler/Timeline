@@ -1,3 +1,4 @@
+import { generateText } from "../../services/cohereService"
 import { useSidePanelStore } from "../../store/sidePanelStore"
 
 export const SidePanelTitle = () => {
@@ -13,11 +14,21 @@ export const SidePanelTitle = () => {
 }
 
 export const SidePanelDescription = () => {
+    const titleValue = useSidePanelStore(state => state.titleValue)
     const descriptionValue = useSidePanelStore(state => state.descriptionValue)
+
+    const handleGenerate = async () => {
+        useSidePanelStore.setState({ descriptionValue: "Gerando, aguarde um momento..." })
+        const generatedAnswer = await generateText(titleValue)
+        useSidePanelStore.setState({ descriptionValue: generatedAnswer })
+    }
 
     return (
         <>
-            <label htmlFor="side-panel-description-id">Descrição</label>
+            <div>
+                <label htmlFor="side-panel-description-id">Descrição</label>
+                <span className="material-symbols-outlined" onClick={handleGenerate}>flare</span>
+            </div>
             <textarea name="description" id="side-panel-description-id" placeholder="Descrição (opcional)"
                 value={descriptionValue} onChange={(e) => useSidePanelStore.setState({ descriptionValue: e.target.value })}></textarea>
         </>
@@ -30,7 +41,7 @@ export const SidePanelStart = () => {
     return (
         <>
             <label htmlFor="side-panel-start-id">Começo</label>
-            <input type="date" name="start" id="side-panel-start-id" spellCheck={false} required
+            <input type="date" name="start" id="side-panel-start-id" spellCheck={false} required max="9999-12-31"
                 value={startValue} onChange={(e) => useSidePanelStore.setState({ startValue: e.target.value })} />
         </>
     )
@@ -42,7 +53,7 @@ export const SidePanelEnd = () => {
     return (
         <>
             <label htmlFor="side-panel-end-id">Fim</label>
-            <input type="date" name="end" id="side-panel-end-id" spellCheck={false} required
+            <input type="date" name="end" id="side-panel-end-id" spellCheck={false} required max="9999-12-31"
                 value={endValue} onChange={(e) => useSidePanelStore.setState({ endValue: e.target.value })} />
         </>
     )
@@ -54,7 +65,7 @@ export const SidePanelDate = () => {
     return (
         <>
             <label htmlFor="side-panel-date-id">Ano</label>
-            <input type="date" name="date" id="side-panel-date-id" spellCheck={false} required
+            <input type="date" name="date" id="side-panel-date-id" spellCheck={false} required max="9999-12-31"
                 value={dateValue} onChange={(e) => useSidePanelStore.setState({ dateValue: e.target.value })} />
         </>
     )

@@ -23,7 +23,7 @@ const Period = ({ period }: { period: PeriodType }) => {
                 x={xStart}
                 y={y}
                 width={width}
-                height={PERIOD_HEIGHT}
+                height={PERIOD_HEIGHT / stageScale / 1.333}
                 fill={period.color || "#8ecae6"}
                 opacity={0.7}
                 cornerRadius={12 / stageScale}
