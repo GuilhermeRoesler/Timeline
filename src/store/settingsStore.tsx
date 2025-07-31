@@ -35,7 +35,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     EVENT_RADIUS: 10,
     COLORIZE_ON_CREATE: false,
     THEME_INDEX: 0,
-    NEGATIVE_LEVEL: false,
+    NEGATIVE_LEVEL: true,
     loadSettingsFromLocalStorage: () => {
         try {
             const savedSettings = localStorage.getItem("settings");

@@ -3,6 +3,7 @@ import { themeNames } from "../../../data/theme"
 import { colorize } from "../../../utils/colorUtils"
 import { useEffect } from "react"
 import { adjustLayer } from "../../../utils/levelUtils"
+import ToggleSwitch from "./ToggleSwitch"
 
 const SettingsBody = () => {
     const { settingsIndex, BASE_YEAR, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE, NEGATIVE_LEVEL } = useSettingsStore(state => state)
@@ -68,12 +69,10 @@ const SettingsBody = () => {
                 </div>
                 <div className="setting-item">
                     <p className="title">Negative level</p>
-                    <div className="checkbox-wrapper">
-                        <input id="cb-negative-level" type="checkbox"
-                            checked={NEGATIVE_LEVEL}
-                            onChange={(e) => useSettingsStore.setState({ NEGATIVE_LEVEL: e.target.checked })} />
-                        <label htmlFor="cb-negative-level"></label>
-                    </div>
+                    <ToggleSwitch
+                        id="negative-level"
+                        checked={NEGATIVE_LEVEL}
+                        onChange={(e) => useSettingsStore.setState({ NEGATIVE_LEVEL: e.target.checked })} />
                     <p className="description">Habilita que períodos sejam renderizados abaixo da linha principal</p>
                 </div>
             </div>
@@ -85,12 +84,10 @@ const SettingsBody = () => {
                 <h3 className="group">Color Settings</h3>
                 <div className="setting-item">
                     <p className="title">Colorize on create:</p>
-                    <div className="checkbox-wrapper">
-                        <input id="cb-colorize-on-create" type="checkbox"
-                            checked={COLORIZE_ON_CREATE}
-                            onChange={(e) => useSettingsStore.setState({ COLORIZE_ON_CREATE: e.target.checked })} />
-                        <label htmlFor="cb-colorize-on-create"></label>
-                    </div>
+                    <ToggleSwitch
+                        id="colorize-on-create"
+                        checked={COLORIZE_ON_CREATE}
+                        onChange={(e) => useSettingsStore.setState({ COLORIZE_ON_CREATE: e.target.checked })} />
                     <p className="description">Auto colorir ao criar períodos</p>
                 </div>
                 <div className="setting-item">
