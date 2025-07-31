@@ -1,85 +1,86 @@
-# 🗓️ Timeline: Documentação do Projeto
+# 🗓️ Timeline - Build, Explore and Share Your Histories with Style
 
-## 📌 Visão Geral
+## 📌 Overview
 
-**Timeline** é uma aplicação web interativa para criação, **visualização e edição de linhas do tempo históricas**, científicas ou pessoais.
+**Timeline** is an interactive web application for creating, **viewing, and editing historical, scientific, or personal timelines**.
 
-O usuário pode adicionar períodos e eventos, customizar **cores, temas, camadas**, exportar/importar dados e visualizar detalhes de cada item. O projeto utiliza React, `Zustand` para gerenciamento de estado, e `react-konva` para renderização gráfica.
+Users can add periods and events, customize **colors, themes, and layers**, export/import data, and view item details. The project uses React, `Zustand` for state management, and `react-konva` for graphical rendering.
 
-## ⚙️ Funcionalidades Principais
+## ⚙️ Key Features
 
-- ✅ **Criação de Períodos e Eventos:** Adicione períodos (intervalos de tempo) e eventos (pontos específicos) com título, descrição, cor e imagem.
-- ✅ **Visualização Dinâmica:** Linha do tempo escalável com zoom, arraste, navegação por teclado e marcadores de anos adaptativos.
-- ✅ **Camadas Inteligentes:** Períodos são automaticamente organizados em diferentes níveis para evitar sobreposição, com suporte a camadas negativas (abaixo da linha principal).
-- ✅ **Temas e Cores:** Diversos temas de cores para personalização visual, com opção de colorização automática.
-- ✅ **Painel Lateral:** Interface para adicionar, editar e visualizar detalhes de períodos/eventos, incluindo busca e upload de imagens.
-- ✅ **Exportação/Importação:** Salve e carregue linhas do tempo em arquivos JSON.
-- ✅ **Configurações Avançadas:** Ajuste de espaçamento, altura, ano base, raio de eventos, e outras preferências.
-- ✅ **Geração Automática de Descrições:** Integração com IA (Cohere) para gerar descrições automáticas de períodos.
-- ✅ **Busca de Imagens:** Integração com Unsplash para busca de imagens por palavra-chave.
+- ✅ **Create Periods and Events:** Add periods (time spans) and events (specific points) with title, description, color, and image.
+- ✅ **Dynamic Visualization:** Scalable timeline with zoom, drag, keyboard navigation, and adaptive year markers.
+- ✅ **Smart Layers:** Periods are automatically arranged into different levels to avoid overlap, with support for negative layers (below the main timeline).
+- ✅ **Themes and Colors:** Multiple color themes for visual customization, with optional auto-coloring.
+- ✅ **Side Panel:** Interface to add, edit, and view period/event details, including image search and upload.
+- ✅ **Export/Import:** Save and load timelines as JSON files.
+- ✅ **Advanced Settings:** Adjust spacing, height, base year, event radius, and other preferences.
+- ✅ **Auto Description Generation:** AI (Cohere) integration to generate automatic descriptions for periods.
+- ✅ **Image Search:** Unsplash integration for image search by keyword.
 
-## 📁 Estrutura de Pastas
+## 📁 Folder Structure
 
 ```
 src/
 ├── components/
-│   ├── infocard/         # Cartão de detalhes de períodos/eventos
-│   ├── panels/           # Painéis laterais e toolbar
-│   └── timeline/         # Componentes gráficos da linha do tempo
-├── data/                 # Temas de cores
-├── hooks/                # Hooks customizados (zoom, handlers)
-├── lib/                  # Utilitários de datas
-├── pages/                # Páginas principais (Timeline)
-├── services/             # Integrações externas (Unsplash, Cohere)
-├── store/                # Zustand stores (estado global)
-├── types/                # Tipos TypeScript (Period, Event)
-└── utils/                # Funções utilitárias (cores, camadas, exportação)
+│   ├── infocard/         # Detail card for periods/events
+│   ├── panels/           # Side panels and toolbar
+│   └── timeline/         # Timeline graphical components
+├── data/                 # Color themes
+├── hooks/                # Custom hooks (zoom, handlers)
+├── lib/                  # Date utilities
+├── pages/                # Main pages (Timeline)
+├── services/             # External integrations (Unsplash, Cohere)
+├── store/                # Zustand stores (global state)
+├── types/                # TypeScript types (Period, Event)
+└── utils/                # Utility functions (colors, layers, export)
 ```
 
-## 🧩 Principais Componentes
+## 🧩 Main Components
 
 ### 1. **TimelineAxis & TimelineStage**
 
-- Renderizam a linha do tempo principal, marcadores de anos, períodos e eventos.
-- Suportam zoom, arraste e navegação por teclado.
+- Render the main timeline, year markers, periods, and events.
+- Support zoom, drag, and keyboard navigation.
 
 ### 2. **PeriodsLoader & EventsLoader**
 
-- Carregam e renderizam todos os períodos e eventos salvos.
+- Load and render all saved periods and events.
 
 ### 3. **Period & Event**
 
-- Representam visualmente cada período (como um retângulo) e evento (círculo) na linha do tempo.
-- Suportam interações: hover (mostra detalhes), clique (abre painel de edição).
+- Visually represent each period (rectangle) and event (circle) on the timeline.
+- Support interactions: hover (show details), click (open edit panel).
 
 ### 4. **InfoCard**
 
-- Exibe detalhes do período/evento selecionado, com opção de deletar.
+- Displays details of the selected period/event, with delete option.
 
 ### 5. **SidePanel**
 
-- Painel lateral para adicionar ou editar períodos/eventos.
-- Suporte a seleção de tipo (período/evento), cor, imagem (link, busca, upload), datas e descrição.
-- Integração com IA para gerar descrições automáticas.
+- Side panel for adding or editing periods/events.
+- Supports selecting type (period/event), color, image (link, search, upload), dates, and description.
+- Integrated with AI to generate automatic descriptions.
 
 ### 6. **Toolbar**
 
-- Barra superior com botões para criar itens, exportar/importar, colorir, ajustar camadas e acessar configurações.
+- Top bar with buttons to create items, export/import, colorize, adjust layers, and access settings.
 
 ### 7. **SettingsModal**
 
-- Modal de configurações para ajustar parâmetros visuais e funcionais da linha do tempo.
+- Settings modal to adjust visual and functional parameters of the timeline.
 
-## 🧠 Gerenciamento de Estado
+## 🧠 State Management
 
-- **Zustand** é utilizado para gerenciar o estado global de:
-  - Períodos e eventos (`periodsEventsLoaderStore`)
-  - Configurações da timeline (`settingsStore`)
-  - Estado do painel lateral (`sidePanelStore`)
-  - Detalhes em foco (`detailsBalloonStore`)
-  - Controle de zoom e posição do stage (`stageControlsStore`)
+- **Zustand** is used to manage the global state of:
 
-## 🧾 Tipos Principais
+  - Periods and events (`periodsEventsLoaderStore`)
+  - Timeline settings (`settingsStore`)
+  - Side panel state (`sidePanelStore`)
+  - Focused detail cards (`detailsBalloonStore`)
+  - Zoom and stage position (`stageControlsStore`)
+
+## 🧾 Main Types
 
 ```typescript
 // Period
@@ -105,14 +106,14 @@ interface Event {
 }
 ```
 
-## 🧪 Exemplo de JSON Exportado
+## 🧪 Example Exported JSON
 
 ```json
 {
   "id": "01K19T51ZH3F654H1S8SK69PES",
-  "title": "Pandemia",
-  "description": "Em 11 de março de 2020, a COVID-19 foi caracterizada pela OMS como uma pandemia, devido à ampla distribuição geográfica da doença no mundo. Em 5 de maio de 2023, a OMS declarou o fim da Emergência de Saúde Pública de Importância Internacional (ESPII) referente à COVID-19.",
-  "image": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2OTY4NTF8MHwxfHNlYXJjaHwyfHxQYW5kZW1pYXxlbnwwfHx8fDE3NTM3NDk2MjR8MA&ixlib=rb-4.1.0&q=80&w=400",
+  "title": "Pandemic",
+  "description": "On March 11, 2020, COVID-19 was characterized by the WHO as a pandemic due to its wide geographical spread. On May 5, 2023, the WHO declared the end of the Public Health Emergency of International Concern (PHEIC) for COVID-19.",
+  "image": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?...",
   "color": "#225c77",
   "start": "2019-01-01",
   "end": "2021-01-01",
@@ -120,67 +121,71 @@ interface Event {
 }
 ```
 
-## 🔄 Fluxo de Uso
+## 🔄 Usage Flow
 
-1. **Adicionar Período/Evento:** Clique em "Criar" na toolbar, preencha o formulário no painel lateral e salve.
-2. **Editar:** Clique em um período/evento na linha do tempo para abrir o painel de edição.
-3. **Visualizar Detalhes:** Passe o mouse sobre um item para ver o InfoCard.
-4. **Exportar/Importar:** Use os ícones de download/upload na toolbar.
-5. **Configurações:** Ajuste temas, espaçamentos, camadas e outras preferências no modal de configurações.
+1. **Add Period/Event:** Click "Create" in the toolbar, fill the form in the side panel, and save.
+2. **Edit:** Click on a period/event on the timeline to open the editing panel.
+3. **View Details:** Hover over an item to see the InfoCard.
+4. **Export/Import:** Use the download/upload icons in the toolbar.
+5. **Settings:** Adjust themes, spacing, layers, and other preferences in the settings modal.
 
-## 🎨 Customização
+## 🎨 Customization
 
-- 🖍️ **Temas:** Escolha entre vários temas de cores ou crie o seu.
-- 📐 **Camadas:** Ative camadas negativas para períodos abaixo da linha principal.
-- 🖌️ **Colorização Automática:** Habilite para colorir automaticamente ao criar novos itens.
-- 🔧 **Ajuste de Layout:** Modifique altura dos períodos, espaçamento, raio dos eventos, ano base, etc.
+- 🖍️ **Themes:** Choose from several color themes or create your own.
+- 📐 **Layers:** Enable negative layers for periods below the main line.
+- 🖌️ **Auto Coloring:** Automatically color new items upon creation.
+- 🔧 **Layout Adjustment:** Modify period height, spacing, event radius, base year, and more.
 
-## 🌐 Integrações
+## 🌐 Integrations
 
-- **Unsplash:** Busca de imagens para períodos/eventos.
-- **Cohere:** Geração automática de descrições em português.
+- **Unsplash:** Image search for periods/events.
+- **Cohere:** Automatic description generation in Portuguese.
 
-## 📤 Exportação/Importação
+## 📤 Export / Import
 
-- **Exportar:** Salva períodos e eventos em um arquivo JSON.
-- **Importar:** Carrega um arquivo JSON e atualiza a linha do tempo.
+- **Export:** Saves periods and events to a JSON file.
+- **Import:** Loads a JSON file and updates the timeline.
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
-- **React** (com TypeScript)
-- **Zustand** (estado global)
-- **react-konva** (canvas interativo)
-- **Axios** (requisições HTTP)
-- **ULID** (IDs únicos)
-- **Cohere API** (IA para texto)
-- **Unsplash API** (imagens)
+- **React** (with TypeScript)
+- **Zustand** (global state)
+- **react-konva** (interactive canvas)
+- **Axios** (HTTP requests)
+- **ULID** (unique IDs)
+- **Cohere API** (AI for text)
+- **Unsplash API** (images)
 
-## 🖥️ Como Rodar Localmente
+## 🖥️ Running Locally
 
-1. Instale as dependências:
-   ```
+1. Install dependencies:
+
+   ```bash
    npm install
    ```
-2. Configure as chaves de API (Unsplash e Cohere) em .env.
-3. Rode o projeto:
-   ```
+
+2. Configure API keys (Unsplash and Cohere) in `.env`.
+3. Run the project:
+
+   ```bash
    npm run dev
    ```
-4. Acesse em `http://localhost:3000` (ou porta configurada).
+
+4. Open in `http://localhost:3000` (or configured port).
 
 ## ❗ Notes & FAQ
 
-### ❓ Como adiciono um período ou evento na linha do tempo?
+### ❓ How do I add a period or event to the timeline?
 
-Basta clicar no botão "Criar" na barra superior (`Toolbar`). Em seguida, preencha os campos no painel lateral com título, descrição, datas, imagem e cor. Escolha se é um evento ou período, salve — e pronto!
+Click the "Create" button on the top toolbar. Then, fill out the side panel form with title, description, dates, image, and color. Choose between event or period, save — and done!
 
-### ❓ O que é a geração automática de descrições e como funciona?
+### ❓ What is auto description generation and how does it work?
 
-A Timeline está integrada à API da **Cohere**, uma inteligência artificial que pode gerar descrições automáticas para eventos ou períodos com base no título e nas datas informadas. Essa funcionalidade está disponível no painel lateral ao editar ou criar um item.
+Timeline is integrated with the **Cohere** API, an AI service that can generate automatic descriptions for events or periods based on their title and dates. This feature is available in the side panel while editing or creating an item.
 
-### ❓ Posso exportar minha linha do tempo e compartilhar com outros usuários?
+### ❓ Can I export and share my timeline with other users?
 
-Sim! Você pode usar a função de exportação para salvar sua linha do tempo como um arquivo `JSON`. Esse arquivo pode ser compartilhado ou reimportado por outros usuários na mesma aplicação, preservando todos os dados e configurações
+Yes! You can use the export function to save your timeline as a `JSON` file. This file can be shared or re-imported by other users using the same application, preserving all data and settings.
 
 ## 🤝 Contribution
 
