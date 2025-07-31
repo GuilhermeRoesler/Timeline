@@ -11,13 +11,6 @@ export const usePeriodEventHandler = () => {
     const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)
     const { titleValue, descriptionValue, startValue, endValue, colorValue, linkValue } = useSidePanelStore(state => state)
 
-    const getDataURLFromImage = (e: React.FormEvent<HTMLFormElement>): string => {
-        (e.currentTarget.elements.namedItem('image') as HTMLInputElement).files?.[0]?.name || ''
-
-
-        return "";
-    }
-
     // Function to calculate the level based on overlapping periods
     const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
