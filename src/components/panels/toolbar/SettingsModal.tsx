@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react"
 import SettingsSidebar from "./SettingsSidebar";
 import SettingsBody from "./SettingsBody";
-import { useSettingsStore } from "../../store/settingsStore";
+import { useSettingsStore } from "../../../store/settingsStore";
 
 const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolean, setIsDialogOpen: (value: boolean) => void }) => {
     const dialogRef = useRef<HTMLDialogElement>(null);

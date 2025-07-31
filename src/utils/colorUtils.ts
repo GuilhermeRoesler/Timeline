@@ -1,6 +1,6 @@
 import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
 import { useSettingsStore } from "../store/settingsStore";
-import { themeColors } from "../components/data/theme";
+import { themeColors } from "../data/theme";
 
 // Função pura para obter a próxima cor padrão
 export function getDefaultColor() {

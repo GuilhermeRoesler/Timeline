@@ -1,4 +1,4 @@
-import { useSidePanelStore } from "../../store/sidePanelStore"
+import { useSidePanelStore } from "../../../store/sidePanelStore"
 
 const SidePanelFormType = () => {
     const selectedType = useSidePanelStore(state => state.selectedType)

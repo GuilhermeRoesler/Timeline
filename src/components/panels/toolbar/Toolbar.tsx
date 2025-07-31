@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { exportTimeline, importTimeline } from "../../utils/fileOperations"
-import { useSidePanelStore } from "../../store/sidePanelStore"
-import { colorize } from "../../utils/colorUtils"
-import { usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore"
-import { adjustLayer } from "../../utils/levelUtils"
+import { exportTimeline, importTimeline } from "../../../utils/fileOperations"
+import { useSidePanelStore } from "../../../store/sidePanelStore"
+import { colorize } from "../../../utils/colorUtils"
+import { usePeriodsLoaderStore } from "../../../store/periodsEventsLoaderStore"
+import { adjustLayer } from "../../../utils/levelUtils"
 import SettingsModal from "./SettingsModal"
-import { useSettingsStore } from "../../store/settingsStore"
+import { useSettingsStore } from "../../../store/settingsStore"
 
 const Toolbar = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);

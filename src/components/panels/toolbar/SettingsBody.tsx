@@ -1,6 +1,6 @@
-import { useSettingsStore } from "../../store/settingsStore"
-import { themeNames } from "../data/theme"
-import { colorize } from "../../utils/colorUtils"
+import { useSettingsStore } from "../../../store/settingsStore"
+import { themeNames } from "../../../data/theme"
+import { colorize } from "../../../utils/colorUtils"
 
 const SettingsBody = () => {
     const { settingsIndex, BASE_YEAR, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE } = useSettingsStore(state => state)

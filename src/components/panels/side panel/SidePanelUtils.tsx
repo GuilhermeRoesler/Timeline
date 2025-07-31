@@ -1,5 +1,5 @@
-import { generateText } from "../../services/cohereService"
-import { useSidePanelStore } from "../../store/sidePanelStore"
+import { generateText } from "../../../services/cohereService"
+import { useSidePanelStore } from "../../../store/sidePanelStore"
 
 export const SidePanelTitle = () => {
     const titleValue = useSidePanelStore(state => state.titleValue)

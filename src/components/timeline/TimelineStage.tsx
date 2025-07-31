@@ -7,6 +7,7 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
     const { stageScale, stagePos, cursor, setStagePos, setStageScale } = useStageControlsStore((state) => state);
     const { handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
 
+    // keyboard controls and movements
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             const prevStagePos = useStageControlsStore.getState().stagePos;
@@ -36,7 +37,7 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
                     newScale = newScale / 1.1
                     break;
                 default:
-                    return; // Não altera para outras teclas
+                    return;
             }
             if (!(newScale > .75 || newScale < .007))
                 setStageScale(newScale);

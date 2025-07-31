@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useSidePanelStore } from "../../store/sidePanelStore";
+import { useSidePanelStore } from "../../../store/sidePanelStore";
 
 const ImageDisplay = () => {
     const { links, linkIndex } = useSidePanelStore(state => state)

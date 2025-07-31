@@ -1,4 +1,4 @@
-import { useSidePanelStore } from "../../store/sidePanelStore"
+import { useSidePanelStore } from "../../../store/sidePanelStore"
 
 const ImageMiniBrowse = () => {
     const links = useSidePanelStore(state => state.links)

@@ -1,4 +1,4 @@
-import { useSidePanelStore } from "../../store/sidePanelStore";
+import { useSidePanelStore } from "../../../store/sidePanelStore";
 
 const SidePanelImageType = () => {
     const imageSelectedType = useSidePanelStore(state => state.imageSelectedType)

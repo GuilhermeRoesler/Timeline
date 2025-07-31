@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { useSidePanelStore } from "../../store/sidePanelStore";
+import { useSidePanelStore } from "../../../store/sidePanelStore";
 import ImageDisplay from "./ImageDisplay";
 import ImageMiniBrowse from "./ImageMiniBrowse";
-import { fetchImages } from "../../services/unsplashService";
+import { fetchImages } from "../../../services/unsplashService";
 
 const ImageSection = () => {
     const { imageSelectedType, titleValue, linkValue } = useSidePanelStore(state => state)

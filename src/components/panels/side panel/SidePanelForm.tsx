@@ -1,12 +1,12 @@
-import { usePeriodEventHandler } from "../../hooks/usePeriodEventHandler";
-import { useSidePanelStore } from "../../store/sidePanelStore";
+import { usePeriodEventHandler } from "../../../hooks/usePeriodEventHandler";
+import { useSidePanelStore } from "../../../store/sidePanelStore";
 
 import SidePanelFormType from "./SidePanelFormType";
 import SidePanelImageType from "./SidePanelImageType";
 import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelDate } from "./SidePanelUtils";
 import ImageSection from "./ImageSection";
-import { colorize } from "../../utils/colorUtils";
-import { useSettingsStore } from "../../store/settingsStore";
+import { colorize } from "../../../utils/colorUtils";
+import { useSettingsStore } from "../../../store/settingsStore";
 
 const SidePanelForm = () => {
     const selectedType = useSidePanelStore(state => state.selectedType)

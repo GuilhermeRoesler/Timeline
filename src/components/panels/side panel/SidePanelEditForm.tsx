@@ -1,5 +1,5 @@
-import { usePeriodEventHandler } from "../../hooks/usePeriodEventHandler";
-import { useSidePanelStore } from "../../store/sidePanelStore";
+import { usePeriodEventHandler } from "../../../hooks/usePeriodEventHandler";
+import { useSidePanelStore } from "../../../store/sidePanelStore";
 
 import SidePanelImageType from "./SidePanelImageType";
 import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelDate } from "./SidePanelUtils";

@@ -1,9 +1,9 @@
 import { useRef, useEffect } from "react";
-import { useSidePanelStore } from "../../store/sidePanelStore";
+import { useSidePanelStore } from "../../../store/sidePanelStore";
 import SidePanelForm from "./SidePanelForm";
 import SidePanelEditForm from "./SidePanelEditForm";
-import { getDefaultColor } from "../../utils/colorUtils";
-import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
+import { getDefaultColor } from "../../../utils/colorUtils";
+import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../../store/periodsEventsLoaderStore";
 
 const SidePanel = () => {
     const { editPeriod, editEvent, isSidePanelOpen } = useSidePanelStore(state => state)
