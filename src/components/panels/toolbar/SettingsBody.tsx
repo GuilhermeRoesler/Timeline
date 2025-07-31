@@ -1,14 +1,20 @@
 import { useSettingsStore } from "../../../store/settingsStore"
 import { themeNames } from "../../../data/theme"
 import { colorize } from "../../../utils/colorUtils"
+import { useEffect } from "react"
+import { adjustLayer } from "../../../utils/levelUtils"
 
 const SettingsBody = () => {
-    const { settingsIndex, BASE_YEAR, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE } = useSettingsStore(state => state)
+    const { settingsIndex, BASE_YEAR, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE, NEGATIVE_LEVEL } = useSettingsStore(state => state)
 
     const switchTheme = (index: number) => {
         useSettingsStore.setState({ THEME_INDEX: index })
         colorize();
     }
+
+    useEffect(() => {
+        adjustLayer();
+    }, [NEGATIVE_LEVEL])
 
     if (settingsIndex === 0)
         return (
@@ -60,6 +66,16 @@ const SettingsBody = () => {
                     />
                     <p className="description">Espaçamento entre os períodos</p>
                 </div>
+                <div className="setting-item">
+                    <p className="title">Negative level</p>
+                    <div className="checkbox-wrapper">
+                        <input id="cb-negative-level" type="checkbox"
+                            checked={NEGATIVE_LEVEL}
+                            onChange={(e) => useSettingsStore.setState({ NEGATIVE_LEVEL: e.target.checked })} />
+                        <label htmlFor="cb-negative-level"></label>
+                    </div>
+                    <p className="description">Habilita que períodos sejam renderizados abaixo da linha principal</p>
+                </div>
             </div>
         )
 
@@ -70,10 +86,10 @@ const SettingsBody = () => {
                 <div className="setting-item">
                     <p className="title">Colorize on create:</p>
                     <div className="checkbox-wrapper">
-                        <input id="cb1" type="checkbox"
+                        <input id="cb-colorize-on-create" type="checkbox"
                             checked={COLORIZE_ON_CREATE}
                             onChange={(e) => useSettingsStore.setState({ COLORIZE_ON_CREATE: e.target.checked })} />
-                        <label htmlFor="cb1"></label>
+                        <label htmlFor="cb-colorize-on-create"></label>
                     </div>
                     <p className="description">Auto colorir ao criar períodos</p>
                 </div>

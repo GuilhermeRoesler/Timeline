@@ -19,6 +19,7 @@ type SettingsState = {
     EVENT_RADIUS: number,
     COLORIZE_ON_CREATE: boolean,
     THEME_INDEX: number,
+    NEGATIVE_LEVEL: boolean,
     loadSettingsFromLocalStorage: () => void,
     saveSettingsToLocalStorage: () => void,
     resetSettings: () => void,
@@ -34,6 +35,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     EVENT_RADIUS: 10,
     COLORIZE_ON_CREATE: false,
     THEME_INDEX: 0,
+    NEGATIVE_LEVEL: false,
     loadSettingsFromLocalStorage: () => {
         try {
             const savedSettings = localStorage.getItem("settings");
@@ -47,7 +49,8 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
                     LEVEL_SPACING: parsedSettings.LEVEL_SPACING,
                     EVENT_RADIUS: parsedSettings.EVENT_RADIUS,
                     COLORIZE_ON_CREATE: parsedSettings.COLORIZE_ON_CREATE,
-                    THEME_INDEX: parsedSettings.THEME_INDEX
+                    THEME_INDEX: parsedSettings.THEME_INDEX,
+                    NEGATIVE_LEVEL: parsedSettings.NEGATIVE_LEVEL,
                 })
             }
         } catch (error) {
@@ -63,7 +66,8 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             LEVEL_SPACING: get().LEVEL_SPACING,
             EVENT_RADIUS: get().EVENT_RADIUS,
             COLORIZE_ON_CREATE: get().COLORIZE_ON_CREATE,
-            THEME_INDEX: get().THEME_INDEX
+            THEME_INDEX: get().THEME_INDEX,
+            NEGATIVE_LEVEL: get().NEGATIVE_LEVEL,
         };
         try {
             localStorage.setItem("settings", JSON.stringify(settings));
@@ -80,7 +84,8 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             LEVEL_SPACING: 30,
             EVENT_RADIUS: 10,
             COLORIZE_ON_CREATE: false,
-            THEME_INDEX: 0
+            THEME_INDEX: 0,
+            NEGATIVE_LEVEL: true,
         })
     },
 }))

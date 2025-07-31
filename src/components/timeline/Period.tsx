@@ -13,9 +13,9 @@ const Period = ({ period }: { period: PeriodType }) => {
     const xStart = (period.start.getYear() - BASE_YEAR) * YEAR_SPACING;
     const xEnd = (period.end.getYear() - BASE_YEAR) * YEAR_SPACING;
     const width = xEnd - xStart;
-    const y = period.level > 0
-        ? TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * period.level - 10
-        : TIMELINE_Y + (PERIOD_HEIGHT + LEVEL_SPACING) * -period.level - 10;
+
+    const y = TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * period.level - 10
+
 
     return (
         <>
@@ -23,7 +23,7 @@ const Period = ({ period }: { period: PeriodType }) => {
                 x={xStart}
                 y={y}
                 width={width}
-                height={PERIOD_HEIGHT / stageScale / 1.333}
+                height={PERIOD_HEIGHT}
                 fill={period.color || "#8ecae6"}
                 opacity={0.7}
                 cornerRadius={12 / stageScale}
@@ -31,15 +31,6 @@ const Period = ({ period }: { period: PeriodType }) => {
                 onMouseLeave={() => setPeriod(null)}
                 onClick={() => useSidePanelStore.setState({ editPeriod: period })} // Abre o painel de edição(period)}
             />
-            {/* <Text
-                x={xStart + 8 / stageScale}
-                y={timelineY - 90}
-                text={period.title}
-                fontSize={18}
-                fill="#222"
-                width={width - 16}
-                align="left"
-            /> */}
         </>
     )
 }

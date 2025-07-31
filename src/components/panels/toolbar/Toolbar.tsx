@@ -16,7 +16,7 @@ const Toolbar = () => {
     }
 
     const adjustLayers = () => {
-        const adjustedLayers = adjustLayer(usePeriodsLoaderStore.getState().periods);
+        const adjustedLayers = adjustLayer();
         usePeriodsLoaderStore.getState().setPeriods(adjustedLayers);
     }
 
