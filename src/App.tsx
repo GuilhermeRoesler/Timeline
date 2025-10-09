@@ -75,7 +75,7 @@ const App = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-        <LoadingSpinner />
+        <LoadingSpinner size="h-16 w-16" />
       </div>
     )
   }

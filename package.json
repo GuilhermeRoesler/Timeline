@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.21",
     "axios": "^1.11.0",
     "konva": "^9.3.22",
     "lucide-react": "^0.545.0",
+    "postcss": "^8.5.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-konva": "^19.0.7",
+    "tailwindcss": "^4.1.14",
     "ulid": "^3.0.1",
     "zustand": "^5.0.6"
   },
