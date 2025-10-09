@@ -11,10 +11,8 @@ const App = () => {
   const [page, setPage] = useState('login'); // 'login', 'register', 'timeline'
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const { api, setAuthToken } = useGlobalConfigStore(state => ({
-    api: state.api,
-    setAuthToken: state.setAuthToken
-  }));
+  const api = useGlobalConfigStore(state => state.api);
+  const setAuthToken = useGlobalConfigStore(state => state.setAuthToken);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
