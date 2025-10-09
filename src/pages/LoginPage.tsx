@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { History, Eye, EyeOff } from 'lucide-react';
 import LoadingSpinner from '../icons/LoadingSpinner';
+import { useGlobalConfigStore } from '../store/globalConfigStore';
 
 const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSuccess: any, onNavigateToRegister: any, api: any }) => {
     const [name, setName] = useState('');
@@ -9,16 +10,23 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const setAuthToken = useGlobalConfigStore(state => state.setAuthToken);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setLoading(true);
         try {
-            await api.post('/auth/login', { name, email, password });
-            onLoginSuccess();
+            const response = await api.post('/auth/login', { name, email, password });
+            if (response.data.token) {
+                setAuthToken(response.data.token);
+                onLoginSuccess();
+            } else {
+                setError('Token de autenticação não recebido do servidor.');
+            }
         } catch (err: any) {
             setError(err.response?.data?.error || 'Não foi possível fazer login. Verifique seus dados.');
+            setAuthToken(null);
         } finally {
             setLoading(false);
         }

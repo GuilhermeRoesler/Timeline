@@ -11,29 +11,21 @@ const App = () => {
   const [page, setPage] = useState('login'); // 'login', 'register', 'timeline'
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const api = useGlobalConfigStore(state => state.api)
+  const { api, setAuthToken } = useGlobalConfigStore(state => ({
+    api: state.api,
+    setAuthToken: state.setAuthToken
+  }));
 
   useEffect(() => {
-    checkSession();
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      setAuthToken(token);
+    }
+    fetchUserData(); // This now also acts as our session check
   }, []);
 
-  const checkSession = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get('/auth/check');
-      if (response.data.loggedIn) {
-        fetchUserData();
-      } else {
-        setPage('login');
-        setLoading(false);
-      }
-    } catch (error) {
-      setPage('login');
-      setLoading(false);
-    }
-  };
-
   const fetchUserData = async () => {
+    setLoading(true);
     try {
       const [periodsRes, eventsRes, settingsRes] = await Promise.all([
         api.get('/periods'),
@@ -45,10 +37,8 @@ const App = () => {
       const events = eventsRes.data;
       const settings = settingsRes.data;
 
-      // If settings are null and there are no periods/events, it's a new user.
       if (settings === null && periods.length === 0 && events.length === 0) {
         setUserData(initialData as UserData);
-        // Save the initial settings to the backend for this new user
         await api.post('/settings', initialData.settings);
       } else {
         setUserData({ periods, events, settings });
@@ -56,8 +46,9 @@ const App = () => {
 
       setPage('timeline');
     } catch (error) {
-      console.error("Failed to fetch user data:", error);
-      setPage('login'); // Fallback to login on error
+      console.error("Failed to fetch user data (likely not logged in):", error);
+      setPage('login');
+      setAuthToken(null); // Clear any invalid token
     } finally {
       setLoading(false);
     }
@@ -77,6 +68,7 @@ const App = () => {
     } catch (error) {
       console.error("Logout failed", error);
     } finally {
+      setAuthToken(null);
       setUserData(null);
       setPage('login');
     }
