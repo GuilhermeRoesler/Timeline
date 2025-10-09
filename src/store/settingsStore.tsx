@@ -67,7 +67,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             negative_level: get().NEGATIVE_LEVEL,
         };
         try {
-            await api.post('/settings', settingsToSave);
+            await api.put('/settings', settingsToSave);
         } catch (error) {
             console.error("Error saving settings:", error);
         }
@@ -84,7 +84,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             NEGATIVE_LEVEL: true,
         };
         set(defaultSettings);
-        
+
         const defaultSettingsForApi = {
             year_spacing: 100,
             base_year: 2010,

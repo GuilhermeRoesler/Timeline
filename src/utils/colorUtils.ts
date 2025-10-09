@@ -2,6 +2,7 @@ import { usePeriodsStore } from "../store/periodsStore";
 import { useEventsStore } from "../store/eventsStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { themeColors } from "../data/theme";
+import { useGlobalConfigStore } from "../store/globalConfigStore";
 
 // Função pura para obter a próxima cor padrão
 export function getDefaultColor() {
@@ -21,22 +22,41 @@ export function getDefaultColor() {
     return color[(idx + 1) % color.length];
 }
 
-export function colorize() {
+export async function colorize() {
+    const api = useGlobalConfigStore.getState().api;
     const { periods } = usePeriodsStore.getState();
     const { events } = useEventsStore.getState();
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
     const color = themeColors[THEME_INDEX];
 
-    const sortedPeriods = periods.sort((a: any, b: any) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    const sortedPeriods = periods.sort((a: any, b: any) => new Date(a.start.toString()).getTime() - new Date(b.start.toString()).getTime());
     const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({ ...period, color: color[index % color.length] }));
 
-    const sortedEvents = events.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const sortedEvents = events.sort((a: any, b: any) => new Date(a.date.toString()).getTime() - new Date(b.date.toString()).getTime());
     const colorizedEvents = sortedEvents.map((event: any, index: number) => ({ ...event, color: color[index % color.length] }));
 
-    usePeriodsStore.getState().setPeriods(colorizedPeriods);
-    useEventsStore.getState().setEvents(colorizedEvents);
+    const periodsForApi = colorizedPeriods.map(p => ({
+        ...p,
+        start_date: p.start.toString(),
+        end_date: p.end.toString(),
+    }));
+    const eventsForApi = colorizedEvents.map(e => ({
+        ...e,
+        event_date: e.date.toString(),
+    }));
 
-    return { colorizedPeriods, colorizedEvents };
+    try {
+        await api.put('/timeline/colorize', {
+            periods: periodsForApi,
+            events: eventsForApi,
+        });
+
+        usePeriodsStore.getState().setPeriods(colorizedPeriods);
+        useEventsStore.getState().setEvents(colorizedEvents);
+    } catch (error) {
+        console.error("Failed to sync colors with the server:", error);
+        alert("Não foi possível salvar as novas cores. Tente novamente.");
+    }
 }
 
 export function hexToRgba(hex: string, alpha: number): string {

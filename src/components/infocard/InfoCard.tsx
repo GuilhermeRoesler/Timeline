@@ -25,15 +25,11 @@ const InfoCard = () => {
 
     const handleDelete = async () => {
         if (localEvent) {
-            await api.delete('/events', {
-                data: { id: localEvent.id }
-            });
+            await api.delete(`/events/${localEvent.id}`);
             useEventsStore.getState().removeEvent(localEvent.id);
             setLocalEvent(null);
         } else if (localPeriod) {
-            await api.delete('/periods', {
-                data: { id: localPeriod.id }
-            });
+            await api.delete(`/periods/${localPeriod.id}`);
             usePeriodsStore.getState().removePeriod(localPeriod.id);
             setLocalPeriod(null);
         }
