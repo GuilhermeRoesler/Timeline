@@ -3,7 +3,7 @@ import { useEventsStore } from "../store/eventsStore";
 import { useSidePanelStore } from "../store/sidePanelStore";
 import { SimpleDate } from "../lib/SimpleDate";
 import { calculateLevel } from "../utils/levelUtils";
-import { createPeriod, updatePeriod } from "../services/periodService";
+import { createPeriod, updatePeriod as updatePeriodService } from "../services/periodService";
 import { createEvent, updateEvent as updateEventService } from "../services/eventService";
 
 export const usePeriodEventHandler = () => {
@@ -59,17 +59,19 @@ export const usePeriodEventHandler = () => {
         const { editPeriod } = useSidePanelStore.getState();
         if (!editPeriod) return;
 
-        const periodToUpdate = {
+        const periodToUpdateForApi = {
             ...editPeriod,
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
             color: colorValue,
-            start: new SimpleDate(startValue),
-            end: new SimpleDate(endValue),
+            start_date: new SimpleDate(startValue).toString(),
+            end_date: new SimpleDate(endValue).toString(),
         };
-        
-        const responseData = await updatePeriod(periodToUpdate);
+        delete (periodToUpdateForApi as any).start;
+        delete (periodToUpdateForApi as any).end;
+
+        const responseData = await updatePeriodService(periodToUpdateForApi);
         usePeriodsStore.getState().updatePeriod(responseData);
     }
 
@@ -79,15 +81,17 @@ export const usePeriodEventHandler = () => {
         const { editEvent } = useSidePanelStore.getState();
         if (!editEvent) return;
 
-        const eventToUpdate = {
+        const eventToUpdateForApi = {
             ...editEvent,
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
             color: colorValue,
-            date: new SimpleDate(dateValue),
+            event_date: new SimpleDate(dateValue).toString(),
         };
-        const responseData = await updateEventService(eventToUpdate);
+        delete (eventToUpdateForApi as any).date;
+
+        const responseData = await updateEventService(eventToUpdateForApi);
         useEventsStore.getState().updateEvent(responseData);
     }
 
