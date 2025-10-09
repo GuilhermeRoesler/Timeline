@@ -75,8 +75,8 @@ export const usePeriodEventHandler = () => {
             end_date: end.toString(),
             level: editPeriod.level,
         };
-        const response = await api.put('/periods', periodToUpdate);
-        usePeriodsStore.getState().updatePeriod(response.data);
+        await api.put(`/periods/${editPeriod.id}`, periodToUpdate);
+        usePeriodsStore.getState().updatePeriod(periodToUpdate);
     }
 
     const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -99,8 +99,8 @@ export const usePeriodEventHandler = () => {
             color,
             event_date: date.toString(),
         };
-        const response = await api.put('/events', eventToUpdate);
-        useEventsStore.getState().updateEvent(response.data);
+        await api.put(`/events/${editEvent.id}`, eventToUpdate);
+        useEventsStore.getState().updateEvent(eventToUpdate);
     }
 
     return { addPeriod, addEvent, updatePeriod, updateEvent };

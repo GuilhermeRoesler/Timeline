@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import InfoCard from "../components/infocard/InfoCard"
 import SidePanel from "../components/panels/side panel/SidePanel"
 import Toolbar from "../components/panels/toolbar/Toolbar"
@@ -12,20 +13,23 @@ const Timeline = ({ data, onLogout }: { data: any, onLogout: () => void }) => {
     const setEvents = useEventsStore(state => state.setEvents)
     const setSettings = useSettingsStore(state => state.setSettings)
 
-    const formattedPeriods = data.periods.map((period: any) => ({
-        ...period,
-        start: new SimpleDate(period.start_date),
-        end: new SimpleDate(period.end_date)
-    }))
+    useEffect(() => {
+        const formattedPeriods = data.periods.map((period: any) => ({
+            ...period,
+            start: new SimpleDate(period.start_date),
+            end: new SimpleDate(period.end_date)
+        }))
 
-    const formattedEvents = data.events.map((event: any) => ({
-        ...event,
-        date: new SimpleDate(event.event_date)
-    }))
+        const formattedEvents = data.events.map((event: any) => ({
+            ...event,
+            date: new SimpleDate(event.event_date)
+        }))
 
-    setPeriods(formattedPeriods)
-    setEvents(formattedEvents)
-    setSettings(data.settings)
+        setPeriods(formattedPeriods)
+        setEvents(formattedEvents)
+        setSettings(data.settings)
+    }, [data, setPeriods, setEvents, setSettings])
+
 
     return (
         <>
