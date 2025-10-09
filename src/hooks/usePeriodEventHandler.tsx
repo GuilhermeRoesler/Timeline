@@ -55,6 +55,9 @@ export const usePeriodEventHandler = () => {
     const updatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const { editPeriod } = useSidePanelStore.getState();
+        if (!editPeriod) return;
+
         const title = titleValue;
         const description = descriptionValue;
         const image = linkValue;
@@ -62,7 +65,16 @@ export const usePeriodEventHandler = () => {
         const start = new SimpleDate(startValue);
         const end = new SimpleDate(endValue);
 
-        const periodToUpdate = { ...useSidePanelStore.getState().editPeriod, title, description, image, color, start_date: start.toString(), end_date: end.toString() };
+        const periodToUpdate = {
+            id: editPeriod.id,
+            title,
+            description,
+            image,
+            color,
+            start_date: start.toString(),
+            end_date: end.toString(),
+            level: editPeriod.level,
+        };
         const response = await api.put('/periods', periodToUpdate);
         usePeriodsStore.getState().updatePeriod(response.data);
     }
@@ -70,13 +82,23 @@ export const usePeriodEventHandler = () => {
     const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const { editEvent } = useSidePanelStore.getState();
+        if (!editEvent) return;
+
         const title = titleValue;
         const description = descriptionValue;
         const image = linkValue;
         const color = colorValue;
         const date = new SimpleDate(dateValue);
 
-        const eventToUpdate = { ...useSidePanelStore.getState().editEvent, title, description, image, color, event_date: date.toString() };
+        const eventToUpdate = {
+            id: editEvent.id,
+            title,
+            description,
+            image,
+            color,
+            event_date: date.toString(),
+        };
         const response = await api.put('/events', eventToUpdate);
         useEventsStore.getState().updateEvent(response.data);
     }
