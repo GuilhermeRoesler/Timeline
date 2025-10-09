@@ -1,11 +1,12 @@
-import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
+import { usePeriodsStore } from "../store/periodsStore";
+import { useEventsStore } from "../store/eventsStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { themeColors } from "../data/theme";
 
 // Função pura para obter a próxima cor padrão
 export function getDefaultColor() {
-    const { periods } = usePeriodsLoaderStore.getState();
-    const { events } = useEventsLoaderStore.getState();
+    const { periods } = usePeriodsStore.getState();
+    const { events } = useEventsStore.getState();
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
     const color = themeColors[THEME_INDEX];
 
@@ -21,8 +22,8 @@ export function getDefaultColor() {
 }
 
 export function colorize() {
-    const { periods } = usePeriodsLoaderStore.getState();
-    const { events } = useEventsLoaderStore.getState();
+    const { periods } = usePeriodsStore.getState();
+    const { events } = useEventsStore.getState();
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
     const color = themeColors[THEME_INDEX];
 
@@ -32,8 +33,8 @@ export function colorize() {
     const sortedEvents = events.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
     const colorizedEvents = sortedEvents.map((event: any, index: number) => ({ ...event, color: color[index % color.length] }));
 
-    usePeriodsLoaderStore.getState().setPeriods(colorizedPeriods);
-    useEventsLoaderStore.getState().setEvents(colorizedEvents);
+    usePeriodsStore.getState().setPeriods(colorizedPeriods);
+    useEventsStore.getState().setEvents(colorizedEvents);
 
     return { colorizedPeriods, colorizedEvents };
 }

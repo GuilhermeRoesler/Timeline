@@ -3,13 +3,13 @@ import SidePanel from "../components/panels/side panel/SidePanel"
 import Toolbar from "../components/panels/toolbar/Toolbar"
 import { SimpleDate } from "../lib/SimpleDate"
 import TimelineAxis from "../components/timeline/TimelineAxis"
-import { usePeriodsLoaderStore } from "../store/periodsEventsLoaderStore"
-import { useEventsLoaderStore } from "../store/periodsEventsLoaderStore"
+import { usePeriodsStore } from "../store/periodsStore"
+import { useEventsStore } from "../store/eventsStore"
 import { useSettingsStore } from "../store/settingsStore"
 
 const Timeline = ({ data, onLogout }: { data: any, onLogout: () => void }) => {
-    const setPeriods = usePeriodsLoaderStore(state => state.setPeriods)
-    const setEvents = useEventsLoaderStore(state => state.setEvents)
+    const setPeriods = usePeriodsStore(state => state.setPeriods)
+    const setEvents = useEventsStore(state => state.setEvents)
     const setSettings = useSettingsStore(state => state.setSettings)
 
     const formattedPeriods = data.periods.map((period: any) => ({

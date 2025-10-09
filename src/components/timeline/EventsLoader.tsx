@@ -1,8 +1,8 @@
 import Event from "./Event"
-import { useEventsLoaderStore } from "../../store/periodsEventsLoaderStore"
+import { useEventsStore } from "../../store/eventsStore"
 
 const EventsLoader = () => {
-    const { events } = useEventsLoaderStore(state => state)
+    const { events } = useEventsStore(state => state)
 
     return (
         <>

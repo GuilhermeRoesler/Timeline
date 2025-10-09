@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react"
 import SettingsSidebar from "./SettingsSidebar";
 import SettingsBody from "./SettingsBody";
 import { useSettingsStore } from "../../../store/settingsStore";
+import { X } from "lucide-react";
 
 const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolean, setIsDialogOpen: (value: boolean) => void }) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -33,7 +34,9 @@ const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolea
     return (
         <dialog className="settings-modal" ref={dialogRef} onClick={hanleClickOutside}
             aria-labelledby="modal-title" aria-describedby="modal-content">
-            <i className="fa-solid fa-xmark" onClick={handleClose}></i>
+            <button onClick={handleClose} className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <X className="w-5 h-5" />
+            </button>
             <SettingsSidebar />
             <SettingsBody />
         </dialog>

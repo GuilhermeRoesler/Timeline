@@ -1,6 +1,6 @@
 import { useState } from "react";
 import LoadingSpinner from "../icons/LoadingSpinner";
-import TimelineIcon from "../icons/TimelineIcon";
+import { History } from "lucide-react";
 
 const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin, api }: { onRegisterSuccess: any, onNavigateToLogin: any, api: any }) => {
     const [name, setName] = useState('');
@@ -28,7 +28,7 @@ const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin, api }: { onRegiste
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in">
                 <div className="flex flex-col items-center space-y-3">
                     <div className="bg-indigo-100 text-indigo-600 p-3 rounded-full">
-                        <TimelineIcon className="w-8 h-8" />
+                        <History className="w-8 h-8" />
                     </div>
                     <h2 className="text-3xl font-bold text-gray-800 text-center">Crie sua Conta</h2>
                     <p className="text-gray-500 text-center">Comece a organizar sua história hoje mesmo.</p>

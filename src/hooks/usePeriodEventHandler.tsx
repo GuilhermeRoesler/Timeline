@@ -1,11 +1,12 @@
-import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
+import { usePeriodsStore } from "../store/periodsStore";
+import { useEventsStore } from "../store/eventsStore";
 import { useSidePanelStore } from "../store/sidePanelStore";
 import { SimpleDate } from "../lib/SimpleDate";
 import { calculateLevel } from "../utils/levelUtils";
 import { useGlobalConfigStore } from "../store/globalConfigStore";
 
 export const usePeriodEventHandler = () => {
-    const periods = usePeriodsLoaderStore(state => state.periods)
+    const periods = usePeriodsStore(state => state.periods)
     const { titleValue, descriptionValue, startValue, endValue, dateValue, colorValue, linkValue } = useSidePanelStore(state => state)
     const api = useGlobalConfigStore(state => state.api)
 
@@ -33,7 +34,7 @@ export const usePeriodEventHandler = () => {
 
         const newPeriod = { title, description, image, color, start: start.toString(), end: end.toString(), level };
         const response = await api.post('/manage_periods.php', newPeriod)
-        usePeriodsLoaderStore.getState().addPeriod(response.data);
+        usePeriodsStore.getState().addPeriod(response.data);
     }
 
     const addEvent = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,7 +49,7 @@ export const usePeriodEventHandler = () => {
         };
 
         const response = await api.post('/manage_events.php', newEventData)
-        useEventsLoaderStore.getState().addEvent(response.data);
+        useEventsStore.getState().addEvent(response.data);
     }
 
     const updatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,7 +67,7 @@ export const usePeriodEventHandler = () => {
             ...periodToUpdate,
             _method: 'PUT'
         });
-        usePeriodsLoaderStore.getState().updatePeriod(response.data);
+        usePeriodsStore.getState().updatePeriod(response.data);
     }
 
     const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -83,7 +84,7 @@ export const usePeriodEventHandler = () => {
             ...eventToUpdate,
             _method: 'PUT'
         });
-        useEventsLoaderStore.getState().updateEvent(response.data);
+        useEventsStore.getState().updateEvent(response.data);
     }
 
     return { addPeriod, addEvent, updatePeriod, updateEvent };

@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import TimelineIcon from '../icons/TimelineIcon';
-import EyeIcon from '../icons/EyeIcon';
-import EyeOffIcon from '../icons/EyeOffIcon';
+import { History, Eye, EyeOff } from 'lucide-react';
 import LoadingSpinner from '../icons/LoadingSpinner';
 
 const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSuccess: any, onNavigateToRegister: any, api: any }) => {
@@ -30,7 +28,7 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in">
                 <div className="flex flex-col items-center space-y-3">
                     <div className="bg-indigo-100 text-indigo-600 p-3 rounded-full">
-                        <TimelineIcon className="w-8 h-8" />
+                        <History className="w-8 h-8" />
                     </div>
                     <h2 className="text-3xl font-bold text-gray-800 text-center">Acesse sua Linha do Tempo</h2>
                     <p className="text-gray-500 text-center">Bem-vindo de volta! Insira seus dados para continuar.</p>
@@ -56,7 +54,7 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
                                 placeholder="Sua senha"
                             />
                             <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 px-4 flex items-center text-gray-500 hover:text-indigo-600">
-                                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                             </button>
                         </div>
                     </div>

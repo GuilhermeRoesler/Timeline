@@ -2,9 +2,10 @@ import { useState } from "react"
 import { exportTimeline, importTimeline } from "../../../utils/fileOperations"
 import { useSidePanelStore } from "../../../store/sidePanelStore"
 import { colorize } from "../../../utils/colorUtils"
-import { usePeriodsLoaderStore } from "../../../store/periodsEventsLoaderStore"
+import { usePeriodsStore } from "../../../store/periodsStore"
 import { adjustLayer } from "../../../utils/levelUtils"
 import SettingsModal from "./SettingsModal"
+import { Download, Upload, LogOut, MoreVertical, Layers, Palette, Settings } from "lucide-react"
 
 const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -16,7 +17,7 @@ const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
 
     const adjustLayers = () => {
         const adjustedLayers = adjustLayer();
-        usePeriodsLoaderStore.getState().setPeriods(adjustedLayers);
+        usePeriodsStore.getState().setPeriods(adjustedLayers);
     }
 
     const applyColorize = () => {
@@ -27,27 +28,30 @@ const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
         <div className="toolbar">
             <span style={{ fontWeight: "bold", fontSize: 24, color: "#333" }}>Timeline</span>
             <button onClick={handleOpen}>Criar</button>
-            <span className="material-symbols-outlined" title="Download" onClick={exportTimeline}>download</span>
-            <span className="material-symbols-outlined" title="Upload" onClick={importTimeline}>upload</span>
-            <span className="material-symbols-outlined" title="Logout" onClick={onLogout}>logout</span>
-            <span className="material-symbols-outlined" title="More" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>more_vert
+            <button className="p-2 bg-transparent hover:bg-gray-100" title="Download" onClick={exportTimeline}><Download className="w-6 h-6 text-gray-700" /></button>
+            <button className="p-2 bg-transparent hover:bg-gray-100" title="Upload" onClick={importTimeline}><Upload className="w-6 h-6 text-gray-700" /></button>
+            <button className="p-2 bg-transparent hover:bg-gray-100" title="Logout" onClick={onLogout}><LogOut className="w-6 h-6 text-gray-700" /></button>
+            <div className="relative">
+                <button className="p-2 bg-transparent hover:bg-gray-100" title="More" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>
+                    <MoreVertical className="w-6 h-6 text-gray-700" />
+                </button>
                 {isSettingsOpen && (
                     <div className="more-container">
                         <div className="more-item" title="Adjust Layers" onClick={adjustLayers}>
-                            <span className="material-symbols-outlined">stacks</span>
+                            <Layers className="w-5 h-5" />
                             <p>Adjust Layers</p>
                         </div>
                         <div className="more-item" title="Colorize" onClick={applyColorize}>
-                            <span className="material-symbols-outlined">palette</span>
+                            <Palette className="w-5 h-5" />
                             <p>Colorize</p>
                         </div>
                         <div className="more-item" title="Settings" onClick={() => setIsDialogOpen(true)}>
-                            <span className="material-symbols-outlined">settings</span>
+                            <Settings className="w-5 h-5" />
                             <p>Settings</p>
                         </div>
                     </div>
                 )}
-            </span>
+            </div>
             {isDialogOpen && <SettingsModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />}
         </div>
     )
