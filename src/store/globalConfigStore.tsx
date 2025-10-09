@@ -7,7 +7,7 @@ type GlobalConfigState = {
 
 export const useGlobalConfigStore = create<GlobalConfigState>(() => ({
     api: axios.create({
-        baseURL: 'https://timeline.fwh.is/api/',
+        baseURL: 'http://localhost:8000/',
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import { History, Eye, EyeOff } from 'lucide-react';
 import LoadingSpinner from '../icons/LoadingSpinner';
 
 const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSuccess: any, onNavigateToRegister: any, api: any }) => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -14,7 +15,7 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
         setError('');
         setLoading(true);
         try {
-            await api.post('/login.php', { email, password });
+            await api.post('/auth/login', { name, email, password });
             onLoginSuccess();
         } catch (err: any) {
             setError(err.response?.data?.error || 'Não foi possível fazer login. Verifique seus dados.');
@@ -37,6 +38,14 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
                 {error && <div className="bg-red-100 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-md text-sm animate-shake">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="name" className="text-sm font-semibold text-gray-700">Nome</label>
+                        <input
+                            id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required
+                            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
+                            placeholder="Seu nome"
+                        />
+                    </div>
                     <div>
                         <label htmlFor="email" className="text-sm font-semibold text-gray-700">E-mail</label>
                         <input
