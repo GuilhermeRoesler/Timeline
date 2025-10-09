@@ -50,7 +50,7 @@ const SidePanelForm = () => {
             <SidePanelImageType />
             <ImageSection />
 
-            <button>Criar</button>
+            <button className="px-4 py-2 hover:bg-gray-200 transition-colors transition duration-500">Criar</button>
         </form>
     )
 }

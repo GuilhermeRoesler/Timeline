@@ -130,7 +130,7 @@
 }
 
 .side-panel form button {
-  padding: 8px 16px;
+  /* padding: 8px 16px; */
   background-color: #1a1a1a;
   color: white;
   border: none;
@@ -169,18 +169,19 @@
 }
 
 .side-panel .image-display button {
-  position: absolute;
+  /* position: absolute;
+  padding: 8px 16px;
   bottom: 0;
   left: 50%;
   translate: -50% -5px;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 5;
-  transition: .3s;
+  transition: .3s; */
 }
 
 .side-panel .image-display button:hover {
-  translate: -50% -10px;
+  /* translate: -50% -10px; */
 }
 
 @keyframes sidePanelSwitchImage {

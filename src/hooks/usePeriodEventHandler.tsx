@@ -26,6 +26,7 @@ export const usePeriodEventHandler = () => {
         }
 
         const newPeriod = {
+            id: null,
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
@@ -42,6 +43,7 @@ export const usePeriodEventHandler = () => {
         e.preventDefault();
 
         const newEventData = {
+            id: null,
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
@@ -60,6 +62,7 @@ export const usePeriodEventHandler = () => {
         if (!editPeriod) return;
 
         const periodData = {
+            id: editPeriod.id,
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
@@ -69,8 +72,8 @@ export const usePeriodEventHandler = () => {
             level: editPeriod.level,
         };
 
-        const responseData = await updatePeriodService(editPeriod.id, periodData);
-        usePeriodsStore.getState().updatePeriod(responseData);
+        await updatePeriodService(periodData);
+        usePeriodsStore.getState().updatePeriod(periodData);
     }
 
     const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,6 +83,7 @@ export const usePeriodEventHandler = () => {
         if (!editEvent) return;
 
         const eventData = {
+            id: editEvent.id,
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
@@ -87,8 +91,8 @@ export const usePeriodEventHandler = () => {
             event_date: new SimpleDate(dateValue).toString(),
         };
 
-        const responseData = await updateEventService(editEvent.id, eventData);
-        useEventsStore.getState().updateEvent(responseData);
+        await updateEventService(eventData);
+        useEventsStore.getState().updateEvent(eventData);
     }
 
     return { addPeriod, addEvent, updatePeriod, updateEvent };

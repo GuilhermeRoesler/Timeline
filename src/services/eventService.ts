@@ -1,6 +1,7 @@
 import api from './api';
 
 type EventPayload = {
+    id: string | null;
     title: string;
     description: string;
     image: string;
@@ -18,8 +19,8 @@ export const createEvent = async (eventData: EventPayload) => {
     return response.data;
 };
 
-export const updateEvent = async (eventId: string, eventData: EventPayload) => {
-    const response = await api.put(`/events/${eventId}`, eventData);
+export const updateEvent = async (eventData: EventPayload) => {
+    const response = await api.put(`/events/${eventData.id}`, eventData);
     return response.data;
 };
 
