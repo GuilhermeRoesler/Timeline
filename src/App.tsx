@@ -6,6 +6,7 @@ import type { UserData } from "./types/userData";
 import RegisterPage from "./pages/RegisterPage";
 import { useGlobalConfigStore } from "./store/globalConfigStore";
 import initialData from "./data/initialData.json";
+import { SimpleDate } from "./lib/SimpleDate";
 
 const App = () => {
   const [page, setPage] = useState('login'); // 'login', 'register', 'timeline'
@@ -36,7 +37,19 @@ const App = () => {
       const settings = settingsRes.data;
 
       if (settings === null && periods.length === 0 && events.length === 0) {
-        setUserData(initialData as UserData);
+        const formattedInitialData = {
+          ...initialData,
+          periods: initialData.periods.map(p => ({
+            ...p,
+            start: new SimpleDate(p.start_date),
+            end: new SimpleDate(p.end_date),
+          })),
+          events: initialData.events.map(e => ({
+            ...e,
+            date: new SimpleDate(e.event_date),
+          })),
+        };
+        setUserData(formattedInitialData as UserData);
         await api.post('/settings', initialData.settings);
       } else {
         setUserData({ periods, events, settings });
