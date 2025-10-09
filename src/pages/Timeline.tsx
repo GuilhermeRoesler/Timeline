@@ -6,7 +6,7 @@ import { useSettingsStore } from '../store/settingsStore';
 import Header from '../components/header/Header';
 import Main from '../components/main/Main';
 import SidePanel from '../components/panels/side-panel/SidePanel';
-import InfoCard from '../components/panels/info-card/InfoCard';
+import InfoCard from '../components/infocard/InfoCard';
 import SettingsPanel from '../components/panels/settings-panel/SettingsPanel';
 import { colorize } from '../utils/colorUtils';
 
