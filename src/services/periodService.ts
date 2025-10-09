@@ -1,18 +1,28 @@
 import api from './api';
-import { type Period } from '../types/period';
+
+// Type for the data payload when creating/updating a period
+type PeriodPayload = {
+    title: string;
+    description: string;
+    image: string;
+    color: string;
+    start_date: string;
+    end_date: string;
+    level: number;
+};
 
 export const getAllPeriods = async () => {
     const response = await api.get('/periods');
     return response.data;
 };
 
-export const createPeriod = async (periodData) => {
+export const createPeriod = async (periodData: Omit<PeriodPayload, 'level'> & { level: number }) => {
     const response = await api.post('/periods', periodData);
     return response.data;
 };
 
-export const updatePeriod = async (periodData: Period) => {
-    const response = await api.put('/periods', periodData);
+export const updatePeriod = async (periodId: string, periodData: PeriodPayload) => {
+    const response = await api.put(`/periods/${periodId}`, periodData);
     return response.data;
 };
 

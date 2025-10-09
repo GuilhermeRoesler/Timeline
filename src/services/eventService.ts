@@ -1,18 +1,25 @@
 import api from './api';
-import { type Event } from '../types/event';
+
+type EventPayload = {
+    title: string;
+    description: string;
+    image: string;
+    color: string;
+    event_date: string;
+};
 
 export const getAllEvents = async () => {
     const response = await api.get('/events');
     return response.data;
 };
 
-export const createEvent = async (eventData) => {
+export const createEvent = async (eventData: EventPayload) => {
     const response = await api.post('/events', eventData);
     return response.data;
 };
 
-export const updateEvent = async (eventData: Event) => {
-    const response = await api.put('/events', eventData);
+export const updateEvent = async (eventId: string, eventData: EventPayload) => {
+    const response = await api.put(`/events/${eventId}`, eventData);
     return response.data;
 };
 

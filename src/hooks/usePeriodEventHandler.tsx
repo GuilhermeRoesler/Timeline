@@ -59,19 +59,17 @@ export const usePeriodEventHandler = () => {
         const { editPeriod } = useSidePanelStore.getState();
         if (!editPeriod) return;
 
-        const periodToUpdateForApi = {
-            ...editPeriod,
+        const periodData = {
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
             color: colorValue,
             start_date: new SimpleDate(startValue).toString(),
             end_date: new SimpleDate(endValue).toString(),
+            level: editPeriod.level,
         };
-        delete (periodToUpdateForApi as any).start;
-        delete (periodToUpdateForApi as any).end;
 
-        const responseData = await updatePeriodService(periodToUpdateForApi);
+        const responseData = await updatePeriodService(editPeriod.id, periodData);
         usePeriodsStore.getState().updatePeriod(responseData);
     }
 
@@ -81,17 +79,15 @@ export const usePeriodEventHandler = () => {
         const { editEvent } = useSidePanelStore.getState();
         if (!editEvent) return;
 
-        const eventToUpdateForApi = {
-            ...editEvent,
+        const eventData = {
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
             color: colorValue,
             event_date: new SimpleDate(dateValue).toString(),
         };
-        delete (eventToUpdateForApi as any).date;
 
-        const responseData = await updateEventService(eventToUpdateForApi);
+        const responseData = await updateEventService(editEvent.id, eventData);
         useEventsStore.getState().updateEvent(responseData);
     }
 

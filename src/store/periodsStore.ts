@@ -2,12 +2,18 @@ import { create } from "zustand";
 import { SimpleDate } from "../lib/SimpleDate";
 import { type Period } from "../types/period";
 
+// This is the shape of the data coming from the API
+type PeriodFromApi = Omit<Period, 'start' | 'end'> & {
+    start_date: string;
+    end_date: string;
+};
+
 type PeriodsLoaderState = {
     periods: Period[];
     setPeriods: (periods: Period[]) => void;
-    addPeriod: (period: any) => void;
+    addPeriod: (period: PeriodFromApi) => void;
     removePeriod: (periodId: string) => void;
-    updatePeriod: (updatedPeriod: any) => void;
+    updatePeriod: (updatedPeriod: PeriodFromApi) => void;
     clearPeriods: () => void;
 }
 
@@ -18,8 +24,8 @@ export const usePeriodsStore = create<PeriodsLoaderState>((set) => ({
     },
     addPeriod: (period) => {
         set((state) => {
-            const updatedPeriod = { ...period, start: new SimpleDate(period.start_date), end: new SimpleDate(period.end_date) }
-            const updatedPeriods = [...state.periods, updatedPeriod]
+            const newPeriod: Period = { ...period, start: new SimpleDate(period.start_date), end: new SimpleDate(period.end_date) };
+            const updatedPeriods = [...state.periods, newPeriod];
             return { periods: updatedPeriods };
         });
     },
@@ -31,10 +37,10 @@ export const usePeriodsStore = create<PeriodsLoaderState>((set) => ({
     },
     updatePeriod: (updatedPeriod) => {
         set((state) => {
-            const newUpdatedPeriod = { ...updatedPeriod, start: new SimpleDate(updatedPeriod.start_date), end: new SimpleDate(updatedPeriod.end_date) }
+            const newUpdatedPeriod: Period = { ...updatedPeriod, start: new SimpleDate(updatedPeriod.start_date), end: new SimpleDate(updatedPeriod.end_date) };
             const updatedPeriods = state.periods.map(period =>
                 period.id === newUpdatedPeriod.id ? newUpdatedPeriod : period
-            )
+            );
             return { periods: updatedPeriods };
         });
     },
