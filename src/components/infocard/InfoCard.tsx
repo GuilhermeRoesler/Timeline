@@ -8,7 +8,8 @@ import { useEventsStore } from "../../store/eventsStore";
 import { TIMELINE_Y, useSettingsStore } from "../../store/settingsStore";
 import SameYearEventsList from "./SameYearEventsList";
 import InfoCardContent from "./InfoCardContent";
-import { useGlobalConfigStore } from "../../store/globalConfigStore";
+import { deletePeriod } from "../../services/periodService";
+import { deleteEvent } from "../../services/eventService";
 
 const InfoCard = () => {
     const { stageScale, stagePos } = useStageControlsStore((state) => state);
@@ -21,15 +22,14 @@ const InfoCard = () => {
     const [sameYearEvents, setSameYearEvents] = useState<Event[]>([]);
     const [sameYearEventsIndex, setSameYearEventsIndex] = useState(0);
     const events = useEventsStore((state) => state.events);
-    const api = useGlobalConfigStore(state => state.api)
 
     const handleDelete = async () => {
         if (localEvent) {
-            await api.delete(`/events/${localEvent.id}`);
+            await deleteEvent(localEvent.id);
             useEventsStore.getState().removeEvent(localEvent.id);
             setLocalEvent(null);
         } else if (localPeriod) {
-            await api.delete(`/periods/${localPeriod.id}`);
+            await deletePeriod(localPeriod.id);
             usePeriodsStore.getState().removePeriod(localPeriod.id);
             setLocalPeriod(null);
         }

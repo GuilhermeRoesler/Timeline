@@ -29,7 +29,7 @@ const SidePanelEditForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Editar</h2>
+            <h2 className="text-2xl font-bold">Editar</h2>
 
             <Title />
             <Description />

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import LoadingSpinner from "../icons/LoadingSpinner";
 import { History } from "lucide-react";
+import { register } from "../services/authService";
 
-const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin, api }: { onRegisterSuccess: any, onNavigateToLogin: any, api: any }) => {
+const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin }: { onRegisterSuccess: any, onNavigateToLogin: any }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +15,7 @@ const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin, api }: { onRegiste
         setError('');
         setLoading(true);
         try {
-            await api.post('/auth/register', { name, email, password });
+            await register(name, email, password);
             onRegisterSuccess();
         } catch (err: any) {
             setError(err.response?.data?.error || 'Não foi possível criar a conta.');

@@ -2,7 +2,7 @@ import { usePeriodsStore } from "../store/periodsStore";
 import { useEventsStore } from "../store/eventsStore";
 import { useSettingsStore } from "../store/settingsStore";
 import { themeColors } from "../data/theme";
-import { useGlobalConfigStore } from "../store/globalConfigStore";
+import { colorizeTimeline } from "../services/timelineService";
 
 // Função pura para obter a próxima cor padrão
 export function getDefaultColor() {
@@ -23,7 +23,6 @@ export function getDefaultColor() {
 }
 
 export async function colorize() {
-    const api = useGlobalConfigStore.getState().api;
     const { periods } = usePeriodsStore.getState();
     const { events } = useEventsStore.getState();
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
@@ -46,11 +45,7 @@ export async function colorize() {
     }));
 
     try {
-        await api.put('/timeline/colorize', {
-            periods: periodsForApi,
-            events: eventsForApi,
-        });
-
+        await colorizeTimeline(periodsForApi, eventsForApi);
         usePeriodsStore.getState().setPeriods(colorizedPeriods);
         useEventsStore.getState().setEvents(colorizedEvents);
     } catch (error) {

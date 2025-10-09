@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { useGlobalConfigStore } from "./globalConfigStore";
+import { updateSettings, resetSettings as resetSettingsService } from "../services/settingsService";
 
 export const settings = [
     "General",
@@ -9,8 +9,6 @@ export const settings = [
 ]
 
 export const TIMELINE_Y = window.innerHeight; // Meio da tela verticalmente
-
-const api = useGlobalConfigStore.getState().api
 
 type SettingsState = {
     settings: string[],
@@ -41,8 +39,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     NEGATIVE_LEVEL: true,
     setSettings: (newSettings: any) => {
         if (!newSettings) {
-            console.log('erro1')
-            return; // Proteção contra valores nulos/indefinidos
+            return;
         }
         set({
             YEAR_SPACING: newSettings.year_spacing,
@@ -67,7 +64,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             negative_level: get().NEGATIVE_LEVEL,
         };
         try {
-            await api.put('/settings', settingsToSave);
+            await updateSettings(settingsToSave);
         } catch (error) {
             console.error("Error saving settings:", error);
         }
@@ -95,6 +92,6 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             theme_index: 0,
             negative_level: true,
         };
-        api.post('/settings', defaultSettingsForApi).catch(err => console.error("Failed to reset settings on server", err));
+        resetSettingsService(defaultSettingsForApi).catch(err => console.error("Failed to reset settings on server", err));
     },
 }))
