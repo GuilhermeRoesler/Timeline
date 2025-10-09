@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useSidePanelStore } from "../../../store/sidePanelStore";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const ImageDisplay = () => {
     const { links, linkIndex } = useSidePanelStore(state => state)
@@ -36,10 +37,14 @@ const ImageDisplay = () => {
     if (!links.every(valor => valor === "")) {
         return (
             <div className="image-display">
-                <i onClick={handleBackwards} className="fa-solid fa-chevron-left"></i>
+                <button onClick={handleBackwards} className="absolute top-1/2 left-2 -translate-y-1/2 z-10 bg-black/30 text-white p-1 rounded-full hover:scale-110 transition-transform">
+                    <ChevronLeft className="w-5 h-5" />
+                </button>
                 <img src={links[linkIndex % links.length]} alt="Image display"
                     style={{ animation: animation }} />
-                <i onClick={handleForward} className="fa-solid fa-chevron-right"></i>
+                <button onClick={handleForward} className="absolute top-1/2 right-2 -translate-y-1/2 z-10 bg-black/30 text-white p-1 rounded-full hover:scale-110 transition-transform">
+                    <ChevronRight className="w-5 h-5" />
+                </button>
                 {!animation && <button onClick={handleClick}>Selecionar</button>}
             </div>
         )

@@ -2,7 +2,12 @@ import { usePeriodEventHandler } from "../../../hooks/usePeriodEventHandler";
 import { useSidePanelStore } from "../../../store/sidePanelStore";
 
 import SidePanelImageType from "./SidePanelImageType";
-import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelDate } from "./SidePanelUtils";
+import Title from "./form-elements/Title";
+import Description from "./form-elements/Description";
+import Start from "./form-elements/Start";
+import End from "./form-elements/End";
+import Date from "./form-elements/Date";
+import Color from "./form-elements/Color";
 import ImageSection from "./ImageSection";
 
 const SidePanelEditForm = () => {
@@ -26,17 +31,17 @@ const SidePanelEditForm = () => {
         <form onSubmit={handleSubmit}>
             <h2>Editar</h2>
 
-            <SidePanelTitle />
-            <SidePanelDescription />
+            <Title />
+            <Description />
             {editPeriod ? (
                 <>
-                    <SidePanelStart />
-                    <SidePanelEnd />
+                    <Start />
+                    <End />
                 </>
             ) : (
-                <SidePanelDate />
+                <Date />
             )}
-            <SidePanelColor />
+            <Color />
             <SidePanelImageType />
             <ImageSection />
 

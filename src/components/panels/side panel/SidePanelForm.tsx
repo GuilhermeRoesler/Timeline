@@ -3,7 +3,12 @@ import { useSidePanelStore } from "../../../store/sidePanelStore";
 
 import SidePanelFormType from "./SidePanelFormType";
 import SidePanelImageType from "./SidePanelImageType";
-import { SidePanelColor, SidePanelDescription, SidePanelEnd, SidePanelStart, SidePanelTitle, SidePanelDate } from "./SidePanelUtils";
+import Title from "./form-elements/Title";
+import Description from "./form-elements/Description";
+import Start from "./form-elements/Start";
+import End from "./form-elements/End";
+import Date from "./form-elements/Date";
+import Color from "./form-elements/Color";
 import ImageSection from "./ImageSection";
 import { colorize } from "../../../utils/colorUtils";
 import { useSettingsStore } from "../../../store/settingsStore";
@@ -31,17 +36,17 @@ const SidePanelForm = () => {
             <h2>Adicionar</h2>
             <SidePanelFormType />
 
-            <SidePanelTitle />
-            <SidePanelDescription />
+            <Title />
+            <Description />
             {selectedType === "period" ? (
                 <>
-                    <SidePanelStart />
-                    <SidePanelEnd />
+                    <Start />
+                    <End />
                 </>
             ) : (
-                <SidePanelDate />
+                <Date />
             )}
-            <SidePanelColor />
+            <Color />
             <SidePanelImageType />
             <ImageSection />
 

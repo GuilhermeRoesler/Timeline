@@ -3,13 +3,15 @@ import { useSidePanelStore } from "../../../store/sidePanelStore";
 import SidePanelForm from "./SidePanelForm";
 import SidePanelEditForm from "./SidePanelEditForm";
 import { getDefaultColor } from "../../../utils/colorUtils";
-import { useEventsLoaderStore, usePeriodsLoaderStore } from "../../../store/periodsEventsLoaderStore";
+import { useEventsStore } from "../../../store/eventsStore";
+import { usePeriodsStore } from "../../../store/periodsStore";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 const SidePanel = () => {
     const { editPeriod, editEvent, isSidePanelOpen } = useSidePanelStore(state => state)
     const sidePanelRef = useRef<HTMLDivElement>(null)
-    const periods = usePeriodsLoaderStore(state => state.periods);
-    const events = useEventsLoaderStore(state => state.events);
+    const periods = usePeriodsStore(state => state.periods);
+    const events = useEventsStore(state => state.events);
     // const colorValue = useSidePanelStore(state => state.colorValue)
 
     // Atualize colorValue sempre que periods ou events mudarem
@@ -89,9 +91,11 @@ const SidePanel = () => {
     return (
         <div ref={sidePanelRef} className="side-panel" style={{ translate: (isSidePanelOpen) ? "0 -50%" : "100% -50%" }}>
             <div className="open-close-area" onClick={handleSwitch}>
-                <i className={`fa-solid fa-chevron-${isSidePanelOpen ? 'right' : 'left'}`}></i>
+                {isSidePanelOpen ? <ChevronRight /> : <ChevronLeft />}
             </div>
-            <i className="fa-solid fa-xmark" onClick={handleClose}></i>
+            <button onClick={handleClose} className="absolute top-0 right-0 w-10 h-10 flex items-center justify-center rounded-tr-lg hover:bg-gray-200 transition-colors">
+                <X className="w-5 h-5" />
+            </button>
             {(editPeriod || editEvent) ? <SidePanelEditForm /> : <SidePanelForm />}
         </div>
     )
