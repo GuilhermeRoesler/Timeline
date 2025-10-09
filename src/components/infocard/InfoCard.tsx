@@ -7,6 +7,7 @@ import { usePeriodsLoaderStore, useEventsLoaderStore } from "../../store/periods
 import { TIMELINE_Y, useSettingsStore } from "../../store/settingsStore";
 import SameYearEventsList from "./SameYearEventsList";
 import InfoCardContent from "./InfoCardContent";
+import { useGlobalConfigStore } from "../../store/globalConfigStore";
 
 const InfoCard = () => {
     const { stageScale, stagePos } = useStageControlsStore((state) => state);
@@ -19,13 +20,22 @@ const InfoCard = () => {
     const [sameYearEvents, setSameYearEvents] = useState<Event[]>([]);
     const [sameYearEventsIndex, setSameYearEventsIndex] = useState(0);
     const events = useEventsLoaderStore((state) => state.events);
+    const api = useGlobalConfigStore(state => state.api)
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (localEvent) {
             useEventsLoaderStore.getState().removeEvent(localEvent.id);
+            await api.post('/manage_events.php', {
+                id: localEvent.id,
+                _method: 'DELETE'
+            });
             setLocalEvent(null);
         } else if (localPeriod) {
             usePeriodsLoaderStore.getState().removePeriod(localPeriod.id);
+            await api.post('/manage_periods.php', {
+                id: localPeriod.id,
+                _method: 'DELETE'
+            });
             setLocalPeriod(null);
         }
         setAnimation('infoCardFadeOut 0.3s ease-in-out');

@@ -1,0 +1,81 @@
+import React, { useState } from 'react'
+import TimelineIcon from '../icons/TimelineIcon';
+import EyeIcon from '../icons/EyeIcon';
+import EyeOffIcon from '../icons/EyeOffIcon';
+import LoadingSpinner from '../icons/LoadingSpinner';
+
+const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSuccess: any, onNavigateToRegister: any, api: any }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+        try {
+            await api.post('/login.php', { email, password });
+            onLoginSuccess();
+        } catch (err: any) {
+            setError(err.response?.data?.error || 'Não foi possível fazer login. Verifique seus dados.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center items-center p-4">
+            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fade-in">
+                <div className="flex flex-col items-center space-y-3">
+                    <div className="bg-indigo-100 text-indigo-600 p-3 rounded-full">
+                        <TimelineIcon className="w-8 h-8" />
+                    </div>
+                    <h2 className="text-3xl font-bold text-gray-800 text-center">Acesse sua Linha do Tempo</h2>
+                    <p className="text-gray-500 text-center">Bem-vindo de volta! Insira seus dados para continuar.</p>
+                </div>
+
+                {error && <div className="bg-red-100 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-md text-sm animate-shake">{error}</div>}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="email" className="text-sm font-semibold text-gray-700">E-mail</label>
+                        <input
+                            id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
+                            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
+                            placeholder="seu@email.com"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="text-sm font-semibold text-gray-700">Senha</label>
+                        <div className="relative">
+                            <input
+                                id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required
+                                className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
+                                placeholder="Sua senha"
+                            />
+                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 px-4 flex items-center text-gray-500 hover:text-indigo-600">
+                                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                            </button>
+                        </div>
+                    </div>
+                    <button
+                        type="submit" disabled={loading}
+                        className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-indigo-400 disabled:scale-100"
+                    >
+                        {loading ? <LoadingSpinner /> : 'Entrar'}
+                    </button>
+                </form>
+                <p className="text-center text-sm text-gray-600">
+                    Não tem uma conta?{' '}
+                    <button onClick={onNavigateToRegister} className="font-semibold text-indigo-600 hover:underline cursor-pointer">
+                        Cadastre-se
+                    </button>
+                </p>
+            </div>
+        </div>
+    );
+};
+
+export default LoginPage

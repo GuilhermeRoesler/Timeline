@@ -6,40 +6,40 @@ import { type Event } from "../types/event";
 type PeriodsLoaderState = {
     periods: Period[];
     setPeriods: (periods: Period[]) => void;
-    addPeriod: (period: Period) => void;
+    addPeriod: (period: any) => void;
     removePeriod: (periodId: string) => void;
-    updatePeriod: (updatedPeriod: Period) => void;
+    updatePeriod: (updatedPeriod: any) => void;
     loadPeriodsFromLocalStorage: () => void;
     savePeriodsToLocalStorage: (updatedPeriods: Period[]) => void;
     clearPeriods: () => void;
 }
 
-export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
+export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set) => ({
     periods: [],
     setPeriods: (periods) => {
-        get().savePeriodsToLocalStorage(periods)
         set({ periods })
     },
     addPeriod: (period) => {
         set((state) => {
-            const updatedPeriods = [...state.periods, period]
-            get().savePeriodsToLocalStorage(updatedPeriods)
+            const updatedPeriod = { ...period, start: new SimpleDate(period.start_date), end: new SimpleDate(period.end_date) }
+            const updatedPeriods = [...state.periods, updatedPeriod]
             return { periods: updatedPeriods };
         });
     },
     removePeriod: (periodId) => {
         set((state) => {
             const updatedPeriods = state.periods.filter(period => period.id !== periodId);
-            get().savePeriodsToLocalStorage(updatedPeriods)
+            console.log(updatedPeriods)
+            // get().savePeriodsToLocalStorage(updatedPeriods)
             return { periods: updatedPeriods };
         });
     },
     updatePeriod: (updatedPeriod) => {
         set((state) => {
+            const newUpdatedPeriod = { ...updatedPeriod, start: new SimpleDate(updatedPeriod.start_date), end: new SimpleDate(updatedPeriod.end_date) }
             const updatedPeriods = state.periods.map(period =>
-                period.id === updatedPeriod.id ? updatedPeriod : period
+                period.id === newUpdatedPeriod.id ? newUpdatedPeriod : period
             )
-            get().savePeriodsToLocalStorage(updatedPeriods)
             return { periods: updatedPeriods };
         });
     },
@@ -61,40 +61,41 @@ export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
 type EventsLoaderState = {
     events: Event[];
     setEvents: (events: Event[]) => void;
-    addEvent: (event: Event) => void;
+    addEvent: (event: any) => void;
     removeEvent: (eventId: string) => void;
-    updateEvent: (updatedEvent: Event) => void;
+    updateEvent: (updatedEvent: any) => void;
     loadEventsFromLocalStorage: () => void;
     saveEventsToLocalStorage: (updatedEvents: Event[]) => void;
     clearEvents: () => void;
 }
 
-export const useEventsLoaderStore = create<EventsLoaderState>((set, get) => ({
+export const useEventsLoaderStore = create<EventsLoaderState>((set) => ({
     events: [],
     setEvents: (events) => {
-        get().saveEventsToLocalStorage(events);
+        // get().saveEventsToLocalStorage(events);
         set({ events })
     },
     addEvent: (event) => {
         set((state) => {
-            const updatedEvents = [...state.events, event]
-            get().saveEventsToLocalStorage(updatedEvents)
+            const updatedEvent = { ...event, date: new SimpleDate(event.event_date) }
+            const updatedEvents = [...state.events, updatedEvent]
             return { events: updatedEvents };
         });
     },
     removeEvent: (eventId) => {
         set((state) => {
             const updatedEvents = state.events.filter(event => event.id !== eventId);
-            get().saveEventsToLocalStorage(updatedEvents)
+            // get().saveEventsToLocalStorage(updatedEvents)
             return { events: updatedEvents };
         })
     },
     updateEvent: (updatedEvent) => {
         set((state) => {
+            const newUpdatedEvent = { ...updatedEvent, date: new SimpleDate(updatedEvent.event_date) }
             const updatedEvents = state.events.map(event =>
-                event.id === updatedEvent.id ? updatedEvent : event
+                event.id === newUpdatedEvent.id ? newUpdatedEvent : event
             )
-            get().saveEventsToLocalStorage(updatedEvents)
+            // get().saveEventsToLocalStorage(updatedEvents)
             return { events: updatedEvents };
         })
     },

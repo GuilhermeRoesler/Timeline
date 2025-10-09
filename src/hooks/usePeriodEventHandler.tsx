@@ -1,20 +1,18 @@
-import { ulid } from "ulid";
 import { usePeriodsLoaderStore, useEventsLoaderStore } from "../store/periodsEventsLoaderStore";
 import { useSidePanelStore } from "../store/sidePanelStore";
-import { type Period } from "../types/period";
-import { type Event } from "../types/event";
 import { SimpleDate } from "../lib/SimpleDate";
 import { calculateLevel } from "../utils/levelUtils";
+import { useGlobalConfigStore } from "../store/globalConfigStore";
 
 export const usePeriodEventHandler = () => {
     const periods = usePeriodsLoaderStore(state => state.periods)
     const { titleValue, descriptionValue, startValue, endValue, dateValue, colorValue, linkValue } = useSidePanelStore(state => state)
+    const api = useGlobalConfigStore(state => state.api)
 
     // Function to calculate the level based on overlapping periods
-    const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
+    const addPeriod = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const id = ulid();
         const title = titleValue;
         const description = descriptionValue;
         const image = linkValue;
@@ -33,26 +31,27 @@ export const usePeriodEventHandler = () => {
             return;
         }
 
-        const newPeriod = { id, title, description, image, color, start, end, level } as Period;
-        usePeriodsLoaderStore.getState().addPeriod(newPeriod);
+        const newPeriod = { title, description, image, color, start: start.toString(), end: end.toString(), level };
+        const response = await api.post('/manage_periods.php', newPeriod)
+        usePeriodsLoaderStore.getState().addPeriod(response.data);
     }
 
-    const addEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    const addEvent = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const newEvent = {
-            id: ulid(),
+        const newEventData = {
             title: titleValue,
             description: descriptionValue,
             image: linkValue,
             color: colorValue,
-            date: new SimpleDate(dateValue),
-        } as Event;
+            event_date: new SimpleDate(dateValue).toString(), // <- Mude para "event_date" e já converta para string
+        };
 
-        useEventsLoaderStore.getState().addEvent(newEvent);
+        const response = await api.post('/manage_events.php', newEventData)
+        useEventsLoaderStore.getState().addEvent(response.data);
     }
 
-    const updatePeriod = (e: React.FormEvent<HTMLFormElement>) => {
+    const updatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const title = titleValue;
@@ -62,11 +61,15 @@ export const usePeriodEventHandler = () => {
         const start = new SimpleDate(startValue);
         const end = new SimpleDate(endValue);
 
-        const updatedPeriod = { ...useSidePanelStore.getState().editPeriod, title, description, image, color, start, end } as Period;
-        usePeriodsLoaderStore.getState().updatePeriod(updatedPeriod);
+        const periodToUpdate = { ...useSidePanelStore.getState().editPeriod, title, description, image, color, start: start.toString(), end: end.toString() };
+        const response = await api.post('/manage_periods.php', {
+            ...periodToUpdate,
+            _method: 'PUT'
+        });
+        usePeriodsLoaderStore.getState().updatePeriod(response.data);
     }
 
-    const updateEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const title = titleValue;
@@ -75,8 +78,12 @@ export const usePeriodEventHandler = () => {
         const color = colorValue;
         const date = new SimpleDate(dateValue);
 
-        const updatedEvent = { ...useSidePanelStore.getState().editEvent, title, description, image, color, date } as Event;
-        useEventsLoaderStore.getState().updateEvent(updatedEvent);
+        const eventToUpdate = { ...useSidePanelStore.getState().editEvent, title, description, image, color, date: date.toString() };
+        const response = await api.post('/manage_events.php', {
+            ...eventToUpdate,
+            _method: 'PUT'
+        });
+        useEventsLoaderStore.getState().updateEvent(response.data);
     }
 
     return { addPeriod, addEvent, updatePeriod, updateEvent };

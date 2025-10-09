@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { exportTimeline, importTimeline } from "../../../utils/fileOperations"
 import { useSidePanelStore } from "../../../store/sidePanelStore"
 import { colorize } from "../../../utils/colorUtils"
 import { usePeriodsLoaderStore } from "../../../store/periodsEventsLoaderStore"
 import { adjustLayer } from "../../../utils/levelUtils"
 import SettingsModal from "./SettingsModal"
-import { useSettingsStore } from "../../../store/settingsStore"
 
-const Toolbar = () => {
+const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -24,16 +23,13 @@ const Toolbar = () => {
         colorize();
     }
 
-    useEffect(() => {
-        useSettingsStore.getState().loadSettingsFromLocalStorage();
-    }, []);
-
     return (
         <div className="toolbar">
             <span style={{ fontWeight: "bold", fontSize: 24, color: "#333" }}>Timeline</span>
             <button onClick={handleOpen}>Criar</button>
             <span className="material-symbols-outlined" title="Download" onClick={exportTimeline}>download</span>
             <span className="material-symbols-outlined" title="Upload" onClick={importTimeline}>upload</span>
+            <span className="material-symbols-outlined" title="Logout" onClick={onLogout}>logout</span>
             <span className="material-symbols-outlined" title="More" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>more_vert
                 {isSettingsOpen && (
                     <div className="more-container">

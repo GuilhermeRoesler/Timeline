@@ -18,6 +18,7 @@ const SidePanel = () => {
         useSidePanelStore.setState({ colorValue: getDefaultColor() });
     }, [periods, events]);
 
+    // Scrolla para o começo quando abre o painel
     useEffect(() => {
         sidePanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }, [isSidePanelOpen]);
