@@ -14,13 +14,13 @@ const Timeline = ({ data, onLogout }: { data: any, onLogout: () => void }) => {
 
     const formattedPeriods = data.periods.map((period: any) => ({
         ...period,
-        start: new SimpleDate(period.start),
-        end: new SimpleDate(period.end)
+        start: new SimpleDate(period.start_date),
+        end: new SimpleDate(period.end_date)
     }))
 
     const formattedEvents = data.events.map((event: any) => ({
         ...event,
-        date: new SimpleDate(event.date)
+        date: new SimpleDate(event.event_date)
     }))
 
     setPeriods(formattedPeriods)

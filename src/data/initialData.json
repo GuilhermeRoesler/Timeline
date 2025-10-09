@@ -1,0 +1,34 @@
+{
+  "periods": [
+    {
+      "id": "01J3Z7QW8N6X4Y2P1C5A0B9D8E",
+      "title": "Bem-vindo à sua Linha do Tempo!",
+      "description": "Este é um período de exemplo para você começar. Sinta-se à vontade para editá-lo ou excluí-lo.",
+      "image": "https://images.unsplash.com/photo-1506784983877-45594efa4c85?w=500",
+      "color": "#8ecae6",
+      "start_date": "2023-01-01",
+      "end_date": "2024-01-01",
+      "level": 1
+    }
+  ],
+  "events": [
+    {
+      "id": "01J3Z7R5K9M7V3F8G2H1T0S4W",
+      "title": "Seu Primeiro Evento",
+      "description": "Você pode adicionar eventos importantes aqui. Clique neste evento para ver mais detalhes ou editá-lo.",
+      "image": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500",
+      "color": "#ffb703",
+      "event_date": "2023-07-15"
+    }
+  ],
+  "settings": {
+    "year_spacing": 100,
+    "base_year": 2010,
+    "period_height": 80,
+    "level_spacing": 30,
+    "event_radius": 10,
+    "colorize_on_create": false,
+    "theme_index": 0,
+    "negative_level": true
+  }
+}
