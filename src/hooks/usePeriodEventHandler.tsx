@@ -32,8 +32,8 @@ export const usePeriodEventHandler = () => {
             return;
         }
 
-        const newPeriod = { title, description, image, color, start: start.toString(), end: end.toString(), level };
-        const response = await api.post('/manage_periods.php', newPeriod)
+        const newPeriod = { title, description, image, color, start_date: start.toString(), end_date: end.toString(), level };
+        const response = await api.post('/periods', newPeriod)
         usePeriodsStore.getState().addPeriod(response.data);
     }
 
@@ -48,7 +48,7 @@ export const usePeriodEventHandler = () => {
             event_date: new SimpleDate(dateValue).toString(), // <- Mude para "event_date" e já converta para string
         };
 
-        const response = await api.post('/manage_events.php', newEventData)
+        const response = await api.post('/events', newEventData)
         useEventsStore.getState().addEvent(response.data);
     }
 
@@ -62,11 +62,8 @@ export const usePeriodEventHandler = () => {
         const start = new SimpleDate(startValue);
         const end = new SimpleDate(endValue);
 
-        const periodToUpdate = { ...useSidePanelStore.getState().editPeriod, title, description, image, color, start: start.toString(), end: end.toString() };
-        const response = await api.post('/manage_periods.php', {
-            ...periodToUpdate,
-            _method: 'PUT'
-        });
+        const periodToUpdate = { ...useSidePanelStore.getState().editPeriod, title, description, image, color, start_date: start.toString(), end_date: end.toString() };
+        const response = await api.put('/periods', periodToUpdate);
         usePeriodsStore.getState().updatePeriod(response.data);
     }
 
@@ -79,11 +76,8 @@ export const usePeriodEventHandler = () => {
         const color = colorValue;
         const date = new SimpleDate(dateValue);
 
-        const eventToUpdate = { ...useSidePanelStore.getState().editEvent, title, description, image, color, date: date.toString() };
-        const response = await api.post('/manage_events.php', {
-            ...eventToUpdate,
-            _method: 'PUT'
-        });
+        const eventToUpdate = { ...useSidePanelStore.getState().editEvent, title, description, image, color, event_date: date.toString() };
+        const response = await api.put('/events', eventToUpdate);
         useEventsStore.getState().updateEvent(response.data);
     }
 

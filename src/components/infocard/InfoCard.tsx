@@ -25,18 +25,16 @@ const InfoCard = () => {
 
     const handleDelete = async () => {
         if (localEvent) {
-            useEventsStore.getState().removeEvent(localEvent.id);
-            await api.post('/manage_events.php', {
-                id: localEvent.id,
-                _method: 'DELETE'
+            await api.delete('/events', {
+                data: { id: localEvent.id }
             });
+            useEventsStore.getState().removeEvent(localEvent.id);
             setLocalEvent(null);
         } else if (localPeriod) {
-            usePeriodsStore.getState().removePeriod(localPeriod.id);
-            await api.post('/manage_periods.php', {
-                id: localPeriod.id,
-                _method: 'DELETE'
+            await api.delete('/periods', {
+                data: { id: localPeriod.id }
             });
+            usePeriodsStore.getState().removePeriod(localPeriod.id);
             setLocalPeriod(null);
         }
         setAnimation('infoCardFadeOut 0.3s ease-in-out');

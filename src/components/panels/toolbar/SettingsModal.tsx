@@ -15,7 +15,7 @@ const SettingsModal = ({ isDialogOpen, setIsDialogOpen }: { isDialogOpen: boolea
     const handleClose = () => {
         dialogRef.current?.close()
         setIsDialogOpen(false)
-        useSettingsStore.getState().saveSettingsToLocalStorage();
+        useSettingsStore.getState().saveSettings();
     }
 
     const hanleClickOutside = (e: React.MouseEvent) => {

@@ -14,7 +14,7 @@ const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin, api }: { onRegiste
         setError('');
         setLoading(true);
         try {
-            await api.post('/register.php', { name, email, password });
+            await api.post('/auth/register', { name, email, password });
             onRegisterSuccess();
         } catch (err: any) {
             setError(err.response?.data?.error || 'Não foi possível criar a conta.');

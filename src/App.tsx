@@ -22,7 +22,7 @@ const App = () => {
   const fetchUserData = async () => {
     setLoading(true);
     try {
-      const response = await api.get('/load_data.php');
+      const response = await api.get('/data');
       setUserData(response.data.data);
       setPage('timeline');
     } catch (error) {
@@ -42,10 +42,14 @@ const App = () => {
   }
 
   const handleLogout = async () => {
-    // Opcional: Chamar um endpoint de logout se existir no backend.
-    // await api.post('/logout.php'); 
-    setUserData(null);
-    setPage('login');
+    try {
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      setUserData(null);
+      setPage('login');
+    }
   }
 
   if (loading) {
