@@ -6,6 +6,8 @@
 
 Users can add periods and events, customize **colors, themes, and layers**, export/import data, and view item details. The project uses React, `Zustand` for state management, and `react-konva` for graphical rendering.
 
+![](public/demo.png)
+
 ## ⚙️ Key Features
 
 - ✅ **Create Periods and Events:** Add periods (time spans) and events (specific points) with title, description, color, and image.
@@ -73,7 +75,6 @@ src/
 ## 🧠 State Management
 
 - **Zustand** is used to manage the global state of:
-
   - Periods and events (`periodsEventsLoaderStore`)
   - Timeline settings (`settingsStore`)
   - Side panel state (`sidePanelStore`)
