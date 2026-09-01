@@ -3,8 +3,7 @@ import Period from './Period';
 import { usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
 
 const PeriodsLoader = () => {
-    const periods = usePeriodsLoaderStore((state) => state.periods);
-    const loadPeriodsFromLocalStorage = usePeriodsLoaderStore((state) => state.loadPeriodsFromLocalStorage);
+    const { periods, loadPeriodsFromLocalStorage } = usePeriodsLoaderStore(state => state);
 
     useEffect(() => {
         loadPeriodsFromLocalStorage();

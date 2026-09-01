@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { SimpleDate } from "../lib/SimpleDate";
 import { type Period } from "../types/period";
 import { type Event } from "../types/event";
 
@@ -9,24 +10,27 @@ type PeriodsLoaderState = {
     removePeriod: (periodId: string) => void;
     updatePeriod: (updatedPeriod: Period) => void;
     loadPeriodsFromLocalStorage: () => void;
-    savePeriodsToLocalStorage: () => void;
+    savePeriodsToLocalStorage: (updatedPeriods: Period[]) => void;
     clearPeriods: () => void;
 }
 
 export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
     periods: [],
-    setPeriods: (periods) => set({ periods }),
+    setPeriods: (periods) => {
+        get().savePeriodsToLocalStorage(periods)
+        set({ periods })
+    },
     addPeriod: (period) => {
         set((state) => {
             const updatedPeriods = [...state.periods, period]
-            localStorage.setItem('periods', JSON.stringify(updatedPeriods));
+            get().savePeriodsToLocalStorage(updatedPeriods)
             return { periods: updatedPeriods };
         });
     },
     removePeriod: (periodId) => {
         set((state) => {
             const updatedPeriods = state.periods.filter(period => period.id !== periodId);
-            localStorage.setItem('periods', JSON.stringify(updatedPeriods));
+            get().savePeriodsToLocalStorage(updatedPeriods)
             return { periods: updatedPeriods };
         });
     },
@@ -35,16 +39,21 @@ export const usePeriodsLoaderStore = create<PeriodsLoaderState>((set, get) => ({
             const updatedPeriods = state.periods.map(period =>
                 period.id === updatedPeriod.id ? updatedPeriod : period
             )
-            localStorage.setItem('periods', JSON.stringify(updatedPeriods));
+            get().savePeriodsToLocalStorage(updatedPeriods)
             return { periods: updatedPeriods };
         });
     },
     loadPeriodsFromLocalStorage: () => {
-        const periods = localStorage.getItem('periods');
-        if (periods) set({ periods: JSON.parse(periods) });
+        const periodsFromLocalStorage = localStorage.getItem('periods');
+        if (periodsFromLocalStorage) {
+            const periodsRaw = JSON.parse(periodsFromLocalStorage);
+            const periods = periodsRaw.map((period: any) => ({ ...period, start: new SimpleDate(period.start), end: new SimpleDate(period.end) }))
+            set({ periods });
+        }
     },
-    savePeriodsToLocalStorage: () => {
-        localStorage.setItem('periods', JSON.stringify(get().periods));
+    savePeriodsToLocalStorage: (updatedPeriods: Period[]) => {
+        const updatedPeriodsToLocalStorage = updatedPeriods.map((period: any) => ({ ...period, start: period.start.toString(), end: period.end.toString() }))
+        localStorage.setItem('periods', JSON.stringify(updatedPeriodsToLocalStorage));
     },
     clearPeriods: () => set({ periods: [] }),
 }))
@@ -56,24 +65,27 @@ type EventsLoaderState = {
     removeEvent: (eventId: string) => void;
     updateEvent: (updatedEvent: Event) => void;
     loadEventsFromLocalStorage: () => void;
-    saveEventsToLocalStorage: () => void;
+    saveEventsToLocalStorage: (updatedEvents: Event[]) => void;
     clearEvents: () => void;
 }
 
 export const useEventsLoaderStore = create<EventsLoaderState>((set, get) => ({
     events: [],
-    setEvents: (events) => set({ events }),
+    setEvents: (events) => {
+        get().saveEventsToLocalStorage(events);
+        set({ events })
+    },
     addEvent: (event) => {
         set((state) => {
             const updatedEvents = [...state.events, event]
-            localStorage.setItem('events', JSON.stringify(updatedEvents));
+            get().saveEventsToLocalStorage(updatedEvents)
             return { events: updatedEvents };
         });
     },
     removeEvent: (eventId) => {
         set((state) => {
             const updatedEvents = state.events.filter(event => event.id !== eventId);
-            localStorage.setItem('events', JSON.stringify(updatedEvents));
+            get().saveEventsToLocalStorage(updatedEvents)
             return { events: updatedEvents };
         })
     },
@@ -82,16 +94,21 @@ export const useEventsLoaderStore = create<EventsLoaderState>((set, get) => ({
             const updatedEvents = state.events.map(event =>
                 event.id === updatedEvent.id ? updatedEvent : event
             )
-            localStorage.setItem('events', JSON.stringify(updatedEvents));
+            get().saveEventsToLocalStorage(updatedEvents)
             return { events: updatedEvents };
         })
     },
     loadEventsFromLocalStorage: () => {
-        const events = localStorage.getItem('events');
-        if (events) set({ events: JSON.parse(events) });
+        const eventsFromLocalStorage = localStorage.getItem('events');
+        if (eventsFromLocalStorage) {
+            const eventsRaw = JSON.parse(eventsFromLocalStorage);
+            const events = eventsRaw.map((event: any) => ({ ...event, date: new SimpleDate(event.date) }))
+            set({ events });
+        }
     },
-    saveEventsToLocalStorage: () => {
-        localStorage.setItem('events', JSON.stringify(get().events));
+    saveEventsToLocalStorage: (updatedEvents: Event[]) => {
+        const updatedEventsToLocalStorage = updatedEvents.map((event: any) => ({ ...event, date: event.date.toString() }))
+        localStorage.setItem('events', JSON.stringify(updatedEventsToLocalStorage));
     },
     clearEvents: () => set({ events: [] }),
 }))

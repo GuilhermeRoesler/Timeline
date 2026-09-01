@@ -1,15 +1,39 @@
 import { create } from "zustand";
+import { type Period } from "../types/period";
+import { type Event } from "../types/event";
 
 type SidePanelState = {
     isSidePanelOpen: boolean;
-    setIsSidePanelOpen: (value: boolean) => void;
     selectedType: "period" | "event";
-    setSelectedType: (type: "period" | "event") => void;
+    imageSelectedType: "search" | "link" | "upload";
+    titleValue: string;
+    descriptionValue: string;
+    startValue: string;
+    endValue: string;
+    dateValue: string;
+    colorValue: string;
+    linkValue: string;
+    resetFields: () => void;
+    links: string[];
+    linkIndex: number;
+    editPeriod: Period | null;
+    editEvent: Event | null;
 }
 
 export const useSidePanelStore = create<SidePanelState>(set => ({
     isSidePanelOpen: false,
-    setIsSidePanelOpen: (value: boolean) => set({ isSidePanelOpen: value }),
     selectedType: "period",
-    setSelectedType: (type: "period" | "event") => set({ selectedType: type }),
+    imageSelectedType: "search",
+    titleValue: "",
+    descriptionValue: "",
+    startValue: "2010-01-01",
+    endValue: "2010-01-01",
+    dateValue: "2010-01-01",
+    colorValue: "#000000",
+    linkValue: "",
+    resetFields: () => set({ isSidePanelOpen: false, imageSelectedType: "search", titleValue: "", descriptionValue: "", startValue: "2010-01-01", endValue: "2010-01-01", dateValue: "2010-01-01", colorValue: "#000000", linkValue: "", editPeriod: null, editEvent: null }),
+    links: [""],
+    linkIndex: 0,
+    editPeriod: null,
+    editEvent: null,
 }))
