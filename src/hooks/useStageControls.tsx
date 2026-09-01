@@ -1,13 +1,14 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
+import { useStageControlsStore } from "../store/stageControlsStore";
 
 export const useStageZoom = () => {
-    const [stageScale, setStageScale] = useState(1);
-    const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
-    const [cursor, setCursor] = useState('grab');
+    const setStageScale = useStageControlsStore((state) => state.setStageScale);
+    const setStagePos = useStageControlsStore((state) => state.setStagePos);
+    const setCursor = useStageControlsStore((state) => state.setCursor);
 
-    const handleWheel = (e: any) => {
+    const handleWheel = useCallback((e: any) => {
         e.evt.preventDefault();
-        const scaleBy = 1.05;
+        const scaleBy = 1.2;
         const stage = e.target.getStage();
         const oldScale = stage.scaleX();
         const pointer = stage.getPointerPosition();
@@ -18,7 +19,11 @@ export const useStageZoom = () => {
         };
 
         const direction = e.evt.deltaY > 0 ? -1 : 1;
-        const newScale = direction > 0 ? oldScale * scaleBy * 1.1 : oldScale / scaleBy / 1.1;
+        const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+        if (newScale > .75 || newScale < .007) {
+            return;
+        }
 
         const newPos = {
             x: pointer.x - mousePointTo.x * newScale,
@@ -27,19 +32,23 @@ export const useStageZoom = () => {
 
         setStageScale(newScale);
         setStagePos(newPos);
-    };
+    }, []);
 
-    const handleDragEnd = (e: any) => {
+    const handleDragEnd = useCallback((e: any) => {
         const newPos = {
             x: e.target.x(),
             y: e.target.y()
         };
         setStagePos(newPos);
-    }
+    }, []);
 
     const handleMouseDown = useCallback(() => setCursor('grabbing'), []);
     const handleMouseUp = useCallback(() => setCursor('grab'), []);
 
-    return { stageScale, stagePos, cursor, handleDragEnd, handleWheel, handleMouseDown, handleMouseUp };
+    return {
+        handleDragEnd,
+        handleWheel,
+        handleMouseDown,
+        handleMouseUp
+    };
 }
-
