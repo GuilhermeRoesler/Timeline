@@ -1,0 +1,19 @@
+---
+description: Padrões de componentes React, páginas e painéis
+globs: "{src/components/**,src/pages/**,src/hooks/**}"
+alwaysApply: false
+---
+
+# Interface e componentes
+
+Leia a skill detalhada antes de alterar UI, páginas ou hooks:
+
+**`.cursor/skills/timeline-ui/SKILL.md`**
+
+## Regras rápidas
+
+- Componentes funcionais; lógica reutilizável em hooks (`src/hooks/`).
+- `Timeline` hidrata stores a partir de `data` recebido via props — não busca projeto sozinho.
+- Side panel, toolbar e modais usam stores (`sidePanelStore`, `uiStore`, `settingsStore`).
+- Ícones via `lucide-react`; feedback via `uiStore` (toasts e diálogos de confirmação).
+- CSS global em `src/styles/`; Tailwind para layout e utilitários.

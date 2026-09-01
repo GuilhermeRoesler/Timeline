@@ -1,0 +1,19 @@
+---
+description: Persistência, tipos de domínio e serviços de dados
+globs: "{src/services/**,src/types/**,src/lib/**}"
+alwaysApply: false
+---
+
+# Camada de dados
+
+Leia a skill detalhada antes de alterar serviços, tipos ou persistência:
+
+**`.cursor/skills/timeline-data/SKILL.md`**
+
+## Regras rápidas
+
+- `projectStorageService` é a fonte única de persistência (`timeline_projects` no `localStorage`).
+- Serviços finos (`periodService`, `eventService`) reexportam do storage — não duplicar lógica.
+- Formato persistido usa `start_date`/`end_date`/`event_date` (strings); domínio usa `SimpleDate`.
+- Projeto demo (`demo-project`) é imutável para exclusão; sempre presente após `initializeStorage`.
+- APIs externas (Gemini, Unsplash) ficam em serviços dedicados com `import.meta.env.VITE_*`.

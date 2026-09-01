@@ -1,0 +1,18 @@
+---
+description: Convenções de testes com Vitest
+globs: "**/*.{test,spec}.{ts,tsx}"
+alwaysApply: false
+---
+
+# Testes
+
+Leia a skill detalhada antes de escrever ou alterar testes:
+
+**`.cursor/skills/timeline-testing/SKILL.md`**
+
+## Regras rápidas
+
+- Vitest com ambiente `node`; arquivos em `src/**/*.{test,spec}.{ts,tsx}`.
+- Priorize testes em `src/lib/` e `src/utils/` (lógica pura, sem DOM).
+- Não mockar Zustand/Konva sem necessidade — prefira funções puras testáveis.
+- Rode `npm test` após mudanças em utils ou lib.

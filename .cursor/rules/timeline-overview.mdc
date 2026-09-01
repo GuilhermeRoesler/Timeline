@@ -1,0 +1,19 @@
+---
+description: Visão geral e convenções gerais do projeto Timeline
+alwaysApply: true
+---
+
+# Timeline — Visão geral
+
+Antes de implementar qualquer funcionalidade, leia a skill detalhada:
+
+**`.cursor/skills/timeline-overview/SKILL.md`**
+
+## Regras rápidas
+
+- App React 19 + TypeScript + Vite; sem backend — dados em `localStorage`.
+- Rotas: `/`, `/demo`, `/dashboard`, `/project/:projectId`.
+- Estado global com Zustand; canvas com `react-konva`.
+- Datas sempre via `SimpleDate` (`YYYY-MM-DD`) no domínio; strings na persistência.
+- UI em português; Tailwind CSS v4 para estilos.
+- Valide com `npm run validate` antes de concluir mudanças significativas.

@@ -1,0 +1,18 @@
+---
+description: Renderização interativa da timeline com react-konva
+globs: src/components/timeline/**
+alwaysApply: false
+---
+
+# Canvas da timeline (react-konva)
+
+Leia a skill detalhada antes de alterar a visualização:
+
+**`.cursor/skills/timeline-canvas/SKILL.md`**
+
+## Regras rápidas
+
+- `TimelineStage` é o container Konva; filhos renderizam anos, períodos e eventos.
+- Posicionamento horizontal deriva de `BASE_YEAR` e `YEAR_SPACING` do `settingsStore`.
+- Interações (hover, click, drag, zoom) ficam nos componentes ou hooks dedicados.
+- Não acesse `localStorage` diretamente — leia dados dos stores Zustand.

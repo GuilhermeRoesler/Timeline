@@ -1,0 +1,19 @@
+---
+description: Convenções de estado global com Zustand
+globs: src/store/**
+alwaysApply: false
+---
+
+# Estado global (Zustand)
+
+Leia a skill detalhada antes de alterar stores:
+
+**`.cursor/skills/timeline-state/SKILL.md`**
+
+## Regras rápidas
+
+- Um store por domínio; não misturar responsabilidades.
+- Stores em memória; persistência via `projectStorageService`, não direto no store.
+- Conversão `ApiPeriod`/`ApiEvent` → `Period`/`Event` com `SimpleDate` ao hidratar.
+- Use seletores granulares (`useStore(s => s.campo)`) para evitar re-renders.
+- `getState()` apenas em utils/handlers fora de componentes React.
