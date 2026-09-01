@@ -7,11 +7,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies & build
 node_modules
 dist
 dist-ssr
 *.local
+
+# Lockfiles from other package managers
 pnpm-lock.yaml
+yarn.lock
+bun.lockb
+
+# TypeScript & tooling cache
+*.tsbuildinfo
+.eslintcache
+coverage/
+
+# Environment
+.env
 
 # Editor directories and files
 .vscode/*
@@ -23,5 +36,3 @@ pnpm-lock.yaml
 *.njsproj
 *.sln
 *.sw?
-
-.env
