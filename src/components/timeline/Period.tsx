@@ -16,7 +16,6 @@ const Period = ({ period }: { period: PeriodType }) => {
 
     const y = TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * period.level - 10
 
-
     return (
         <>
             <Rect
