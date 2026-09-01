@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { History, Eye, EyeOff } from 'lucide-react';
 import LoadingSpinner from '../icons/LoadingSpinner';
 import { useGlobalConfigStore } from '../store/globalConfigStore';
+import { login } from '../services/authService';
 
-const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSuccess: any, onNavigateToRegister: any, api: any }) => {
+const LoginPage = ({ onLoginSuccess, onNavigateToRegister }: { onLoginSuccess: any, onNavigateToRegister: any }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -16,9 +17,9 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
         setError('');
         setLoading(true);
         try {
-            const response = await api.post('/auth/login', { email, password });
-            if (response.data.token) {
-                setAuthToken(response.data.token);
+            const data = await login(email, password);
+            if (data.token) {
+                setAuthToken(data.token);
                 onLoginSuccess();
             } else {
                 setError('Token de autenticação não recebido do servidor.');

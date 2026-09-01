@@ -7,34 +7,35 @@ import RegisterPage from "./pages/RegisterPage";
 import { useGlobalConfigStore } from "./store/globalConfigStore";
 import initialData from "./data/initialData.json";
 import { SimpleDate } from "./lib/SimpleDate";
+import { getAllPeriods } from "./services/periodService";
+import { getAllEvents } from "./services/eventService";
+import { getSettings, updateSettings } from "./services/settingsService";
+import { logout } from "./services/authService";
 
 const App = () => {
   const [page, setPage] = useState('login'); // 'login', 'register', 'timeline'
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const api = useGlobalConfigStore(state => state.api);
   const setAuthToken = useGlobalConfigStore(state => state.setAuthToken);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
       setAuthToken(token);
+      fetchUserData();
+    } else {
+      setLoading(false);
     }
-    fetchUserData(); // This now also acts as our session check
   }, []);
 
   const fetchUserData = async () => {
     setLoading(true);
     try {
-      const [periodsRes, eventsRes, settingsRes] = await Promise.all([
-        api.get('/periods'),
-        api.get('/events'),
-        api.get('/settings')
+      const [periods, events, settings] = await Promise.all([
+        getAllPeriods(),
+        getAllEvents(),
+        getSettings()
       ]);
-
-      const periods = periodsRes.data;
-      const events = eventsRes.data;
-      const settings = settingsRes.data;
 
       if (settings === null && periods.length === 0 && events.length === 0) {
         const formattedInitialData = {
@@ -50,7 +51,7 @@ const App = () => {
           })),
         };
         setUserData(formattedInitialData as UserData);
-        await api.post('/settings', initialData.settings);
+        await updateSettings(initialData.settings);
       } else {
         setUserData({ periods, events, settings });
       }
@@ -75,7 +76,7 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
-      await api.post('/auth/logout');
+      await logout();
     } catch (error) {
       console.error("Logout failed", error);
     } finally {
@@ -95,13 +96,13 @@ const App = () => {
 
   switch (page) {
     case 'register':
-      return <RegisterPage onRegisterSuccess={handleRegisterSuccess} onNavigateToLogin={() => setPage('login')} api={api} />;
+      return <RegisterPage onRegisterSuccess={handleRegisterSuccess} onNavigateToLogin={() => setPage('login')} />;
     case 'timeline':
-      if (!userData) return <LoginPage onLoginSuccess={handleLoginSuccess} onNavigateToRegister={() => setPage('register')} api={api} />;
+      if (!userData) return <LoginPage onLoginSuccess={handleLoginSuccess} onNavigateToRegister={() => setPage('register')} />;
       return <Timeline data={userData} onLogout={handleLogout} />;
     case 'login':
     default:
-      return <LoginPage onLoginSuccess={handleLoginSuccess} onNavigateToRegister={() => setPage('register')} api={api} />;
+      return <LoginPage onLoginSuccess={handleLoginSuccess} onNavigateToRegister={() => setPage('register')} />;
   }
 };
 

@@ -1,28 +1,18 @@
-import axios from "axios";
 import { create } from "zustand";
 
 type GlobalConfigState = {
-    api: ReturnType<typeof axios.create>;
+    authToken: string | null;
     setAuthToken: (token: string | null) => void;
 }
 
-const api = axios.create({
-    baseURL: 'http://localhost:8000/',
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-    }
-});
-
-export const useGlobalConfigStore = create<GlobalConfigState>(() => ({
-    api: api,
+export const useGlobalConfigStore = create<GlobalConfigState>((set) => ({
+    authToken: null,
     setAuthToken: (token: string | null) => {
         if (token) {
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             localStorage.setItem('authToken', token);
         } else {
-            delete api.defaults.headers.common['Authorization'];
             localStorage.removeItem('authToken');
         }
+        set({ authToken: token });
     }
 }))

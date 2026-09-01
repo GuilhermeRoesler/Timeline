@@ -2,12 +2,16 @@ import { create } from "zustand";
 import { SimpleDate } from "../lib/SimpleDate";
 import { type Event } from "../types/event";
 
+type EventFromApi = Omit<Event, 'date'> & {
+    event_date: string;
+};
+
 type EventsLoaderState = {
     events: Event[];
     setEvents: (events: Event[]) => void;
-    addEvent: (event: any) => void;
+    addEvent: (event: EventFromApi) => void;
     removeEvent: (eventId: string) => void;
-    updateEvent: (updatedEvent: any) => void;
+    updateEvent: (updatedEvent: EventFromApi) => void;
     clearEvents: () => void;
 }
 
@@ -18,8 +22,8 @@ export const useEventsStore = create<EventsLoaderState>((set) => ({
     },
     addEvent: (event) => {
         set((state) => {
-            const updatedEvent = { ...event, date: new SimpleDate(event.event_date) }
-            const updatedEvents = [...state.events, updatedEvent]
+            const newEvent: Event = { ...event, date: new SimpleDate(event.event_date) };
+            const updatedEvents = [...state.events, newEvent];
             return { events: updatedEvents };
         });
     },
@@ -31,10 +35,10 @@ export const useEventsStore = create<EventsLoaderState>((set) => ({
     },
     updateEvent: (updatedEvent) => {
         set((state) => {
-            const newUpdatedEvent = { ...updatedEvent, date: new SimpleDate(updatedEvent.event_date) }
+            const newUpdatedEvent: Event = { ...updatedEvent, date: new SimpleDate(updatedEvent.event_date) };
             const updatedEvents = state.events.map(event =>
                 event.id === newUpdatedEvent.id ? newUpdatedEvent : event
-            )
+            );
             return { events: updatedEvents };
         })
     },

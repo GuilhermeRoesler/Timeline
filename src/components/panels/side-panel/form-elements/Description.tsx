@@ -16,7 +16,7 @@ const Description = () => {
         <>
             <div>
                 <label htmlFor="side-panel-description-id">Descrição</label>
-                <button type="button" onClick={handleGenerate} className="ml-2 p-1 border rounded-md hover:bg-gray-200 transition-colors -translate-y-0.5">
+                <button type="button" onClick={handleGenerate} className="p-1 border rounded-md hover:bg-gray-200 transition-colors -translate-y-1">
                     <Sparkles className="w-4 h-4" />
                 </button>
             </div>
