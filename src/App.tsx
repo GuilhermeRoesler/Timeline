@@ -1,39 +1,42 @@
-import { useState } from 'react';
-import Timeline from './pages/Timeline';
+import { useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 import DashboardPage from './pages/DashboardPage';
-import { useProjectsStore } from './store/projectsStore';
-import type { ApiUserData } from './types/userData';
+import TimelineRoute, { DemoRedirect } from './pages/TimelineRoute';
+import ToastContainer from './components/ui/ToastContainer';
+import ConfirmDialog from './components/ui/ConfirmDialog';
+import { hasVisitedBefore, markAsVisited } from './utils/visitTracking';
+import { DEMO_PROJECT_ID } from './services/projectStorageService';
 
-type Page = 'dashboard' | 'timeline';
+const FirstVisitRedirect = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!hasVisitedBefore()) {
+            markAsVisited();
+            navigate(`/project/${DEMO_PROJECT_ID}`, { replace: true });
+        }
+    }, [navigate]);
+
+    if (!hasVisitedBefore()) return null;
+
+    return <LandingPage />;
+};
 
 const App = () => {
-    const [page, setPage] = useState<Page>('dashboard');
-    const [timelineData, setTimelineData] = useState<ApiUserData | null>(null);
-    const { selectProject, clearActiveProject } = useProjectsStore();
-
-    const handleOpenProject = (id: string) => {
-        const project = selectProject(id);
-        if (!project) return;
-
-        setTimelineData({
-            periods: project.data.periods,
-            events: project.data.events,
-            settings: project.data.settings,
-        });
-        setPage('timeline');
-    };
-
-    const handleBackToDashboard = () => {
-        clearActiveProject();
-        setTimelineData(null);
-        setPage('dashboard');
-    };
-
-    if (page === 'timeline' && timelineData) {
-        return <Timeline data={timelineData} onBack={handleBackToDashboard} />;
-    }
-
-    return <DashboardPage onOpenProject={handleOpenProject} />;
+    return (
+        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
+            <ToastContainer />
+            <ConfirmDialog />
+            <Routes>
+                <Route path="/" element={<FirstVisitRedirect />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/demo" element={<DemoRedirect />} />
+                <Route path="/project/:projectId" element={<TimelineRoute />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 export default App;

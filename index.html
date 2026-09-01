@@ -1,10 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/png" href="/icon2.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Timeline</title>
+        <meta
+            name="description"
+            content="Timeline — construa linhas do tempo interativas com períodos, eventos, temas e camadas automáticas. Projeto de portfólio frontend-only."
+        />
+        <meta name="author" content="Guilherme Roesler" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Timeline — Linha do tempo interativa" />
+        <meta
+            property="og:description"
+            content="Visualize histórias e cronologias em um canvas interativo. Demo incluída, dados salvos no navegador."
+        />
+        <meta property="og:image" content="https://guilhermeroesler.github.io/Timeline/demo.png" />
+        <meta property="og:url" content="https://guilhermeroesler.github.io/Timeline/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <title>Timeline — Linha do tempo interativa</title>
+        <script type="text/javascript">
+            (function (location) {
+                if (location.search[1] === '/') {
+                    var decoded = location.search
+                        .slice(1)
+                        .split('&')
+                        .map(function (segment) {
+                            return segment.replace(/~and~/g, '&');
+                        })
+                        .join('?');
+                    window.history.replaceState(
+                        null,
+                        null,
+                        location.pathname.slice(0, -1) + decoded + location.hash,
+                    );
+                }
+            })(window.location);
+        </script>
     </head>
 
     <body>

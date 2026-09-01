@@ -1,14 +1,31 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSidePanelStore } from '../../../store/sidePanelStore';
 import { colorize } from '../../../utils/colorUtils';
 import { adjustLayer } from '../../../utils/levelUtils';
 import { syncPeriods } from '../../../services/projectStorageService';
 import SettingsModal from './SettingsModal';
-import { ArrowLeft, MoreVertical, Layers, Palette, Settings } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Layers, Palette, Settings, Plus } from 'lucide-react';
 
-const Toolbar = ({ onBack }: { onBack: () => void }) => {
+type ToolbarProps = {
+    onBack: () => void;
+    projectName: string;
+    hasDemoBanner?: boolean;
+};
+
+const Toolbar = ({ onBack, projectName, hasDemoBanner = false }: ToolbarProps) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleOpen = () => {
         useSidePanelStore.setState({
@@ -22,56 +39,90 @@ const Toolbar = ({ onBack }: { onBack: () => void }) => {
     const adjustLayers = () => {
         const adjustedLayers = adjustLayer();
         syncPeriods(adjustedLayers);
+        setIsMenuOpen(false);
     };
 
     const applyColorize = () => {
         colorize();
+        setIsMenuOpen(false);
     };
 
     return (
-        <div className="toolbar">
-            <span style={{ fontWeight: 'bold', fontSize: 24, color: '#333' }}>Timeline</span>
-            <button onClick={handleOpen}>Criar</button>
-            <button
-                className="p-2 bg-transparent hover:bg-gray-100"
-                title="Voltar ao dashboard"
-                onClick={onBack}
+        <>
+            <div
+                className={`fixed left-4 z-[1000] flex items-center gap-2 rounded-xl border border-gray-200 bg-white/95 px-3 py-2 shadow-lg backdrop-blur ${
+                    hasDemoBanner ? 'top-14' : 'top-4'
+                }`}
             >
-                <ArrowLeft className="w-6 h-6 text-gray-700" />
-            </button>
-            <div className="relative">
                 <button
-                    className="p-2 bg-transparent hover:bg-gray-100"
-                    title="More"
-                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                    onClick={onBack}
+                    className="rounded-lg p-2 text-gray-600 hover:bg-gray-100"
+                    title="Voltar ao dashboard"
                 >
-                    <MoreVertical className="w-6 h-6 text-gray-700" />
+                    <ArrowLeft className="h-5 w-5" />
                 </button>
-                {isSettingsOpen && (
-                    <div className="more-container">
-                        <div className="more-item" title="Adjust Layers" onClick={adjustLayers}>
-                            <Layers />
-                            <p>Adjust Layers</p>
+
+                <div className="hidden h-6 w-px bg-gray-200 sm:block" />
+
+                <div className="hidden min-w-0 sm:block">
+                    <p className="truncate text-sm font-semibold text-gray-900">{projectName}</p>
+                    <p className="text-xs text-gray-400">Linha do tempo</p>
+                </div>
+
+                <div className="hidden h-6 w-px bg-gray-200 sm:block" />
+
+                <button
+                    onClick={handleOpen}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800"
+                >
+                    <Plus className="h-4 w-4" />
+                    Criar
+                </button>
+
+                <div className="relative" ref={menuRef}>
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="rounded-lg p-2 text-gray-600 hover:bg-gray-100"
+                        title="Mais opções"
+                    >
+                        <MoreVertical className="h-5 w-5" />
+                    </button>
+
+                    {isMenuOpen && (
+                        <div className="absolute top-full right-0 mt-2 w-52 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-lg">
+                            <button
+                                onClick={adjustLayers}
+                                className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                            >
+                                <Layers className="h-4 w-4" />
+                                Ajustar camadas
+                            </button>
+                            <button
+                                onClick={applyColorize}
+                                className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                            >
+                                <Palette className="h-4 w-4" />
+                                Colorir
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setIsSettingsOpen(true);
+                                    setIsMenuOpen(false);
+                                }}
+                                className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                            >
+                                <Settings className="h-4 w-4" />
+                                Configurações
+                            </button>
                         </div>
-                        <div className="more-item" title="Colorize" onClick={applyColorize}>
-                            <Palette />
-                            <p>Colorize</p>
-                        </div>
-                        <div
-                            className="more-item"
-                            title="Settings"
-                            onClick={() => setIsDialogOpen(true)}
-                        >
-                            <Settings />
-                            <p>Settings</p>
-                        </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-            {isDialogOpen && (
-                <SettingsModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
+
+            {isSettingsOpen && (
+                <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
             )}
-        </div>
+        </>
     );
 };
 

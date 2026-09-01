@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { updateSettings, resetSettings as resetSettingsService } from '../services/settingsService';
 import type { Settings } from '../types/settings';
 
-export const settings = ['General', 'Events', 'Periods', 'Color'];
+export const settings = ['Geral', 'Eventos', 'Períodos', 'Cores'];
 
 export const TIMELINE_Y = window.innerHeight; // Meio da tela verticalmente
 

@@ -5,6 +5,7 @@ import { SimpleDate } from '../lib/SimpleDate';
 import { calculateLevel } from '../utils/levelUtils';
 import { createPeriod, updatePeriod as updatePeriodService } from '../services/periodService';
 import { createEvent, updateEvent as updateEventService } from '../services/eventService';
+import { toast } from '../store/uiStore';
 
 export const usePeriodEventHandler = () => {
     const periods = usePeriodsStore((state) => state.periods);
@@ -18,11 +19,11 @@ export const usePeriodEventHandler = () => {
         const end = new SimpleDate(endValue);
 
         if (start.getYear() > end.getYear()) {
-            alert('A data de início não pode ser maior que a data de término.');
+            toast.error('A data de início não pode ser maior que a data de término.');
             return;
         }
         if (start.getYear() === end.getYear()) {
-            alert('A data de início não pode ser igual à data de término.');
+            toast.error('A data de início não pode ser igual à data de término.');
             return;
         }
 

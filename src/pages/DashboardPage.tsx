@@ -1,11 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, FolderOpen, Calendar, Sparkles } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+    Plus,
+    Pencil,
+    Trash2,
+    FolderOpen,
+    Calendar,
+    Sparkles,
+    Download,
+    Upload,
+    Home,
+} from 'lucide-react';
 import { useProjectsStore } from '../store/projectsStore';
+import { confirmAction, toast } from '../store/uiStore';
+import PortfolioFooter from '../components/layout/PortfolioFooter';
+import {
+    DEMO_PROJECT_ID,
+    exportAllProjects,
+    exportProjectById,
+    importProjectFromJson,
+} from '../services/projectStorageService';
 import type { ProjectSummary } from '../types/project';
-
-type DashboardPageProps = {
-    onOpenProject: (id: string) => void;
-};
 
 type ProjectFormData = {
     name: string;
@@ -90,11 +105,13 @@ const ProjectCard = ({
     onOpen,
     onEdit,
     onDelete,
+    onExport,
 }: {
     project: ProjectSummary;
     onOpen: () => void;
     onEdit: () => void;
     onDelete: () => void;
+    onExport: () => void;
 }) => {
     const formattedDate = new Date(project.updatedAt).toLocaleDateString('pt-BR');
 
@@ -139,6 +156,13 @@ const ProjectCard = ({
                     Abrir
                 </button>
                 <button
+                    onClick={onExport}
+                    className="rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-gray-50"
+                    title="Exportar JSON"
+                >
+                    <Download className="h-4 w-4" />
+                </button>
+                <button
                     onClick={onEdit}
                     className="rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-gray-50"
                     title="Editar"
@@ -159,7 +183,19 @@ const ProjectCard = ({
     );
 };
 
-const DashboardPage = ({ onOpenProject }: DashboardPageProps) => {
+const downloadJson = (filename: string, content: string) => {
+    const blob = new Blob([content], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = filename;
+    anchor.click();
+    URL.revokeObjectURL(url);
+};
+
+const DashboardPage = () => {
+    const navigate = useNavigate();
+    const importInputRef = useRef<HTMLInputElement>(null);
     const { projects, loadProjects, addProject, editProject, removeProject } = useProjectsStore();
     const [modal, setModal] = useState<'create' | 'edit' | null>(null);
     const [editingProject, setEditingProject] = useState<ProjectSummary | null>(null);
@@ -171,6 +207,7 @@ const DashboardPage = ({ onOpenProject }: DashboardPageProps) => {
     const handleCreate = (data: ProjectFormData) => {
         addProject(data.name, data.description);
         setModal(null);
+        toast.success('Projeto criado com sucesso.');
     };
 
     const handleEdit = (data: ProjectFormData) => {
@@ -178,15 +215,44 @@ const DashboardPage = ({ onOpenProject }: DashboardPageProps) => {
         editProject(editingProject.id, data.name, data.description);
         setModal(null);
         setEditingProject(null);
+        toast.success('Projeto atualizado.');
     };
 
-    const handleDelete = (project: ProjectSummary) => {
-        if (
-            window.confirm(
-                `Tem certeza que deseja excluir o projeto "${project.name}"? Esta ação não pode ser desfeita.`,
-            )
-        ) {
-            removeProject(project.id);
+    const handleDelete = async (project: ProjectSummary) => {
+        const confirmed = await confirmAction({
+            title: 'Excluir projeto',
+            message: `Tem certeza que deseja excluir "${project.name}"? Esta ação não pode ser desfeita.`,
+            confirmLabel: 'Excluir',
+            destructive: true,
+        });
+        if (confirmed && removeProject(project.id)) {
+            toast.success('Projeto excluído.');
+        }
+    };
+
+    const handleExportProject = (project: ProjectSummary) => {
+        const json = exportProjectById(project.id);
+        if (!json) {
+            toast.error('Não foi possível exportar o projeto.');
+            return;
+        }
+        downloadJson(`${project.name.replace(/\s+/g, '-').toLowerCase()}.json`, json);
+        toast.success('Projeto exportado.');
+    };
+
+    const handleExportAll = () => {
+        downloadJson('timeline-projetos.json', exportAllProjects());
+        toast.success('Todos os projetos exportados.');
+    };
+
+    const handleImport = async (file: File) => {
+        try {
+            const text = await file.text();
+            const project = importProjectFromJson(text);
+            loadProjects();
+            toast.success(`Projeto "${project.name}" importado.`);
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : 'Falha ao importar projeto.');
         }
     };
 
@@ -197,26 +263,57 @@ const DashboardPage = ({ onOpenProject }: DashboardPageProps) => {
     });
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 to-blue-50">
             <header className="border-b border-gray-200 bg-white/80 backdrop-blur">
-                <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+                <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-5">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">Timeline</h1>
+                        <div className="flex items-center gap-3">
+                            <h1 className="text-2xl font-bold text-gray-900">Meus projetos</h1>
+                            <Link
+                                to="/"
+                                className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600"
+                            >
+                                <Home className="h-4 w-4" />
+                                Início
+                            </Link>
+                        </div>
                         <p className="text-sm text-gray-500">
-                            Seus projetos de linha do tempo — dados salvos localmente no navegador
+                            Dados salvos localmente no navegador ·{' '}
+                            <Link
+                                to={`/project/${DEMO_PROJECT_ID}`}
+                                className="text-blue-600 hover:underline"
+                            >
+                                Ver demo
+                            </Link>
                         </p>
                     </div>
-                    <button
-                        onClick={() => setModal('create')}
-                        className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                    >
-                        <Plus className="h-4 w-4" />
-                        Novo projeto
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                        <button
+                            onClick={() => importInputRef.current?.click()}
+                            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        >
+                            <Upload className="h-4 w-4" />
+                            Importar
+                        </button>
+                        <button
+                            onClick={handleExportAll}
+                            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        >
+                            <Download className="h-4 w-4" />
+                            Exportar tudo
+                        </button>
+                        <button
+                            onClick={() => setModal('create')}
+                            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                        >
+                            <Plus className="h-4 w-4" />
+                            Novo projeto
+                        </button>
+                    </div>
                 </div>
             </header>
 
-            <main className="mx-auto max-w-5xl px-6 py-8">
+            <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">
                 {sortedProjects.length === 0 ? (
                     <div className="rounded-2xl border-2 border-dashed border-gray-300 p-12 text-center">
                         <p className="text-gray-500">Nenhum projeto encontrado.</p>
@@ -233,17 +330,32 @@ const DashboardPage = ({ onOpenProject }: DashboardPageProps) => {
                             <ProjectCard
                                 key={project.id}
                                 project={project}
-                                onOpen={() => onOpenProject(project.id)}
+                                onOpen={() => navigate(`/project/${project.id}`)}
                                 onEdit={() => {
                                     setEditingProject(project);
                                     setModal('edit');
                                 }}
-                                onDelete={() => handleDelete(project)}
+                                onDelete={() => void handleDelete(project)}
+                                onExport={() => handleExportProject(project)}
                             />
                         ))}
                     </div>
                 )}
             </main>
+
+            <PortfolioFooter />
+
+            <input
+                ref={importInputRef}
+                type="file"
+                accept="application/json,.json"
+                className="hidden"
+                onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) void handleImport(file);
+                    e.target.value = '';
+                }}
+            />
 
             {modal === 'create' && (
                 <ProjectModal

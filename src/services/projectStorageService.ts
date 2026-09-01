@@ -260,3 +260,63 @@ export const syncEvents = (events: Event[]): void => {
     }));
     updateActiveProjectData(project.data);
 };
+
+const isValidProjectData = (data: unknown): data is ProjectData => {
+    if (!data || typeof data !== 'object') return false;
+    const candidate = data as ProjectData;
+    return (
+        Array.isArray(candidate.periods) &&
+        Array.isArray(candidate.events) &&
+        typeof candidate.settings === 'object' &&
+        candidate.settings !== null
+    );
+};
+
+const isValidProject = (value: unknown): value is Project => {
+    if (!value || typeof value !== 'object') return false;
+    const candidate = value as Project;
+    return (
+        typeof candidate.id === 'string' &&
+        typeof candidate.name === 'string' &&
+        typeof candidate.description === 'string' &&
+        isValidProjectData(candidate.data)
+    );
+};
+
+export const exportProjectById = (id: string): string | null => {
+    const project = getProject(id);
+    if (!project) return null;
+    return JSON.stringify(project, null, 2);
+};
+
+export const exportAllProjects = (): string => {
+    return JSON.stringify(loadProjects(), null, 2);
+};
+
+export const importProjectFromJson = (json: string): Project => {
+    const parsed: unknown = JSON.parse(json);
+
+    if (Array.isArray(parsed)) {
+        throw new Error('Use a importação de um único projeto por vez.');
+    }
+
+    if (!isValidProject(parsed)) {
+        throw new Error('Arquivo JSON inválido para importação de projeto.');
+    }
+
+    const now = new Date().toISOString();
+    const project: Project = {
+        ...parsed,
+        id: parsed.isDemo ? DEMO_PROJECT_ID : crypto.randomUUID(),
+        isDemo: false,
+        name: parsed.name.trim() || 'Projeto importado',
+        description: parsed.description.trim(),
+        createdAt: parsed.createdAt ?? now,
+        updatedAt: now,
+    };
+
+    const projects = loadProjects().filter((p) => p.id !== project.id);
+    projects.push(project);
+    saveProjects(projects);
+    return project;
+};

@@ -111,12 +111,22 @@ interface Event {
 
 ## 🔄 Usage Flow
 
-1. **Dashboard:** On first load, choose the demo project or create a new one.
-2. **Add Period/Event:** Click "Create" in the toolbar, fill the form in the side panel, and save.
-3. **Edit:** Click on a period/event on the timeline to open the editing panel.
-4. **View Details:** Hover over an item to see the InfoCard.
-5. **Settings:** Adjust themes, spacing, layers, and other preferences in the settings modal.
-6. **Back to Dashboard:** Use the back arrow in the toolbar to return to project selection.
+1. **Landing:** Na primeira visita, o demo abre automaticamente. Depois, a landing apresenta o projeto.
+2. **Demo:** Acesse `/demo` ou clique em "Ver demo" na landing.
+3. **Dashboard:** Gerencie projetos em `/dashboard` — criar, editar, excluir, importar e exportar JSON.
+4. **Add Period/Event:** Clique em "Criar" na toolbar, preencha o painel lateral e salve.
+5. **Edit:** Clique em um período/evento na timeline para editar.
+6. **Settings:** Ajuste temas, camadas e espaçamentos no menu de configurações.
+7. **Back:** Use a seta na toolbar para voltar ao dashboard.
+
+### Rotas
+
+| Rota           | Descrição                                               |
+| -------------- | ------------------------------------------------------- |
+| `/`            | Landing page (redirect automático ao demo na 1ª visita) |
+| `/demo`        | Atalho para o projeto demo                              |
+| `/dashboard`   | Gerenciamento de projetos                               |
+| `/project/:id` | Timeline de um projeto específico                       |
 
 ## 🎨 Customization
 

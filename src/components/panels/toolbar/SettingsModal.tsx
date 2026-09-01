@@ -1,60 +1,43 @@
-import { useRef, useEffect } from 'react';
 import SettingsSidebar from './SettingsSidebar';
 import SettingsBody from './SettingsBody';
 import { useSettingsStore } from '../../../store/settingsStore';
 import { X } from 'lucide-react';
 
-const SettingsModal = ({
-    isDialogOpen,
-    setIsDialogOpen,
-}: {
-    isDialogOpen: boolean;
-    setIsDialogOpen: (value: boolean) => void;
-}) => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
+type SettingsModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
+};
 
-    const handleOpen = () => dialogRef.current?.showModal();
-
-    useEffect(() => {
-        if (isDialogOpen) handleOpen();
-    }, [isDialogOpen]);
+const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
+    if (!isOpen) return null;
 
     const handleClose = () => {
-        dialogRef.current?.close();
-        setIsDialogOpen(false);
         useSettingsStore.getState().saveSettings();
-    };
-
-    const hanleClickOutside = (e: React.MouseEvent) => {
-        const rect = dialogRef.current?.getBoundingClientRect();
-        if (!rect) return;
-
-        const clickedOutside =
-            e.clientX < rect.left ||
-            e.clientX > rect.right ||
-            e.clientY < rect.top ||
-            e.clientY > rect.bottom;
-
-        if (clickedOutside) handleClose();
+        onClose();
     };
 
     return (
-        <dialog
-            className="settings-modal"
-            ref={dialogRef}
-            onClick={hanleClickOutside}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-content"
+        <div
+            className="fixed inset-0 z-[1200] flex items-center justify-center bg-black/50 p-4"
+            onClick={handleClose}
         >
-            <button
-                onClick={handleClose}
-                className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-200 transition-colors"
+            <div
+                className="flex h-[min(90vh,640px)] w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
             >
-                <X className="w-5 h-5" />
-            </button>
-            <SettingsSidebar />
-            <SettingsBody />
-        </dialog>
+                <SettingsSidebar onClose={handleClose} />
+                <div className="relative flex min-w-0 flex-1 flex-col">
+                    <button
+                        onClick={handleClose}
+                        className="absolute top-3 right-3 rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                        aria-label="Fechar configurações"
+                    >
+                        <X className="h-5 w-5" />
+                    </button>
+                    <SettingsBody />
+                </div>
+            </div>
+        </div>
     );
 };
 
