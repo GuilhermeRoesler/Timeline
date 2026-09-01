@@ -22,7 +22,7 @@ export function getDefaultColor() {
     return color[(idx + 1) % color.length];
 }
 
-export async function colorize() {
+export function colorize() {
     const { periods } = usePeriodsStore.getState();
     const { events } = useEventsStore.getState();
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
@@ -56,14 +56,9 @@ export async function colorize() {
         event_date: e.date.toString(),
     }));
 
-    try {
-        await colorizeTimeline(periodsForApi, eventsForApi);
-        usePeriodsStore.getState().setPeriods(colorizedPeriods);
-        useEventsStore.getState().setEvents(colorizedEvents);
-    } catch (error) {
-        console.error('Failed to sync colors with the server:', error);
-        alert('Não foi possível salvar as novas cores. Tente novamente.');
-    }
+    colorizeTimeline(periodsForApi, eventsForApi);
+    usePeriodsStore.getState().setPeriods(colorizedPeriods);
+    useEventsStore.getState().setEvents(colorizedEvents);
 }
 
 export function hexToRgba(hex: string, alpha: number): string {

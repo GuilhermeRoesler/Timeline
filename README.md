@@ -10,6 +10,8 @@ Users can add periods and events, customize **colors, themes, and layers**, and 
 
 ## ⚙️ Key Features
 
+- ✅ **Project Dashboard:** Manage multiple timeline projects with full CRUD — create, edit, delete, and open projects stored in the browser.
+- ✅ **Demo Project:** Pre-loaded showcase project demonstrating the full capabilities of the timeline.
 - ✅ **Create Periods and Events:** Add periods (time spans) and events (specific points) with title, description, color, and image.
 - ✅ **Dynamic Visualization:** Scalable timeline with zoom, drag, keyboard navigation, and adaptive year markers.
 - ✅ **Smart Layers:** Periods are automatically arranged into different levels to avoid overlap, with support for negative layers (below the main timeline).
@@ -30,7 +32,7 @@ src/
 ├── data/                 # Color themes and seed data
 ├── hooks/                # Custom hooks (zoom, handlers)
 ├── lib/                  # Date utilities
-├── pages/                # Main pages (Timeline, Login, Register)
+├── pages/                # Main pages (Dashboard, Timeline)
 ├── services/             # API and external integrations (Unsplash, Gemini)
 ├── store/                # Zustand stores (global state)
 ├── types/                # TypeScript types (Period, Event)
@@ -109,10 +111,12 @@ interface Event {
 
 ## 🔄 Usage Flow
 
-1. **Add Period/Event:** Click "Create" in the toolbar, fill the form in the side panel, and save.
-2. **Edit:** Click on a period/event on the timeline to open the editing panel.
-3. **View Details:** Hover over an item to see the InfoCard.
-4. **Settings:** Adjust themes, spacing, layers, and other preferences in the settings modal.
+1. **Dashboard:** On first load, choose the demo project or create a new one.
+2. **Add Period/Event:** Click "Create" in the toolbar, fill the form in the side panel, and save.
+3. **Edit:** Click on a period/event on the timeline to open the editing panel.
+4. **View Details:** Hover over an item to see the InfoCard.
+5. **Settings:** Adjust themes, spacing, layers, and other preferences in the settings modal.
+6. **Back to Dashboard:** Use the back arrow in the toolbar to return to project selection.
 
 ## 🎨 Customization
 
@@ -131,7 +135,7 @@ interface Event {
 - **React** (with TypeScript)
 - **Zustand** (global state)
 - **react-konva** (interactive canvas)
-- **Axios** (HTTP requests)
+- **Axios** (external API requests — Unsplash, Gemini)
 - **Tailwind CSS v4** (styling)
 - **Google Gemini API** (AI for text)
 - **Unsplash API** (images)
@@ -152,11 +156,12 @@ interface Event {
 
     Required variables:
 
-    | Variable                | Description                                         |
-    | ----------------------- | --------------------------------------------------- |
-    | `VITE_API_URL`          | Backend API URL (default: `http://localhost:8000/`) |
-    | `VITE_UNSPLASH_API_KEY` | Unsplash API key for image search                   |
-    | `VITE_GEMINI_API_KEY`   | Google Gemini API key for description generation    |
+    | Variable                | Description                                      |
+    | ----------------------- | ------------------------------------------------ |
+    | `VITE_UNSPLASH_API_KEY` | Unsplash API key for image search                |
+    | `VITE_GEMINI_API_KEY`   | Google Gemini API key for description generation |
+
+    > All project data is stored locally in the browser via `localStorage`. No backend required.
 
 3. Run the project:
 
@@ -165,6 +170,16 @@ interface Event {
     ```
 
 4. Open in `http://localhost:5173`.
+
+## 🚀 Deployment (GitHub Pages)
+
+The app is configured for GitHub Pages at `https://guilhermeroesler.github.io/Timeline/`.
+
+1. Enable **GitHub Pages** in the repository settings, source: **GitHub Actions**.
+2. Add repository secrets (optional, for AI/image features):
+    - `VITE_UNSPLASH_API_KEY`
+    - `VITE_GEMINI_API_KEY`
+3. Push to `main` — the `deploy.yml` workflow builds and publishes automatically.
 
 ## ❗ Notes & FAQ
 

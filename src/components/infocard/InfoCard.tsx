@@ -25,13 +25,13 @@ const InfoCard = () => {
     const [sameYearEventsIndex, setSameYearEventsIndex] = useState(0);
     const events = useEventsStore((state) => state.events);
 
-    const handleDelete = async () => {
+    const handleDelete = () => {
         if (localEvent) {
-            await deleteEvent(localEvent.id);
+            deleteEvent(localEvent.id);
             useEventsStore.getState().removeEvent(localEvent.id);
             setLocalEvent(null);
         } else if (localPeriod) {
-            await deletePeriod(localPeriod.id);
+            deletePeriod(localPeriod.id);
             usePeriodsStore.getState().removePeriod(localPeriod.id);
             setLocalPeriod(null);
         }

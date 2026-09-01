@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useSidePanelStore } from '../../../store/sidePanelStore';
 import { colorize } from '../../../utils/colorUtils';
-import { usePeriodsStore } from '../../../store/periodsStore';
 import { adjustLayer } from '../../../utils/levelUtils';
+import { syncPeriods } from '../../../services/projectStorageService';
 import SettingsModal from './SettingsModal';
-import { LogOut, MoreVertical, Layers, Palette, Settings } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Layers, Palette, Settings } from 'lucide-react';
 
-const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
+const Toolbar = ({ onBack }: { onBack: () => void }) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -21,11 +21,11 @@ const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
 
     const adjustLayers = () => {
         const adjustedLayers = adjustLayer();
-        usePeriodsStore.getState().setPeriods(adjustedLayers);
+        syncPeriods(adjustedLayers);
     };
 
-    const applyColorize = async () => {
-        await colorize();
+    const applyColorize = () => {
+        colorize();
     };
 
     return (
@@ -34,10 +34,10 @@ const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
             <button onClick={handleOpen}>Criar</button>
             <button
                 className="p-2 bg-transparent hover:bg-gray-100"
-                title="Logout"
-                onClick={onLogout}
+                title="Voltar ao dashboard"
+                onClick={onBack}
             >
-                <LogOut className="w-6 h-6 text-gray-700" />
+                <ArrowLeft className="w-6 h-6 text-gray-700" />
             </button>
             <div className="relative">
                 <button

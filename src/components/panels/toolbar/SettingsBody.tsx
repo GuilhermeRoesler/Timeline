@@ -3,6 +3,7 @@ import { themeNames } from '../../../data/theme';
 import { colorize } from '../../../utils/colorUtils';
 import { useEffect } from 'react';
 import { adjustLayer } from '../../../utils/levelUtils';
+import { syncPeriods } from '../../../services/projectStorageService';
 import ToggleSwitch from './ToggleSwitch';
 
 const SettingsBody = () => {
@@ -23,7 +24,8 @@ const SettingsBody = () => {
     };
 
     useEffect(() => {
-        adjustLayer();
+        const adjusted = adjustLayer();
+        syncPeriods(adjusted);
     }, [NEGATIVE_LEVEL]);
 
     if (settingsIndex === 0)

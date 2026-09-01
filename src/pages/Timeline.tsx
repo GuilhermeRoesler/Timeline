@@ -11,10 +11,10 @@ import type { ApiUserData } from '../types/userData';
 
 type TimelineProps = {
     data: ApiUserData;
-    onLogout: () => void;
+    onBack: () => void;
 };
 
-const Timeline = ({ data, onLogout }: TimelineProps) => {
+const Timeline = ({ data, onBack }: TimelineProps) => {
     const setPeriods = usePeriodsStore((state) => state.setPeriods);
     const setEvents = useEventsStore((state) => state.setEvents);
     const setSettings = useSettingsStore((state) => state.setSettings);
@@ -38,7 +38,7 @@ const Timeline = ({ data, onLogout }: TimelineProps) => {
 
     return (
         <>
-            <Toolbar onLogout={onLogout} />
+            <Toolbar onBack={onBack} />
             <TimelineAxis />
             <InfoCard />
             <SidePanel />

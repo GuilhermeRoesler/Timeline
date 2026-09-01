@@ -11,7 +11,7 @@ export const usePeriodEventHandler = () => {
     const { titleValue, descriptionValue, startValue, endValue, dateValue, colorValue, linkValue } =
         useSidePanelStore((state) => state);
 
-    const addPeriod = async (e: React.FormEvent<HTMLFormElement>) => {
+    const addPeriod = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const start = new SimpleDate(startValue);
@@ -36,11 +36,11 @@ export const usePeriodEventHandler = () => {
             end_date: end.toString(),
             level: calculateLevel(start.getYear(), end.getYear(), periods),
         };
-        const responseData = await createPeriod(newPeriod);
+        const responseData = createPeriod(newPeriod);
         usePeriodsStore.getState().addPeriod(responseData);
     };
 
-    const addEvent = async (e: React.FormEvent<HTMLFormElement>) => {
+    const addEvent = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const newEventData = {
@@ -52,11 +52,11 @@ export const usePeriodEventHandler = () => {
             event_date: new SimpleDate(dateValue).toString(),
         };
 
-        const responseData = await createEvent(newEventData);
+        const responseData = createEvent(newEventData);
         useEventsStore.getState().addEvent(responseData);
     };
 
-    const updatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
+    const updatePeriod = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const { editPeriod } = useSidePanelStore.getState();
@@ -73,11 +73,11 @@ export const usePeriodEventHandler = () => {
             level: editPeriod.level,
         };
 
-        await updatePeriodService(periodData);
+        updatePeriodService(periodData);
         usePeriodsStore.getState().updatePeriod(periodData);
     };
 
-    const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
+    const updateEvent = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const { editEvent } = useSidePanelStore.getState();
@@ -92,7 +92,7 @@ export const usePeriodEventHandler = () => {
             event_date: new SimpleDate(dateValue).toString(),
         };
 
-        await updateEventService(eventData);
+        updateEventService(eventData);
         useEventsStore.getState().updateEvent(eventData);
     };
 

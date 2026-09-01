@@ -48,7 +48,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             NEGATIVE_LEVEL: newSettings.negative_level,
         });
     },
-    saveSettings: async () => {
+    saveSettings: () => {
         const settingsToSave = {
             year_spacing: get().YEAR_SPACING,
             base_year: get().BASE_YEAR,
@@ -59,11 +59,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             theme_index: get().THEME_INDEX,
             negative_level: get().NEGATIVE_LEVEL,
         };
-        try {
-            await updateSettings(settingsToSave);
-        } catch (error) {
-            console.error('Error saving settings:', error);
-        }
+        updateSettings(settingsToSave);
     },
     resetSettings: () => {
         const defaultSettings = {
@@ -78,7 +74,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
         };
         set(defaultSettings);
 
-        const defaultSettingsForApi = {
+        resetSettingsService({
             year_spacing: 100,
             base_year: 2010,
             period_height: 80,
@@ -87,9 +83,6 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             colorize_on_create: false,
             theme_index: 0,
             negative_level: true,
-        };
-        resetSettingsService(defaultSettingsForApi).catch((err) =>
-            console.error('Failed to reset settings on server', err),
-        );
+        });
     },
 }));
