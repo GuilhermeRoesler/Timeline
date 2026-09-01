@@ -15,7 +15,15 @@ const LandingPage = () => {
         <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50">
             <header className="border-b border-gray-200/80 bg-white/70 backdrop-blur">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-                    <span className="text-xl font-bold text-gray-900">Timeline</span>
+                    <span className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                        <img
+                            src={`${import.meta.env.BASE_URL}icon.png`}
+                            alt=""
+                            className="h-8 w-8 rounded-lg"
+                            aria-hidden
+                        />
+                        Timeline
+                    </span>
                     <Link
                         to="/dashboard"
                         className="text-sm font-medium text-gray-600 hover:text-blue-600"
