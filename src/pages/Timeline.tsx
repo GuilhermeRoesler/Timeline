@@ -20,6 +20,11 @@ const Timeline = ({ data, onBack }: TimelineProps) => {
     const setSettings = useSettingsStore((state) => state.setSettings);
 
     useEffect(() => {
+        document.body.classList.add('timeline-view');
+        return () => document.body.classList.remove('timeline-view');
+    }, []);
+
+    useEffect(() => {
         const formattedPeriods = data.periods.map((period) => ({
             ...period,
             start: new SimpleDate(period.start_date),
