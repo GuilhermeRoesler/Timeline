@@ -1,13 +1,8 @@
-import { useEffect } from "react"
 import Event from "./Event"
-import { useEventsLoaderStore } from "../../store/periodsEventsLoaderStore"
+import { useEventsStore } from "../../store/eventsStore"
 
 const EventsLoader = () => {
-    const { events, loadEventsFromLocalStorage } = useEventsLoaderStore(state => state)
-
-    useEffect(() => {
-        loadEventsFromLocalStorage();
-    }, []);
+    const { events } = useEventsStore(state => state)
 
     return (
         <>

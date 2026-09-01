@@ -63,7 +63,7 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
             x={stagePos.x}
             y={stagePos.y}
             style={{
-                backgroundColor: '#f2f2f2',
+                backgroundColor: '#f2f2f2 !important',
                 cursor: cursor,
             }}
         >

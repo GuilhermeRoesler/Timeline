@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useGlobalConfigStore } from "./globalConfigStore";
 
 export const settings = [
     "General",
@@ -8,6 +9,8 @@ export const settings = [
 ]
 
 export const TIMELINE_Y = window.innerHeight; // Meio da tela verticalmente
+
+const api = useGlobalConfigStore.getState().api
 
 type SettingsState = {
     settings: string[],
@@ -20,8 +23,8 @@ type SettingsState = {
     COLORIZE_ON_CREATE: boolean,
     THEME_INDEX: number,
     NEGATIVE_LEVEL: boolean,
-    loadSettingsFromLocalStorage: () => void,
-    saveSettingsToLocalStorage: () => void,
+    setSettings: (settings: any) => void,
+    saveSettings: () => void,
     resetSettings: () => void,
 }
 
@@ -36,48 +39,41 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     COLORIZE_ON_CREATE: false,
     THEME_INDEX: 0,
     NEGATIVE_LEVEL: true,
-    loadSettingsFromLocalStorage: () => {
-        try {
-            const savedSettings = localStorage.getItem("settings");
-            if (savedSettings) {
-                const parsedSettings = JSON.parse(savedSettings);
-                set({
-                    settingsIndex: parsedSettings.settingsIndex,
-                    YEAR_SPACING: parsedSettings.YEAR_SPACING,
-                    BASE_YEAR: parsedSettings.BASE_YEAR,
-                    PERIOD_HEIGHT: parsedSettings.PERIOD_HEIGHT,
-                    LEVEL_SPACING: parsedSettings.LEVEL_SPACING,
-                    EVENT_RADIUS: parsedSettings.EVENT_RADIUS,
-                    COLORIZE_ON_CREATE: parsedSettings.COLORIZE_ON_CREATE,
-                    THEME_INDEX: parsedSettings.THEME_INDEX,
-                    NEGATIVE_LEVEL: parsedSettings.NEGATIVE_LEVEL,
-                })
-            }
-        } catch (error) {
-            console.error("Error loading settings from local storage:", error);
+    setSettings: (newSettings: any) => {
+        if (!newSettings) {
+            console.log('erro1')
+            return; // Proteção contra valores nulos/indefinidos
         }
+        set({
+            YEAR_SPACING: newSettings.year_spacing,
+            BASE_YEAR: newSettings.base_year,
+            PERIOD_HEIGHT: newSettings.period_height,
+            LEVEL_SPACING: newSettings.level_spacing,
+            EVENT_RADIUS: newSettings.event_radius,
+            COLORIZE_ON_CREATE: newSettings.colorize_on_create,
+            THEME_INDEX: newSettings.theme_index,
+            NEGATIVE_LEVEL: newSettings.negative_level,
+        })
     },
-    saveSettingsToLocalStorage: () => {
-        const settings = {
-            settingsIndex: get().settingsIndex,
-            YEAR_SPACING: get().YEAR_SPACING,
-            BASE_YEAR: get().BASE_YEAR,
-            PERIOD_HEIGHT: get().PERIOD_HEIGHT,
-            LEVEL_SPACING: get().LEVEL_SPACING,
-            EVENT_RADIUS: get().EVENT_RADIUS,
-            COLORIZE_ON_CREATE: get().COLORIZE_ON_CREATE,
-            THEME_INDEX: get().THEME_INDEX,
-            NEGATIVE_LEVEL: get().NEGATIVE_LEVEL,
+    saveSettings: async () => {
+        const settingsToSave = {
+            year_spacing: get().YEAR_SPACING,
+            base_year: get().BASE_YEAR,
+            period_height: get().PERIOD_HEIGHT,
+            level_spacing: get().LEVEL_SPACING,
+            event_radius: get().EVENT_RADIUS,
+            colorize_on_create: get().COLORIZE_ON_CREATE,
+            theme_index: get().THEME_INDEX,
+            negative_level: get().NEGATIVE_LEVEL,
         };
         try {
-            localStorage.setItem("settings", JSON.stringify(settings));
+            await api.post('/settings', settingsToSave);
         } catch (error) {
-            console.error("Error saving settings to local storage:", error);
+            console.error("Error saving settings:", error);
         }
     },
     resetSettings: () => {
-        localStorage.removeItem("settings");
-        set({
+        const defaultSettings = {
             YEAR_SPACING: 100,
             BASE_YEAR: 2010,
             PERIOD_HEIGHT: 80,
@@ -86,6 +82,19 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             COLORIZE_ON_CREATE: false,
             THEME_INDEX: 0,
             NEGATIVE_LEVEL: true,
-        })
+        };
+        set(defaultSettings);
+        
+        const defaultSettingsForApi = {
+            year_spacing: 100,
+            base_year: 2010,
+            period_height: 80,
+            level_spacing: 30,
+            event_radius: 10,
+            colorize_on_create: false,
+            theme_index: 0,
+            negative_level: true,
+        };
+        api.post('/settings', defaultSettingsForApi).catch(err => console.error("Failed to reset settings on server", err));
     },
 }))

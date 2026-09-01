@@ -1,6 +1,6 @@
 import type { Period } from "../types/period";
 import { useSettingsStore } from "../store/settingsStore";
-import { usePeriodsLoaderStore } from "../store/periodsEventsLoaderStore";
+import { usePeriodsStore } from "../store/periodsStore";
 
 export const calculateLevel = (start: number, end: number, periods: Period[]) => {
     let level = 1;
@@ -32,7 +32,7 @@ export const calculateLevel = (start: number, end: number, periods: Period[]) =>
 }
 
 export const adjustLayer = () => {
-    const periods = usePeriodsLoaderStore.getState().periods
+    const periods = usePeriodsStore.getState().periods
     // Ordena os períodos por início (opcional, mas recomendado)
     const sorted = [...periods].sort((a, b) => a.start.getYear() - b.start.getYear());
     const placed: Period[] = [];
@@ -44,6 +44,6 @@ export const adjustLayer = () => {
     });
     // Retorna os períodos na ordem original, mas com os níveis ajustados
     const adjustedLayers = periods.map(p => adjusted.find(a => a.id === p.id) || p)
-    usePeriodsLoaderStore.getState().setPeriods(adjustedLayers);
+    usePeriodsStore.getState().setPeriods(adjustedLayers);
     return adjustedLayers;
 };

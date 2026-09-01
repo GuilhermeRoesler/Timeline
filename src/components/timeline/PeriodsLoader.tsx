@@ -1,13 +1,8 @@
-import { useEffect } from "react";
 import Period from './Period';
-import { usePeriodsLoaderStore } from "../../store/periodsEventsLoaderStore";
+import { usePeriodsStore } from "../../store/periodsStore";
 
 const PeriodsLoader = () => {
-    const { periods, loadPeriodsFromLocalStorage } = usePeriodsLoaderStore(state => state);
-
-    useEffect(() => {
-        loadPeriodsFromLocalStorage();
-    }, []);
+    const { periods } = usePeriodsStore(state => state);
 
     return (
         <>

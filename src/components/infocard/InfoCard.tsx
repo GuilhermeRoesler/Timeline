@@ -3,10 +3,12 @@ import { useDetailsBalloonStore } from "../../store/detailsBalloonStore"
 import { useStageControlsStore } from "../../store/stageControlsStore";
 import { type Event } from "../../types/event";
 import { type Period } from "../../types/period";
-import { usePeriodsLoaderStore, useEventsLoaderStore } from "../../store/periodsEventsLoaderStore";
+import { usePeriodsStore } from "../../store/periodsStore";
+import { useEventsStore } from "../../store/eventsStore";
 import { TIMELINE_Y, useSettingsStore } from "../../store/settingsStore";
 import SameYearEventsList from "./SameYearEventsList";
 import InfoCardContent from "./InfoCardContent";
+import { useGlobalConfigStore } from "../../store/globalConfigStore";
 
 const InfoCard = () => {
     const { stageScale, stagePos } = useStageControlsStore((state) => state);
@@ -18,14 +20,21 @@ const InfoCard = () => {
     const [animation, setAnimation] = useState('');
     const [sameYearEvents, setSameYearEvents] = useState<Event[]>([]);
     const [sameYearEventsIndex, setSameYearEventsIndex] = useState(0);
-    const events = useEventsLoaderStore((state) => state.events);
+    const events = useEventsStore((state) => state.events);
+    const api = useGlobalConfigStore(state => state.api)
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (localEvent) {
-            useEventsLoaderStore.getState().removeEvent(localEvent.id);
+            await api.delete('/events', {
+                data: { id: localEvent.id }
+            });
+            useEventsStore.getState().removeEvent(localEvent.id);
             setLocalEvent(null);
         } else if (localPeriod) {
-            usePeriodsLoaderStore.getState().removePeriod(localPeriod.id);
+            await api.delete('/periods', {
+                data: { id: localPeriod.id }
+            });
+            usePeriodsStore.getState().removePeriod(localPeriod.id);
             setLocalPeriod(null);
         }
         setAnimation('infoCardFadeOut 0.3s ease-in-out');
