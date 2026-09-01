@@ -9,6 +9,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+body {
+  overflow: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -46,7 +50,7 @@
 
 .side-panel {
   position: fixed;
-  top: 80px;
+  top: 50%;
   right: 30px;
   width: 400px;
   height: calc(100% - 100px);
@@ -74,6 +78,7 @@
 .side-panel form label {
   user-select: none;
   margin-inline: 3px 10px;
+  margin-bottom: 2px;
 }
 
 .side-panel form input,
@@ -130,15 +135,114 @@
 
 /* DETAILS BALLOON */
 
+@keyframes detailsBalloonFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detailsBalloonFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
 .details-balloon {
   position: absolute;
-  top: 50%;
-  left: 75px;
-  translate: 0 -50%;
+  width: 350px;
+  aspect-ratio: 1 / 1.2;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 16px;
+  padding: 1rem;
   z-index: 1000;
   font-family: 'Poppins';
+  transition: all 0.3s ease-in-out;
+  overflow-y: auto;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    scale: 1.02;
+  }
+
+  &>* {
+    user-select: none;
+  }
+}
+
+.details-balloon .title {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+
+.details-balloon .fa-xmark {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #444;
+}
+
+.details-balloon .description,
+.details-balloon .date {
+  font-size: .8rem;
+  color: #444;
+  margin-bottom: 0.3rem;
+}
+
+.details-balloon .date {
+  color: #666;
+  translate: 0 -0.2rem;
+  font-style: italic;
+  border-bottom: 1px solid #ccc;
+}
+
+.details-balloon img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.details-balloon .delete {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  transition: .3s ease-in-out;
+  float: right;
+}
+
+.details-balloon .delete:hover {
+  background-color: #e60000;
+}
+
+.details-balloon .delete:active {
+  background-color: #b30000;
+}
+
+.details-balloon .delete:focus {
+  box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.5);
+}
+
+.details-balloon .delete:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
