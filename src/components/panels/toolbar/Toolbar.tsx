@@ -27,8 +27,6 @@ const Toolbar = ({ onLogout }: { onLogout: () => void }) => {
         <div className="toolbar">
             <span style={{ fontWeight: "bold", fontSize: 24, color: "#333" }}>Timeline</span>
             <button onClick={handleOpen}>Criar</button>
-            {/* <button className="p-2 bg-transparent hover:bg-gray-100" title="Download" onClick={exportTimeline}><Download className="w-6 h-6 text-gray-700" /></button>
-            <button className="p-2 bg-transparent hover:bg-gray-100" title="Upload" onClick={importTimeline}><Upload className="w-6 h-6 text-gray-700" /></button> */}
             <button className="p-2 bg-transparent hover:bg-gray-100" title="Logout" onClick={onLogout}><LogOut className="w-6 h-6 text-gray-700" /></button>
             <div className="relative">
                 <button className="p-2 bg-transparent hover:bg-gray-100" title="More" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>

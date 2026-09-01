@@ -1,7 +1,5 @@
 import { SimpleDate } from "../lib/SimpleDate";
 
-export type DateString = `${number}-${number}-${number}`;
-
 export interface Period {
     id: string;
     title: string;

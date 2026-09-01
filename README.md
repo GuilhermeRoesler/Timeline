@@ -4,7 +4,7 @@
 
 **Timeline** is an interactive web application for creating, **viewing, and editing historical, scientific, or personal timelines**.
 
-Users can add periods and events, customize **colors, themes, and layers**, export/import data, and view item details. The project uses React, `Zustand` for state management, and `react-konva` for graphical rendering.
+Users can add periods and events, customize **colors, themes, and layers**, and view item details. The project uses React, `Zustand` for state management, and `react-konva` for graphical rendering.
 
 ![](public/demo.png)
 
@@ -15,9 +15,8 @@ Users can add periods and events, customize **colors, themes, and layers**, expo
 - ✅ **Smart Layers:** Periods are automatically arranged into different levels to avoid overlap, with support for negative layers (below the main timeline).
 - ✅ **Themes and Colors:** Multiple color themes for visual customization, with optional auto-coloring.
 - ✅ **Side Panel:** Interface to add, edit, and view period/event details, including image search and upload.
-- ✅ **Export/Import:** Save and load timelines as JSON files.
 - ✅ **Advanced Settings:** Adjust spacing, height, base year, event radius, and other preferences.
-- ✅ **Auto Description Generation:** AI (Cohere) integration to generate automatic descriptions for periods.
+- ✅ **Auto Description Generation:** AI (Google Gemini) integration to generate automatic descriptions for periods.
 - ✅ **Image Search:** Unsplash integration for image search by keyword.
 
 ## 📁 Folder Structure
@@ -28,14 +27,14 @@ src/
 │   ├── infocard/         # Detail card for periods/events
 │   ├── panels/           # Side panels and toolbar
 │   └── timeline/         # Timeline graphical components
-├── data/                 # Color themes
+├── data/                 # Color themes and seed data
 ├── hooks/                # Custom hooks (zoom, handlers)
 ├── lib/                  # Date utilities
-├── pages/                # Main pages (Timeline)
-├── services/             # External integrations (Unsplash, Cohere)
+├── pages/                # Main pages (Timeline, Login, Register)
+├── services/             # API and external integrations (Unsplash, Gemini)
 ├── store/                # Zustand stores (global state)
 ├── types/                # TypeScript types (Period, Event)
-└── utils/                # Utility functions (colors, layers, export)
+└── utils/                # Utility functions (colors, layers)
 ```
 
 ## 🧩 Main Components
@@ -66,7 +65,7 @@ src/
 
 ### 6. **Toolbar**
 
-- Top bar with buttons to create items, export/import, colorize, adjust layers, and access settings.
+- Top bar with buttons to create items, colorize, adjust layers, and access settings.
 
 ### 7. **SettingsModal**
 
@@ -75,7 +74,8 @@ src/
 ## 🧠 State Management
 
 - **Zustand** is used to manage the global state of:
-  - Periods and events (`periodsEventsLoaderStore`)
+  - Periods (`periodsStore`)
+  - Events (`eventsStore`)
   - Timeline settings (`settingsStore`)
   - Side panel state (`sidePanelStore`)
   - Focused detail cards (`detailsBalloonStore`)
@@ -107,45 +107,24 @@ interface Event {
 }
 ```
 
-## 🧪 Example Exported JSON
-
-```json
-{
-  "id": "01K19T51ZH3F654H1S8SK69PES",
-  "title": "Pandemic",
-  "description": "On March 11, 2020, COVID-19 was characterized by the WHO as a pandemic due to its wide geographical spread. On May 5, 2023, the WHO declared the end of the Public Health Emergency of International Concern (PHEIC) for COVID-19.",
-  "image": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?...",
-  "color": "#225c77",
-  "start": "2019-01-01",
-  "end": "2021-01-01",
-  "level": 1
-}
-```
-
 ## 🔄 Usage Flow
 
 1. **Add Period/Event:** Click "Create" in the toolbar, fill the form in the side panel, and save.
 2. **Edit:** Click on a period/event on the timeline to open the editing panel.
 3. **View Details:** Hover over an item to see the InfoCard.
-4. **Export/Import:** Use the download/upload icons in the toolbar.
-5. **Settings:** Adjust themes, spacing, layers, and other preferences in the settings modal.
+4. **Settings:** Adjust themes, spacing, layers, and other preferences in the settings modal.
 
 ## 🎨 Customization
 
 - 🖍️ **Themes:** Choose from several color themes or create your own.
 - 📐 **Layers:** Enable negative layers for periods below the main line.
 - 🖌️ **Auto Coloring:** Automatically color new items upon creation.
-- 🔧 **Layout Adjustment:** Modify period height, spacing, event radius, base year, and more.
+- 🔧 **Layout Adjustment:** Modify period height, spacing, event radius, base year, year spacing, and more.
 
 ## 🌐 Integrations
 
 - **Unsplash:** Image search for periods/events.
-- **Cohere:** Automatic description generation in Portuguese.
-
-## 📤 Export / Import
-
-- **Export:** Saves periods and events to a JSON file.
-- **Import:** Loads a JSON file and updates the timeline.
+- **Google Gemini:** Automatic description generation in Portuguese.
 
 ## 🛠️ Technologies Used
 
@@ -153,8 +132,8 @@ interface Event {
 - **Zustand** (global state)
 - **react-konva** (interactive canvas)
 - **Axios** (HTTP requests)
-- **ULID** (unique IDs)
-- **Cohere API** (AI for text)
+- **Tailwind CSS v4** (styling)
+- **Google Gemini API** (AI for text)
 - **Unsplash API** (images)
 
 ## 🖥️ Running Locally
@@ -165,14 +144,27 @@ interface Event {
    npm install
    ```
 
-2. Configure API keys (Unsplash and Cohere) in `.env`.
+2. Copy the environment template and fill in your API keys:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Required variables:
+
+   | Variable | Description |
+   |----------|-------------|
+   | `VITE_API_URL` | Backend API URL (default: `http://localhost:8000/`) |
+   | `VITE_UNSPLASH_API_KEY` | Unsplash API key for image search |
+   | `VITE_GEMINI_API_KEY` | Google Gemini API key for description generation |
+
 3. Run the project:
 
    ```bash
    npm run dev
    ```
 
-4. Open in `http://localhost:3000` (or configured port).
+4. Open in `http://localhost:5173`.
 
 ## ❗ Notes & FAQ
 
@@ -182,11 +174,7 @@ Click the "Create" button on the top toolbar. Then, fill out the side panel form
 
 ### ❓ What is auto description generation and how does it work?
 
-Timeline is integrated with the **Cohere** API, an AI service that can generate automatic descriptions for events or periods based on their title and dates. This feature is available in the side panel while editing or creating an item.
-
-### ❓ Can I export and share my timeline with other users?
-
-Yes! You can use the export function to save your timeline as a `JSON` file. This file can be shared or re-imported by other users using the same application, preserving all data and settings.
+Timeline is integrated with the **Google Gemini** API, which can generate automatic descriptions for events or periods based on their title. This feature is available in the side panel while editing or creating an item.
 
 ## 🤝 Contribution
 

@@ -1,5 +1,7 @@
 import api from './api';
 
-export const colorizeTimeline = async (periods, events) => {
+type ColorizePayload = Record<string, unknown>;
+
+export const colorizeTimeline = async (periods: ColorizePayload[], events: ColorizePayload[]) => {
     await api.put('/timeline/colorize', { periods, events });
 };

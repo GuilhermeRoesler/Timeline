@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import { generateText } from "../../../../services/cohereService"
+import { generateText } from "../../../../services/geminiService"
 import { useSidePanelStore } from "../../../../store/sidePanelStore"
 
 const Description = () => {

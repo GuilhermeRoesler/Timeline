@@ -6,7 +6,7 @@ import { adjustLayer } from "../../../utils/levelUtils"
 import ToggleSwitch from "./ToggleSwitch"
 
 const SettingsBody = () => {
-    const { settingsIndex, BASE_YEAR, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE, NEGATIVE_LEVEL } = useSettingsStore(state => state)
+    const { settingsIndex, BASE_YEAR, YEAR_SPACING, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE, NEGATIVE_LEVEL } = useSettingsStore(state => state)
 
     const switchTheme = (index: number) => {
         useSettingsStore.setState({ THEME_INDEX: index })
@@ -27,6 +27,13 @@ const SettingsBody = () => {
                         value={BASE_YEAR}
                         onChange={(e) => useSettingsStore.setState({ BASE_YEAR: Number(e.target.value) })} />
                     <p className="description">Ano padrão para renderização da Timeline</p>
+                </div>
+                <div className="setting-item">
+                    <p className="title">Year Spacing:</p>
+                    <input type="range" min={50} max={200} step={10}
+                        value={YEAR_SPACING}
+                        onChange={(e) => useSettingsStore.setState({ YEAR_SPACING: Number(e.target.value) })} />
+                    <p className="description">Distância horizontal entre anos na timeline</p>
                 </div>
             </div>
         )
