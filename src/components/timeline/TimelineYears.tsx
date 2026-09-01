@@ -39,7 +39,7 @@ const TimelineYears = () => {
             years.push(year);
         }
         setVisibleYears(years);
-    }, [stagePos.x, stageScale]);
+    }, [stagePos.x, stageScale, BASE_YEAR, YEAR_SPACING, setVisibleYears]);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDetailsBalloonStore } from '../../store/detailsBalloonStore';
 import { useStageControlsStore } from '../../store/stageControlsStore';
 import { type Event } from '../../types/event';
@@ -38,10 +38,15 @@ const InfoCard = () => {
         setAnimation('infoCardFadeOut 0.3s ease-in-out');
     };
 
-    const getOtherEvents = (event: Event): void => {
-        const eventsFiltered = events.filter((e) => e.date.getYear() === event.date.getYear());
-        setSameYearEvents(eventsFiltered);
-    };
+    const getOtherEvents = useCallback(
+        (selectedEvent: Event): void => {
+            const eventsFiltered = events.filter(
+                (e) => e.date.getYear() === selectedEvent.date.getYear(),
+            );
+            setSameYearEvents(eventsFiltered);
+        },
+        [events],
+    );
 
     useEffect(() => {
         if (event) {
@@ -59,7 +64,7 @@ const InfoCard = () => {
                 setLocalEvent(null);
             }, 300);
         }
-    }, [event, period]);
+    }, [event, period, getOtherEvents]);
 
     useEffect(() => {
         if (!isHovered && !(event || period)) {

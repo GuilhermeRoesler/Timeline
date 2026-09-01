@@ -1,15 +1,15 @@
 import { useState } from 'react';
+import { isAxiosError } from 'axios';
 import LoadingSpinner from '../icons/LoadingSpinner';
 import { History } from 'lucide-react';
 import { register } from '../services/authService';
 
-const RegisterPage = ({
-    onRegisterSuccess,
-    onNavigateToLogin,
-}: {
-    onRegisterSuccess: any;
-    onNavigateToLogin: any;
-}) => {
+type RegisterPageProps = {
+    onRegisterSuccess: () => void;
+    onNavigateToLogin: () => void;
+};
+
+const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin }: RegisterPageProps) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -23,8 +23,11 @@ const RegisterPage = ({
         try {
             await register(name, email, password);
             onRegisterSuccess();
-        } catch (err: any) {
-            setError(err.response?.data?.error || 'Não foi possível criar a conta.');
+        } catch (err: unknown) {
+            const message = isAxiosError(err)
+                ? (err.response?.data as { error?: string } | undefined)?.error
+                : undefined;
+            setError(message || 'Não foi possível criar a conta.');
         } finally {
             setLoading(false);
         }

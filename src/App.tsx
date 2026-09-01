@@ -2,11 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import Timeline from './pages/Timeline';
 import LoginPage from './pages/LoginPage';
 import LoadingSpinner from './icons/LoadingSpinner';
-import type { UserData } from './types/userData';
+import type { ApiUserData } from './types/userData';
 import RegisterPage from './pages/RegisterPage';
 import { useGlobalConfigStore } from './store/globalConfigStore';
 import initialData from './data/initialData.json';
-import { SimpleDate } from './lib/SimpleDate';
 import { getAllPeriods } from './services/periodService';
 import { getAllEvents } from './services/eventService';
 import { getSettings, updateSettings } from './services/settingsService';
@@ -14,7 +13,7 @@ import { logout } from './services/authService';
 
 const App = () => {
     const [page, setPage] = useState('login'); // 'login', 'register', 'timeline'
-    const [userData, setUserData] = useState<UserData | null>(null);
+    const [userData, setUserData] = useState<ApiUserData | null>(null);
     const [loading, setLoading] = useState(() => !!localStorage.getItem('authToken'));
     const setAuthToken = useGlobalConfigStore((state) => state.setAuthToken);
 
@@ -28,19 +27,11 @@ const App = () => {
             ]);
 
             if (settings === null && periods.length === 0 && events.length === 0) {
-                const formattedInitialData = {
-                    ...initialData,
-                    periods: initialData.periods.map((p) => ({
-                        ...p,
-                        start: new SimpleDate(p.start_date),
-                        end: new SimpleDate(p.end_date),
-                    })),
-                    events: initialData.events.map((e) => ({
-                        ...e,
-                        date: new SimpleDate(e.event_date),
-                    })),
-                };
-                setUserData(formattedInitialData as UserData);
+                setUserData({
+                    periods: initialData.periods,
+                    events: initialData.events,
+                    settings: initialData.settings,
+                });
                 await updateSettings(initialData.settings);
             } else {
                 setUserData({ periods, events, settings });
@@ -58,10 +49,13 @@ const App = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
-        if (token) {
-            setAuthToken(token);
-            fetchUserData();
-        }
+        if (!token) return;
+
+        setAuthToken(token);
+        const timeoutId = window.setTimeout(() => {
+            void fetchUserData();
+        }, 0);
+        return () => window.clearTimeout(timeoutId);
     }, [fetchUserData, setAuthToken]);
 
     const handleLoginSuccess = () => {

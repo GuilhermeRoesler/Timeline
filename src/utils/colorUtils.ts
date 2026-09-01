@@ -3,6 +3,8 @@ import { useEventsStore } from '../store/eventsStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { themeColors } from '../data/theme';
 import { colorizeTimeline } from '../services/timelineService';
+import type { Period } from '../types/period';
+import type { Event } from '../types/event';
 
 // Função pura para obter a próxima cor padrão
 export function getDefaultColor() {
@@ -26,20 +28,20 @@ export async function colorize() {
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
     const color = themeColors[THEME_INDEX];
 
-    const sortedPeriods = periods.sort(
-        (a: any, b: any) =>
+    const sortedPeriods = [...periods].sort(
+        (a: Period, b: Period) =>
             new Date(a.start.toString()).getTime() - new Date(b.start.toString()).getTime(),
     );
-    const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({
+    const colorizedPeriods = sortedPeriods.map((period: Period, index: number) => ({
         ...period,
         color: color[index % color.length],
     }));
 
-    const sortedEvents = events.sort(
-        (a: any, b: any) =>
+    const sortedEvents = [...events].sort(
+        (a: Event, b: Event) =>
             new Date(a.date.toString()).getTime() - new Date(b.date.toString()).getTime(),
     );
-    const colorizedEvents = sortedEvents.map((event: any, index: number) => ({
+    const colorizedEvents = sortedEvents.map((event: Event, index: number) => ({
         ...event,
         color: color[index % color.length],
     }));

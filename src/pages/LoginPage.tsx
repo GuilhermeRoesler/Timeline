@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+import { isAxiosError } from 'axios';
 import { History, Eye, EyeOff } from 'lucide-react';
 import LoadingSpinner from '../icons/LoadingSpinner';
 import { useGlobalConfigStore } from '../store/globalConfigStore';
 import { login } from '../services/authService';
 
-const LoginPage = ({
-    onLoginSuccess,
-    onNavigateToRegister,
-}: {
-    onLoginSuccess: any;
-    onNavigateToRegister: any;
-}) => {
+type LoginPageProps = {
+    onLoginSuccess: () => void;
+    onNavigateToRegister: () => void;
+};
+
+const LoginPage = ({ onLoginSuccess, onNavigateToRegister }: LoginPageProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -30,10 +30,11 @@ const LoginPage = ({
             } else {
                 setError('Token de autenticação não recebido do servidor.');
             }
-        } catch (err: any) {
-            setError(
-                err.response?.data?.error || 'Não foi possível fazer login. Verifique seus dados.',
-            );
+        } catch (err: unknown) {
+            const message = isAxiosError(err)
+                ? (err.response?.data as { error?: string } | undefined)?.error
+                : undefined;
+            setError(message || 'Não foi possível fazer login. Verifique seus dados.');
             setAuthToken(null);
         } finally {
             setLoading(false);

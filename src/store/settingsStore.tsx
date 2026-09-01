@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { updateSettings, resetSettings as resetSettingsService } from '../services/settingsService';
+import type { Settings } from '../types/settings';
 
 export const settings = ['General', 'Events', 'Periods', 'Color'];
 
@@ -16,7 +17,7 @@ type SettingsState = {
     COLORIZE_ON_CREATE: boolean;
     THEME_INDEX: number;
     NEGATIVE_LEVEL: boolean;
-    setSettings: (settings: any) => void;
+    setSettings: (settings: Settings | null) => void;
     saveSettings: () => void;
     resetSettings: () => void;
 };
@@ -32,7 +33,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     COLORIZE_ON_CREATE: false,
     THEME_INDEX: 0,
     NEGATIVE_LEVEL: true,
-    setSettings: (newSettings: any) => {
+    setSettings: (newSettings: Settings | null) => {
         if (!newSettings) {
             return;
         }

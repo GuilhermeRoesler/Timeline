@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import type { KonvaEventObject } from 'konva/lib/Node';
 import { useStageControlsStore } from '../store/stageControlsStore';
 
 export const useStageZoom = () => {
@@ -6,44 +7,53 @@ export const useStageZoom = () => {
     const setStagePos = useStageControlsStore((state) => state.setStagePos);
     const setCursor = useStageControlsStore((state) => state.setCursor);
 
-    const handleWheel = useCallback((e: any) => {
-        e.evt.preventDefault();
-        const scaleBy = 1.2;
-        const stage = e.target.getStage();
-        const oldScale = stage.scaleX();
-        const pointer = stage.getPointerPosition();
+    const handleWheel = useCallback(
+        (e: KonvaEventObject<WheelEvent>) => {
+            e.evt.preventDefault();
+            const scaleBy = 1.2;
+            const stage = e.target.getStage();
+            if (!stage) return;
 
-        const mousePointTo = {
-            x: (pointer.x - stage.x()) / oldScale,
-            y: (pointer.y - stage.y()) / oldScale,
-        };
+            const oldScale = stage.scaleX();
+            const pointer = stage.getPointerPosition();
+            if (!pointer) return;
 
-        const direction = e.evt.deltaY > 0 ? -1 : 1;
-        const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+            const mousePointTo = {
+                x: (pointer.x - stage.x()) / oldScale,
+                y: (pointer.y - stage.y()) / oldScale,
+            };
 
-        if (newScale > 0.75 || newScale < 0.007) {
-            return;
-        }
+            const direction = e.evt.deltaY > 0 ? -1 : 1;
+            const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
 
-        const newPos = {
-            x: pointer.x - mousePointTo.x * newScale,
-            y: pointer.y - mousePointTo.y * newScale,
-        };
+            if (newScale > 0.75 || newScale < 0.007) {
+                return;
+            }
 
-        setStageScale(newScale);
-        setStagePos(newPos);
-    }, []);
+            const newPos = {
+                x: pointer.x - mousePointTo.x * newScale,
+                y: pointer.y - mousePointTo.y * newScale,
+            };
 
-    const handleDragEnd = useCallback((e: any) => {
-        const newPos = {
-            x: e.target.x(),
-            y: e.target.y(),
-        };
-        setStagePos(newPos);
-    }, []);
+            setStageScale(newScale);
+            setStagePos(newPos);
+        },
+        [setStageScale, setStagePos],
+    );
 
-    const handleMouseDown = useCallback(() => setCursor('grabbing'), []);
-    const handleMouseUp = useCallback(() => setCursor('grab'), []);
+    const handleDragEnd = useCallback(
+        (e: KonvaEventObject<DragEvent>) => {
+            const newPos = {
+                x: e.target.x(),
+                y: e.target.y(),
+            };
+            setStagePos(newPos);
+        },
+        [setStagePos],
+    );
+
+    const handleMouseDown = useCallback(() => setCursor('grabbing'), [setCursor]);
+    const handleMouseUp = useCallback(() => setCursor('grab'), [setCursor]);
 
     return {
         handleDragEnd,

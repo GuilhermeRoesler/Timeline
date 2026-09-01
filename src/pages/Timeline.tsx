@@ -7,20 +7,26 @@ import TimelineAxis from '../components/timeline/TimelineAxis';
 import { usePeriodsStore } from '../store/periodsStore';
 import { useEventsStore } from '../store/eventsStore';
 import { useSettingsStore } from '../store/settingsStore';
+import type { ApiUserData } from '../types/userData';
 
-const Timeline = ({ data, onLogout }: { data: any; onLogout: () => void }) => {
+type TimelineProps = {
+    data: ApiUserData;
+    onLogout: () => void;
+};
+
+const Timeline = ({ data, onLogout }: TimelineProps) => {
     const setPeriods = usePeriodsStore((state) => state.setPeriods);
     const setEvents = useEventsStore((state) => state.setEvents);
     const setSettings = useSettingsStore((state) => state.setSettings);
 
     useEffect(() => {
-        const formattedPeriods = data.periods.map((period: any) => ({
+        const formattedPeriods = data.periods.map((period) => ({
             ...period,
             start: new SimpleDate(period.start_date),
             end: new SimpleDate(period.end_date),
         }));
 
-        const formattedEvents = data.events.map((event: any) => ({
+        const formattedEvents = data.events.map((event) => ({
             ...event,
             date: new SimpleDate(event.event_date),
         }));
