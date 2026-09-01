@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { useStageControlsStore } from "../store/stageControlsStore";
+import { useCallback } from 'react';
+import { useStageControlsStore } from '../store/stageControlsStore';
 
 export const useStageZoom = () => {
     const setStageScale = useStageControlsStore((state) => state.setStageScale);
@@ -21,7 +21,7 @@ export const useStageZoom = () => {
         const direction = e.evt.deltaY > 0 ? -1 : 1;
         const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
 
-        if (newScale > .75 || newScale < .007) {
+        if (newScale > 0.75 || newScale < 0.007) {
             return;
         }
 
@@ -37,7 +37,7 @@ export const useStageZoom = () => {
     const handleDragEnd = useCallback((e: any) => {
         const newPos = {
             x: e.target.x(),
-            y: e.target.y()
+            y: e.target.y(),
         };
         setStagePos(newPos);
     }, []);
@@ -49,6 +49,6 @@ export const useStageZoom = () => {
         handleDragEnd,
         handleWheel,
         handleMouseDown,
-        handleMouseUp
+        handleMouseUp,
     };
-}
+};

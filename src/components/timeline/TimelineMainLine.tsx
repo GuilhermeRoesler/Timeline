@@ -11,11 +11,12 @@ const TimelineMainLine = () => {
                 -10000 / stageScale - stagePos.x / stageScale,
                 TIMELINE_Y,
                 10000 / stageScale - stagePos.x / stageScale,
-                TIMELINE_Y]}
+                TIMELINE_Y,
+            ]}
             stroke="#333"
-            strokeWidth={2 / stageScale * 2}
+            strokeWidth={(2 / stageScale) * 2}
         />
-    )
-}
+    );
+};
 
-export default TimelineMainLine
+export default TimelineMainLine;

@@ -1,6 +1,6 @@
-import { Line, Text } from "react-konva"
-import { useStageControlsStore } from "../../store/stageControlsStore";
-import { TIMELINE_Y, useSettingsStore } from "../../store/settingsStore";
+import { Line, Text } from 'react-konva';
+import { useStageControlsStore } from '../../store/stageControlsStore';
+import { TIMELINE_Y, useSettingsStore } from '../../store/settingsStore';
 
 const YearMarker = ({ year }: { year: number }) => {
     const stageScale = useStageControlsStore((state) => state.stageScale);
@@ -25,11 +25,12 @@ const YearMarker = ({ year }: { year: number }) => {
             <Line
                 points={[
                     x,
-                    TIMELINE_Y - (20 / stageScale * .7),
+                    TIMELINE_Y - (20 / stageScale) * 0.7,
                     x,
-                    TIMELINE_Y + (20 / stageScale * .7)]}
+                    TIMELINE_Y + (20 / stageScale) * 0.7,
+                ]}
                 stroke="#666"
-                strokeWidth={1 / stageScale * 2}
+                strokeWidth={(1 / stageScale) * 2}
             />
 
             <Text
@@ -43,7 +44,7 @@ const YearMarker = ({ year }: { year: number }) => {
                 fontStyle={year % 10 === 0 ? 'bold' : 'normal'}
             />
         </>
-    )
-}
+    );
+};
 
-export default YearMarker
+export default YearMarker;

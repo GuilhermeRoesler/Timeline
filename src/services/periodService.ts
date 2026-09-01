@@ -17,7 +17,9 @@ export const getAllPeriods = async () => {
     return response.data;
 };
 
-export const createPeriod = async (periodData: Omit<PeriodPayload, 'level'> & { level: number }) => {
+export const createPeriod = async (
+    periodData: Omit<PeriodPayload, 'level'> & { level: number },
+) => {
     const response = await api.post('/periods', periodData);
     return response.data;
 };

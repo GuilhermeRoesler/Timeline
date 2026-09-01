@@ -7,7 +7,9 @@ import YearMarker from './YearMarker';
 import SubYearMarkerLoader from './SubYearMarkerLoader';
 
 const TimelineYears = () => {
-    const { stageScale, stagePos, visibleYears, setVisibleYears } = useStageControlsStore((state) => state);
+    const { stageScale, stagePos, visibleYears, setVisibleYears } = useStageControlsStore(
+        (state) => state,
+    );
     const { BASE_YEAR, YEAR_SPACING } = useSettingsStore((state) => state);
 
     // Calcular quais anos mostrar baseado na posição e zoom atual
@@ -15,7 +17,7 @@ const TimelineYears = () => {
         const stageWidth = window.innerWidth;
 
         // Calcular a área visível considerando posição e zoom
-        const leftBound = (-stagePos.x) / stageScale;
+        const leftBound = -stagePos.x / stageScale;
         const rightBound = (stageWidth - stagePos.x) / stageScale;
 
         // Calcular quais anos estão visíveis
@@ -27,8 +29,8 @@ const TimelineYears = () => {
         // Gera anos visíveis com o step dinâmico
         const years = [];
         // Ajusta para o múltiplo mais próximo do step
-        let firstYear = startYear - 5 - ((startYear - 5) % yearStep);
-        let lastYear = endYear + 5;
+        const firstYear = startYear - 5 - ((startYear - 5) % yearStep);
+        const lastYear = endYear + 5;
 
         // let firstYear2 = startYear - (Math.floor(5 / stageScale * 4) - (Math.floor(5 / stageScale * 4)) % 10) - ((startYear - 5) % yearStep);
         // let lastYear2 = endYear + (Math.floor(5 / stageScale * 4) - (Math.floor(5 / stageScale * 4)) % getYearStep(stageScale));
@@ -66,7 +68,7 @@ const TimelineYears = () => {
                 );
             })}
         </>
-    )
-}
+    );
+};
 
-export default TimelineYears
+export default TimelineYears;

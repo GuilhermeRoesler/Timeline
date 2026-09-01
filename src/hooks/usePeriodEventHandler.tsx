@@ -1,14 +1,15 @@
-import { usePeriodsStore } from "../store/periodsStore";
-import { useEventsStore } from "../store/eventsStore";
-import { useSidePanelStore } from "../store/sidePanelStore";
-import { SimpleDate } from "../lib/SimpleDate";
-import { calculateLevel } from "../utils/levelUtils";
-import { createPeriod, updatePeriod as updatePeriodService } from "../services/periodService";
-import { createEvent, updateEvent as updateEventService } from "../services/eventService";
+import { usePeriodsStore } from '../store/periodsStore';
+import { useEventsStore } from '../store/eventsStore';
+import { useSidePanelStore } from '../store/sidePanelStore';
+import { SimpleDate } from '../lib/SimpleDate';
+import { calculateLevel } from '../utils/levelUtils';
+import { createPeriod, updatePeriod as updatePeriodService } from '../services/periodService';
+import { createEvent, updateEvent as updateEventService } from '../services/eventService';
 
 export const usePeriodEventHandler = () => {
-    const periods = usePeriodsStore(state => state.periods)
-    const { titleValue, descriptionValue, startValue, endValue, dateValue, colorValue, linkValue } = useSidePanelStore(state => state)
+    const periods = usePeriodsStore((state) => state.periods);
+    const { titleValue, descriptionValue, startValue, endValue, dateValue, colorValue, linkValue } =
+        useSidePanelStore((state) => state);
 
     const addPeriod = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,11 +18,11 @@ export const usePeriodEventHandler = () => {
         const end = new SimpleDate(endValue);
 
         if (start.getYear() > end.getYear()) {
-            alert("A data de início não pode ser maior que a data de término.");
+            alert('A data de início não pode ser maior que a data de término.');
             return;
         }
         if (start.getYear() === end.getYear()) {
-            alert("A data de início não pode ser igual à data de término.");
+            alert('A data de início não pode ser igual à data de término.');
             return;
         }
 
@@ -37,7 +38,7 @@ export const usePeriodEventHandler = () => {
         };
         const responseData = await createPeriod(newPeriod);
         usePeriodsStore.getState().addPeriod(responseData);
-    }
+    };
 
     const addEvent = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -53,7 +54,7 @@ export const usePeriodEventHandler = () => {
 
         const responseData = await createEvent(newEventData);
         useEventsStore.getState().addEvent(responseData);
-    }
+    };
 
     const updatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -74,7 +75,7 @@ export const usePeriodEventHandler = () => {
 
         await updatePeriodService(periodData);
         usePeriodsStore.getState().updatePeriod(periodData);
-    }
+    };
 
     const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -93,7 +94,7 @@ export const usePeriodEventHandler = () => {
 
         await updateEventService(eventData);
         useEventsStore.getState().updateEvent(eventData);
-    }
+    };
 
     return { addPeriod, addEvent, updatePeriod, updateEvent };
-}
+};

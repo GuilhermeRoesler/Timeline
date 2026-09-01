@@ -1,4 +1,4 @@
-import { SimpleDate } from "../lib/SimpleDate";
+import { SimpleDate } from '../lib/SimpleDate';
 
 export interface Event {
     id: string;

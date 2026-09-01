@@ -1,8 +1,8 @@
 import Period from './Period';
-import { usePeriodsStore } from "../../store/periodsStore";
+import { usePeriodsStore } from '../../store/periodsStore';
 
 const PeriodsLoader = () => {
-    const { periods } = usePeriodsStore(state => state);
+    const { periods } = usePeriodsStore((state) => state);
 
     return (
         <>

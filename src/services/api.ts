@@ -1,12 +1,12 @@
-import axios from "axios";
-import { useGlobalConfigStore } from "../store/globalConfigStore";
+import axios from 'axios';
+import { useGlobalConfigStore } from '../store/globalConfigStore';
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:8000/',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
-    }
+    },
 });
 
 api.interceptors.request.use((config) => {

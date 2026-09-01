@@ -1,8 +1,8 @@
-import Event from "./Event"
-import { useEventsStore } from "../../store/eventsStore"
+import Event from './Event';
+import { useEventsStore } from '../../store/eventsStore';
 
 const EventsLoader = () => {
-    const { events } = useEventsStore(state => state)
+    const { events } = useEventsStore((state) => state);
 
     return (
         <>
@@ -10,7 +10,7 @@ const EventsLoader = () => {
                 <Event key={index} event={event} />
             ))}
         </>
-    )
-}
+    );
+};
 
-export default EventsLoader
+export default EventsLoader;

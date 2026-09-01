@@ -1,21 +1,30 @@
-import { useSettingsStore } from "../../../store/settingsStore"
-import { themeNames } from "../../../data/theme"
-import { colorize } from "../../../utils/colorUtils"
-import { useEffect } from "react"
-import { adjustLayer } from "../../../utils/levelUtils"
-import ToggleSwitch from "./ToggleSwitch"
+import { useSettingsStore } from '../../../store/settingsStore';
+import { themeNames } from '../../../data/theme';
+import { colorize } from '../../../utils/colorUtils';
+import { useEffect } from 'react';
+import { adjustLayer } from '../../../utils/levelUtils';
+import ToggleSwitch from './ToggleSwitch';
 
 const SettingsBody = () => {
-    const { settingsIndex, BASE_YEAR, YEAR_SPACING, EVENT_RADIUS, PERIOD_HEIGHT, LEVEL_SPACING, COLORIZE_ON_CREATE, NEGATIVE_LEVEL } = useSettingsStore(state => state)
+    const {
+        settingsIndex,
+        BASE_YEAR,
+        YEAR_SPACING,
+        EVENT_RADIUS,
+        PERIOD_HEIGHT,
+        LEVEL_SPACING,
+        COLORIZE_ON_CREATE,
+        NEGATIVE_LEVEL,
+    } = useSettingsStore((state) => state);
 
     const switchTheme = (index: number) => {
-        useSettingsStore.setState({ THEME_INDEX: index })
+        useSettingsStore.setState({ THEME_INDEX: index });
         colorize();
-    }
+    };
 
     useEffect(() => {
         adjustLayer();
-    }, [NEGATIVE_LEVEL])
+    }, [NEGATIVE_LEVEL]);
 
     if (settingsIndex === 0)
         return (
@@ -23,20 +32,31 @@ const SettingsBody = () => {
                 <h3 className="group">General Settings</h3>
                 <div className="setting-item">
                     <p className="title">Base Year:</p>
-                    <input type="number"
+                    <input
+                        type="number"
                         value={BASE_YEAR}
-                        onChange={(e) => useSettingsStore.setState({ BASE_YEAR: Number(e.target.value) })} />
+                        onChange={(e) =>
+                            useSettingsStore.setState({ BASE_YEAR: Number(e.target.value) })
+                        }
+                    />
                     <p className="description">Ano padrão para renderização da Timeline</p>
                 </div>
                 <div className="setting-item">
                     <p className="title">Year Spacing:</p>
-                    <input type="range" min={50} max={200} step={10}
+                    <input
+                        type="range"
+                        min={50}
+                        max={200}
+                        step={10}
                         value={YEAR_SPACING}
-                        onChange={(e) => useSettingsStore.setState({ YEAR_SPACING: Number(e.target.value) })} />
+                        onChange={(e) =>
+                            useSettingsStore.setState({ YEAR_SPACING: Number(e.target.value) })
+                        }
+                    />
                     <p className="description">Distância horizontal entre anos na timeline</p>
                 </div>
             </div>
-        )
+        );
 
     if (settingsIndex === 1)
         return (
@@ -44,13 +64,20 @@ const SettingsBody = () => {
                 <h3 className="group">Events</h3>
                 <div className="setting-item">
                     <p className="title">Event Radius:</p>
-                    <input type="range" min={5} max={40} step={5}
+                    <input
+                        type="range"
+                        min={5}
+                        max={40}
+                        step={5}
                         value={EVENT_RADIUS}
-                        onChange={(e) => useSettingsStore.setState({ EVENT_RADIUS: Number(e.target.value) })} />
+                        onChange={(e) =>
+                            useSettingsStore.setState({ EVENT_RADIUS: Number(e.target.value) })
+                        }
+                    />
                     <p className="description">Tamanho do evento</p>
                 </div>
             </div>
-        )
+        );
 
     if (settingsIndex === 2)
         return (
@@ -58,19 +85,29 @@ const SettingsBody = () => {
                 <h3 className="group">Periods</h3>
                 <div className="setting-item">
                     <p className="title">Period Height:</p>
-                    <input type="range" min={40} max={140} step={5}
+                    <input
+                        type="range"
+                        min={40}
+                        max={140}
+                        step={5}
                         value={PERIOD_HEIGHT}
-                        onChange={(e) => useSettingsStore.setState({ PERIOD_HEIGHT: Number(e.target.value) })} />
+                        onChange={(e) =>
+                            useSettingsStore.setState({ PERIOD_HEIGHT: Number(e.target.value) })
+                        }
+                    />
                     <p className="description">Tamanho dos períodos</p>
                 </div>
                 <div className="setting-item">
                     <p className="title">Level Spacing:</p>
-                    <input type="range"
+                    <input
+                        type="range"
                         min={0}
                         max={100}
                         step={1}
                         value={LEVEL_SPACING}
-                        onChange={(e) => useSettingsStore.setState({ LEVEL_SPACING: Number(e.target.value) })}
+                        onChange={(e) =>
+                            useSettingsStore.setState({ LEVEL_SPACING: Number(e.target.value) })
+                        }
                     />
                     <p className="description">Espaçamento entre os períodos</p>
                 </div>
@@ -79,11 +116,16 @@ const SettingsBody = () => {
                     <ToggleSwitch
                         id="negative-level"
                         checked={NEGATIVE_LEVEL}
-                        onChange={(e) => useSettingsStore.setState({ NEGATIVE_LEVEL: e.target.checked })} />
-                    <p className="description">Habilita que períodos sejam renderizados abaixo da linha principal</p>
+                        onChange={(e) =>
+                            useSettingsStore.setState({ NEGATIVE_LEVEL: e.target.checked })
+                        }
+                    />
+                    <p className="description">
+                        Habilita que períodos sejam renderizados abaixo da linha principal
+                    </p>
                 </div>
             </div>
-        )
+        );
 
     if (settingsIndex === 3)
         return (
@@ -94,21 +136,30 @@ const SettingsBody = () => {
                     <ToggleSwitch
                         id="colorize-on-create"
                         checked={COLORIZE_ON_CREATE}
-                        onChange={(e) => useSettingsStore.setState({ COLORIZE_ON_CREATE: e.target.checked })} />
+                        onChange={(e) =>
+                            useSettingsStore.setState({ COLORIZE_ON_CREATE: e.target.checked })
+                        }
+                    />
                     <p className="description">Auto colorir ao criar períodos</p>
                 </div>
                 <div className="setting-item">
                     <p className="title">Theme:</p>
-                    <select name="theme" id="settings-theme-id" onChange={(e) => switchTheme(e.target.selectedIndex)}
-                        value={themeNames[useSettingsStore.getState().THEME_INDEX]}>
+                    <select
+                        name="theme"
+                        id="settings-theme-id"
+                        onChange={(e) => switchTheme(e.target.selectedIndex)}
+                        value={themeNames[useSettingsStore.getState().THEME_INDEX]}
+                    >
                         {themeNames.map((theme, index) => (
-                            <option key={index} value={theme}>{theme}</option>
+                            <option key={index} value={theme}>
+                                {theme}
+                            </option>
                         ))}
                     </select>
                     <p className="description">Tema aplicado aos períodos e eventos</p>
                 </div>
             </div>
-        )
-}
+        );
+};
 
-export default SettingsBody
+export default SettingsBody;

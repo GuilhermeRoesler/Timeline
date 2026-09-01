@@ -25,7 +25,7 @@ export class SimpleDate {
     }
 
     toDate(): Date {
-        const [ano, mes, dia] = this.valor.split("-").map(Number);
+        const [ano, mes, dia] = this.valor.split('-').map(Number);
         return new Date(ano, mes - 1, dia); // fuso local
     }
 }

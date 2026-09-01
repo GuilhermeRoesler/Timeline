@@ -74,36 +74,36 @@ src/
 ## 🧠 State Management
 
 - **Zustand** is used to manage the global state of:
-  - Periods (`periodsStore`)
-  - Events (`eventsStore`)
-  - Timeline settings (`settingsStore`)
-  - Side panel state (`sidePanelStore`)
-  - Focused detail cards (`detailsBalloonStore`)
-  - Zoom and stage position (`stageControlsStore`)
+    - Periods (`periodsStore`)
+    - Events (`eventsStore`)
+    - Timeline settings (`settingsStore`)
+    - Side panel state (`sidePanelStore`)
+    - Focused detail cards (`detailsBalloonStore`)
+    - Zoom and stage position (`stageControlsStore`)
 
 ## 🧾 Main Types
 
 ```typescript
 // Period
 interface Period {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  color: string;
-  start: SimpleDate;
-  end: SimpleDate;
-  level: number;
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    color: string;
+    start: SimpleDate;
+    end: SimpleDate;
+    level: number;
 }
 
 // Event
 interface Event {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  color: string;
-  date: SimpleDate;
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    color: string;
+    date: SimpleDate;
 }
 ```
 
@@ -140,29 +140,29 @@ interface Event {
 
 1. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 2. Copy the environment template and fill in your API keys:
 
-   ```bash
-   cp .env.example .env
-   ```
+    ```bash
+    cp .env.example .env
+    ```
 
-   Required variables:
+    Required variables:
 
-   | Variable | Description |
-   |----------|-------------|
-   | `VITE_API_URL` | Backend API URL (default: `http://localhost:8000/`) |
-   | `VITE_UNSPLASH_API_KEY` | Unsplash API key for image search |
-   | `VITE_GEMINI_API_KEY` | Google Gemini API key for description generation |
+    | Variable                | Description                                         |
+    | ----------------------- | --------------------------------------------------- |
+    | `VITE_API_URL`          | Backend API URL (default: `http://localhost:8000/`) |
+    | `VITE_UNSPLASH_API_KEY` | Unsplash API key for image search                   |
+    | `VITE_GEMINI_API_KEY`   | Google Gemini API key for description generation    |
 
 3. Run the project:
 
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 4. Open in `http://localhost:5173`.
 

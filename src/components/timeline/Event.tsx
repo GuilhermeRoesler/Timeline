@@ -1,8 +1,8 @@
-import { type Event as EventType } from "../../types/event"
-import { Circle } from "react-konva";
-import { useDetailsBalloonStore } from "../../store/detailsBalloonStore";
-import { useSidePanelStore } from "../../store/sidePanelStore";
-import { TIMELINE_Y, useSettingsStore } from "../../store/settingsStore";
+import { type Event as EventType } from '../../types/event';
+import { Circle } from 'react-konva';
+import { useDetailsBalloonStore } from '../../store/detailsBalloonStore';
+import { useSidePanelStore } from '../../store/sidePanelStore';
+import { TIMELINE_Y, useSettingsStore } from '../../store/settingsStore';
 
 const Event = ({ event }: { event: EventType }) => {
     const setEvent = useDetailsBalloonStore((state) => state.setEvent);
@@ -16,13 +16,13 @@ const Event = ({ event }: { event: EventType }) => {
                 x={x}
                 y={TIMELINE_Y}
                 radius={EVENT_RADIUS}
-                fill={event.color || "#ffb703"}
+                fill={event.color || '#ffb703'}
                 onMouseEnter={() => setEvent(event)}
                 onMouseLeave={() => setEvent(null)}
                 onClick={() => useSidePanelStore.setState({ editEvent: event })}
             />
         </>
-    )
-}
+    );
+};
 
-export default Event
+export default Event;

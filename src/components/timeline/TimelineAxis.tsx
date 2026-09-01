@@ -13,6 +13,6 @@ const TimelineAxis = () => {
             <EventsLoader />
         </TimelineStage>
     );
-}
+};
 
-export default TimelineAxis
+export default TimelineAxis;

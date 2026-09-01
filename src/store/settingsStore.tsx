@@ -1,30 +1,25 @@
-import { create } from "zustand";
-import { updateSettings, resetSettings as resetSettingsService } from "../services/settingsService";
+import { create } from 'zustand';
+import { updateSettings, resetSettings as resetSettingsService } from '../services/settingsService';
 
-export const settings = [
-    "General",
-    "Events",
-    "Periods",
-    "Color",
-]
+export const settings = ['General', 'Events', 'Periods', 'Color'];
 
 export const TIMELINE_Y = window.innerHeight; // Meio da tela verticalmente
 
 type SettingsState = {
-    settings: string[],
-    settingsIndex: number,
-    YEAR_SPACING: number,
-    BASE_YEAR: number,
-    PERIOD_HEIGHT: number,
-    LEVEL_SPACING: number,
-    EVENT_RADIUS: number,
-    COLORIZE_ON_CREATE: boolean,
-    THEME_INDEX: number,
-    NEGATIVE_LEVEL: boolean,
-    setSettings: (settings: any) => void,
-    saveSettings: () => void,
-    resetSettings: () => void,
-}
+    settings: string[];
+    settingsIndex: number;
+    YEAR_SPACING: number;
+    BASE_YEAR: number;
+    PERIOD_HEIGHT: number;
+    LEVEL_SPACING: number;
+    EVENT_RADIUS: number;
+    COLORIZE_ON_CREATE: boolean;
+    THEME_INDEX: number;
+    NEGATIVE_LEVEL: boolean;
+    setSettings: (settings: any) => void;
+    saveSettings: () => void;
+    resetSettings: () => void;
+};
 
 export const useSettingsStore = create<SettingsState>((set, get) => ({
     settings,
@@ -50,7 +45,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             COLORIZE_ON_CREATE: newSettings.colorize_on_create,
             THEME_INDEX: newSettings.theme_index,
             NEGATIVE_LEVEL: newSettings.negative_level,
-        })
+        });
     },
     saveSettings: async () => {
         const settingsToSave = {
@@ -66,7 +61,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
         try {
             await updateSettings(settingsToSave);
         } catch (error) {
-            console.error("Error saving settings:", error);
+            console.error('Error saving settings:', error);
         }
     },
     resetSettings: () => {
@@ -92,6 +87,8 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
             theme_index: 0,
             negative_level: true,
         };
-        resetSettingsService(defaultSettingsForApi).catch(err => console.error("Failed to reset settings on server", err));
+        resetSettingsService(defaultSettingsForApi).catch((err) =>
+            console.error('Failed to reset settings on server', err),
+        );
     },
-}))
+}));

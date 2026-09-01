@@ -1,9 +1,9 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type GlobalConfigState = {
     authToken: string | null;
     setAuthToken: (token: string | null) => void;
-}
+};
 
 export const useGlobalConfigStore = create<GlobalConfigState>((set) => ({
     authToken: null,
@@ -14,5 +14,5 @@ export const useGlobalConfigStore = create<GlobalConfigState>((set) => ({
             localStorage.removeItem('authToken');
         }
         set({ authToken: token });
-    }
-}))
+    },
+}));

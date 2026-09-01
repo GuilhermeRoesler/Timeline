@@ -1,10 +1,12 @@
-import { Stage, Layer } from "react-konva";
+import { Stage, Layer } from 'react-konva';
 import { useStageZoom } from '../../hooks/useStageControls';
 import { useStageControlsStore } from '../../store/stageControlsStore';
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 const TimelineStage = ({ children }: { children: React.ReactNode }) => {
-    const { stageScale, stagePos, cursor, setStagePos, setStageScale } = useStageControlsStore((state) => state);
+    const { stageScale, stagePos, cursor, setStagePos, setStageScale } = useStageControlsStore(
+        (state) => state,
+    );
     const { handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
 
     // keyboard controls and movements
@@ -13,7 +15,7 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
             const prevStagePos = useStageControlsStore.getState().stagePos;
             const prevStageScale = useStageControlsStore.getState().stageScale;
 
-            let newPos = { ...prevStagePos };
+            const newPos = { ...prevStagePos };
             let newScale = prevStageScale;
             switch (event.key) {
                 case 'ArrowUp':
@@ -30,24 +32,22 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
                     break;
                 case '+':
                     event.preventDefault();
-                    newScale = newScale * 1.1
+                    newScale = newScale * 1.1;
                     break;
                 case '-':
                     event.preventDefault();
-                    newScale = newScale / 1.1
+                    newScale = newScale / 1.1;
                     break;
                 default:
                     return;
             }
-            if (!(newScale > .75 || newScale < .007))
-                setStageScale(newScale);
+            if (!(newScale > 0.75 || newScale < 0.007)) setStageScale(newScale);
             setStagePos(newPos);
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [setStagePos, setStageScale]);
-
 
     return (
         <Stage
@@ -67,9 +67,7 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
                 cursor: cursor,
             }}
         >
-            <Layer>
-                {children}
-            </Layer>
+            <Layer>{children}</Layer>
         </Stage>
     );
 };

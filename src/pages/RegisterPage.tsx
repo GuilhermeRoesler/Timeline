@@ -1,9 +1,15 @@
-import { useState } from "react";
-import LoadingSpinner from "../icons/LoadingSpinner";
-import { History } from "lucide-react";
-import { register } from "../services/authService";
+import { useState } from 'react';
+import LoadingSpinner from '../icons/LoadingSpinner';
+import { History } from 'lucide-react';
+import { register } from '../services/authService';
 
-const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin }: { onRegisterSuccess: any, onNavigateToLogin: any }) => {
+const RegisterPage = ({
+    onRegisterSuccess,
+    onNavigateToLogin,
+}: {
+    onRegisterSuccess: any;
+    onNavigateToLogin: any;
+}) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -32,46 +38,84 @@ const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin }: { onRegisterSucc
                         <History className="w-8 h-8" />
                     </div>
                     <h2 className="text-3xl font-bold text-gray-800 text-center">Crie sua Conta</h2>
-                    <p className="text-gray-500 text-center">Comece a organizar sua história hoje mesmo.</p>
+                    <p className="text-gray-500 text-center">
+                        Comece a organizar sua história hoje mesmo.
+                    </p>
                 </div>
 
-                {error && <div className="bg-red-100 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-md text-sm animate-shake">{error}</div>}
+                {error && (
+                    <div className="bg-red-100 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-md text-sm animate-shake">
+                        {error}
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="name" className="text-sm font-semibold text-gray-700">Nome</label>
+                        <label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                            Nome
+                        </label>
                         <input
-                            id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required
+                            id="name"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
                             className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
                             placeholder="Seu nome completo"
                         />
                     </div>
                     <div>
-                        <label htmlFor="email-register" className="text-sm font-semibold text-gray-700">E-mail</label>
+                        <label
+                            htmlFor="email-register"
+                            className="text-sm font-semibold text-gray-700"
+                        >
+                            E-mail
+                        </label>
                         <input
-                            id="email-register" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
+                            id="email-register"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
                             className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
                             placeholder="seu@email.com"
                         />
                     </div>
                     <div>
-                        <label htmlFor="password-register" className="text-sm font-semibold text-gray-700">Senha</label>
+                        <label
+                            htmlFor="password-register"
+                            className="text-sm font-semibold text-gray-700"
+                        >
+                            Senha
+                        </label>
                         <input
-                            id="password-register" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
+                            id="password-register"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
                             className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
                             placeholder="Crie uma senha forte"
                         />
                     </div>
                     <button
-                        type="submit" disabled={loading}
+                        type="submit"
+                        disabled={loading}
                         className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-indigo-400 disabled:scale-100 flex justify-center items-center"
                     >
-                        {loading ? <LoadingSpinner size="h-6 w-6" color="border-white" /> : 'Cadastrar'}
+                        {loading ? (
+                            <LoadingSpinner size="h-6 w-6" color="border-white" />
+                        ) : (
+                            'Cadastrar'
+                        )}
                     </button>
                 </form>
                 <p className="text-center text-sm text-gray-600">
                     Já tem uma conta?{' '}
-                    <button onClick={onNavigateToLogin} className="font-semibold text-indigo-600 hover:underline cursor-pointer">
+                    <button
+                        onClick={onNavigateToLogin}
+                        className="font-semibold text-indigo-600 hover:underline cursor-pointer"
+                    >
                         Faça login
                     </button>
                 </p>
@@ -80,4 +124,4 @@ const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin }: { onRegisterSucc
     );
 };
 
-export default RegisterPage
+export default RegisterPage;

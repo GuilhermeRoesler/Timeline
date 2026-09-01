@@ -1,8 +1,8 @@
-import { usePeriodsStore } from "../store/periodsStore";
-import { useEventsStore } from "../store/eventsStore";
-import { useSettingsStore } from "../store/settingsStore";
-import { themeColors } from "../data/theme";
-import { colorizeTimeline } from "../services/timelineService";
+import { usePeriodsStore } from '../store/periodsStore';
+import { useEventsStore } from '../store/eventsStore';
+import { useSettingsStore } from '../store/settingsStore';
+import { themeColors } from '../data/theme';
+import { colorizeTimeline } from '../services/timelineService';
 
 // Função pura para obter a próxima cor padrão
 export function getDefaultColor() {
@@ -12,12 +12,10 @@ export function getDefaultColor() {
     const color = themeColors[THEME_INDEX];
 
     const usedColors = [
-        ...periods.map(p => (p.color || "").toUpperCase()),
-        ...events.map(e => (e.color || "").toUpperCase())
-    ].filter(c => c && color.includes(c));
-    const lastColor = usedColors.length > 0
-        ? usedColors[usedColors.length - 1]
-        : color[0];
+        ...periods.map((p) => (p.color || '').toUpperCase()),
+        ...events.map((e) => (e.color || '').toUpperCase()),
+    ].filter((c) => c && color.includes(c));
+    const lastColor = usedColors.length > 0 ? usedColors[usedColors.length - 1] : color[0];
     const idx = color.indexOf(lastColor);
     return color[(idx + 1) % color.length];
 }
@@ -28,18 +26,30 @@ export async function colorize() {
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
     const color = themeColors[THEME_INDEX];
 
-    const sortedPeriods = periods.sort((a: any, b: any) => new Date(a.start.toString()).getTime() - new Date(b.start.toString()).getTime());
-    const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({ ...period, color: color[index % color.length] }));
+    const sortedPeriods = periods.sort(
+        (a: any, b: any) =>
+            new Date(a.start.toString()).getTime() - new Date(b.start.toString()).getTime(),
+    );
+    const colorizedPeriods = sortedPeriods.map((period: any, index: number) => ({
+        ...period,
+        color: color[index % color.length],
+    }));
 
-    const sortedEvents = events.sort((a: any, b: any) => new Date(a.date.toString()).getTime() - new Date(b.date.toString()).getTime());
-    const colorizedEvents = sortedEvents.map((event: any, index: number) => ({ ...event, color: color[index % color.length] }));
+    const sortedEvents = events.sort(
+        (a: any, b: any) =>
+            new Date(a.date.toString()).getTime() - new Date(b.date.toString()).getTime(),
+    );
+    const colorizedEvents = sortedEvents.map((event: any, index: number) => ({
+        ...event,
+        color: color[index % color.length],
+    }));
 
-    const periodsForApi = colorizedPeriods.map(p => ({
+    const periodsForApi = colorizedPeriods.map((p) => ({
         ...p,
         start_date: p.start.toString(),
         end_date: p.end.toString(),
     }));
-    const eventsForApi = colorizedEvents.map(e => ({
+    const eventsForApi = colorizedEvents.map((e) => ({
         ...e,
         event_date: e.date.toString(),
     }));
@@ -49,8 +59,8 @@ export async function colorize() {
         usePeriodsStore.getState().setPeriods(colorizedPeriods);
         useEventsStore.getState().setEvents(colorizedEvents);
     } catch (error) {
-        console.error("Failed to sync colors with the server:", error);
-        alert("Não foi possível salvar as novas cores. Tente novamente.");
+        console.error('Failed to sync colors with the server:', error);
+        alert('Não foi possível salvar as novas cores. Tente novamente.');
     }
 }
 
@@ -59,9 +69,13 @@ export function hexToRgba(hex: string, alpha: number): string {
     const cleanedHex = hex.replace('#', '');
 
     // Converte valores curtos como "F00" para "FF0000"
-    const fullHex = cleanedHex.length === 3
-        ? cleanedHex.split('').map(char => char + char).join('')
-        : cleanedHex;
+    const fullHex =
+        cleanedHex.length === 3
+            ? cleanedHex
+                  .split('')
+                  .map((char) => char + char)
+                  .join('')
+            : cleanedHex;
 
     const r = parseInt(fullHex.substring(0, 2), 16);
     const g = parseInt(fullHex.substring(2, 4), 16);
