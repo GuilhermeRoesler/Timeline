@@ -63,9 +63,9 @@ const RegisterPage = ({ onRegisterSuccess, onNavigateToLogin, api }: { onRegiste
                     </div>
                     <button
                         type="submit" disabled={loading}
-                        className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-indigo-400 disabled:scale-100"
+                        className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-indigo-400 disabled:scale-100 flex justify-center items-center"
                     >
-                        {loading ? <LoadingSpinner /> : 'Cadastrar'}
+                        {loading ? <LoadingSpinner size="h-6 w-6" color="border-white" /> : 'Cadastrar'}
                     </button>
                 </form>
                 <p className="text-center text-sm text-gray-600">

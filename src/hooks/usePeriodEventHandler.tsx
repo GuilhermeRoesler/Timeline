@@ -1,85 +1,153 @@
+import { useGlobalConfigStore } from "../store/globalConfigStore";
 import { usePeriodsStore } from "../store/periodsStore";
 import { useEventsStore } from "../store/eventsStore";
-import { useSidePanelStore } from "../store/sidePanelStore";
+import { useSidePanelStore } from "../store/sidepanel/sidePanelStore";
 import { SimpleDate } from "../lib/SimpleDate";
-import { calculateLevel } from "../utils/levelUtils";
-import { useGlobalConfigStore } from "../store/globalConfigStore";
+import type { Period } from "../types/userData";
+import type { Event } from "../types/userData";
+
+const getPeriodFromForm = (e: React.FormEvent<HTMLFormElement>, id: string): Period => {
+    const form = e.currentTarget;
+    const title = (form.elements.namedItem('title') as HTMLInputElement).value;
+    const description = (form.elements.namedItem('description') as HTMLTextAreaElement).value;
+    const start_date = (form.elements.namedItem('start') as HTMLInputElement).value;
+    const end_date = (form.elements.namedItem('end') as HTMLInputElement).value;
+    const color = (form.elements.namedItem('color') as HTMLInputElement).value;
+    const image = useSidePanelStore.getState().linkValue;
+
+    return {
+        id,
+        title,
+        description,
+        start: new SimpleDate(start_date),
+        end: new SimpleDate(end_date),
+        level: 0,
+        color,
+        image,
+    };
+};
+
+const getEventFromForm = (e: React.FormEvent<HTMLFormElement>, id: string): Event => {
+    const form = e.currentTarget;
+    const title = (form.elements.namedItem('title') as HTMLInputElement).value;
+    const description = (form.elements.namedItem('description') as HTMLTextAreaElement).value;
+    const event_date = (form.elements.namedItem('date') as HTMLInputElement).value;
+    const color = (form.elements.namedItem('color') as HTMLInputElement).value;
+    const image = useSidePanelStore.getState().linkValue;
+
+    return {
+        id,
+        title,
+        description,
+        date: new SimpleDate(event_date),
+        color,
+        image,
+    };
+};
 
 export const usePeriodEventHandler = () => {
-    const periods = usePeriodsStore(state => state.periods)
-    const { titleValue, descriptionValue, startValue, endValue, dateValue, colorValue, linkValue } = useSidePanelStore(state => state)
-    const api = useGlobalConfigStore(state => state.api)
+    const api = useGlobalConfigStore(state => state.api);
+    const { periods, setPeriods, addPeriod: addPeriodToStore } = usePeriodsStore(state => ({ periods: state.periods, setPeriods: state.setPeriods, addPeriod: state.addPeriod }));
+    const { events, setEvents, addEvent: addEventToStore } = useEventsStore(state => ({ events: state.events, setEvents: state.setEvents, addEvent: state.addEvent }));
 
-    // Function to calculate the level based on overlapping periods
     const addPeriod = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const title = titleValue;
-        const description = descriptionValue;
-        const image = linkValue;
-        const color = colorValue;
-        const start = new SimpleDate(startValue);
-        const end = new SimpleDate(endValue);
-        const level = calculateLevel(start.getYear(), end.getYear(), periods);
-
-        if (start.getYear() > end.getYear()) {
-            alert("A data de início não pode ser maior que a data de término.");
-            return;
+        const newPeriod = getPeriodFromForm(e, crypto.randomUUID());
+        addPeriodToStore(newPeriod);
+        try {
+            await api.post('/periods', newPeriod);
+        } catch (error) {
+            console.error("Failed to add period:", error);
         }
-
-        if (start.getYear() === end.getYear()) {
-            alert("A data de início não pode ser igual à data de término.");
-            return;
-        }
-
-        const newPeriod = { title, description, image, color, start_date: start.toString(), end_date: end.toString(), level };
-        const response = await api.post('/periods', newPeriod)
-        usePeriodsStore.getState().addPeriod(response.data);
-    }
+    };
 
     const addEvent = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const newEventData = {
-            title: titleValue,
-            description: descriptionValue,
-            image: linkValue,
-            color: colorValue,
-            event_date: new SimpleDate(dateValue).toString(), // <- Mude para "event_date" e já converta para string
-        };
-
-        const response = await api.post('/events', newEventData)
-        useEventsStore.getState().addEvent(response.data);
-    }
+        const newEvent = getEventFromForm(e, crypto.randomUUID());
+        addEventToStore(newEvent);
+        try {
+            await api.post('/events', newEvent);
+        } catch (error) {
+            console.error("Failed to add event:", error);
+        }
+    };
 
     const updatePeriod = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        const { editPeriod } = useSidePanelStore.getState();
+        if (!editPeriod) return;
 
-        const title = titleValue;
-        const description = descriptionValue;
-        const image = linkValue;
-        const color = colorValue;
-        const start = new SimpleDate(startValue);
-        const end = new SimpleDate(endValue);
+        const updatedPeriod = getPeriodFromForm(e, editPeriod.id);
 
-        const periodToUpdate = { ...useSidePanelStore.getState().editPeriod, title, description, image, color, start_date: start.toString(), end_date: end.toString() };
-        const response = await api.put('/periods', periodToUpdate);
-        usePeriodsStore.getState().updatePeriod(response.data);
-    }
+        const periodPayload = {
+            ...updatedPeriod,
+            start_date: updatedPeriod.start.toString(),
+            end_date: updatedPeriod.end.toString(),
+        };
+        delete (periodPayload as Partial<typeof periodPayload>).start;
+        delete (periodPayload as Partial<typeof periodPayload>).end;
+
+        try {
+            const response = await api.put(`/periods/${updatedPeriod.id}`, periodPayload);
+            const returnedPeriod = response.data;
+
+            const newPeriod: Period = {
+                ...returnedPeriod,
+                start: new SimpleDate(returnedPeriod.start_date),
+                end: new SimpleDate(returnedPeriod.end_date),
+            };
+
+            setPeriods(periods.map(p => p.id === newPeriod.id ? newPeriod : p));
+            useSidePanelStore.getState().resetFields();
+        } catch (error) {
+            console.error("Failed to update period:", error);
+            throw error;
+        }
+    };
 
     const updateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        const { editEvent } = useSidePanelStore.getState();
+        if (!editEvent) return;
 
-        const title = titleValue;
-        const description = descriptionValue;
-        const image = linkValue;
-        const color = colorValue;
-        const date = new SimpleDate(dateValue);
+        const updatedEvent = getEventFromForm(e, editEvent.id);
 
-        const eventToUpdate = { ...useSidePanelStore.getState().editEvent, title, description, image, color, event_date: date.toString() };
-        const response = await api.put('/events', eventToUpdate);
-        useEventsStore.getState().updateEvent(response.data);
-    }
+        const eventPayload = {
+            ...updatedEvent,
+            event_date: updatedEvent.date.toString(),
+        };
+        delete (eventPayload as Partial<typeof eventPayload>).date;
 
-    return { addPeriod, addEvent, updatePeriod, updateEvent };
-}
+        try {
+            const response = await api.put(`/events/${updatedEvent.id}`, eventPayload);
+            const returnedEvent = response.data;
+
+            const newEvent: Event = {
+                ...returnedEvent,
+                date: new SimpleDate(returnedEvent.event_date),
+            };
+
+            setEvents(events.map(ev => ev.id === newEvent.id ? newEvent : ev));
+            useSidePanelStore.getState().resetFields();
+        } catch (error) {
+            console.error("Failed to update event:", error);
+            throw error;
+        }
+    };
+
+    const deletePeriod = async (id: string) => {
+        setPeriods(periods.filter(p => p.id !== id));
+        try {
+            await api.delete(`/periods/${id}`);
+        } catch (error) {
+            console.error("Failed to delete period:", error);
+        }
+    };
+
+    const deleteEvent = async (id: string) => {
+        setEvents(events.filter(e => e.id !== id));
+        try {
+            await api.delete(`/events/${id}`);
+        } catch (error) {
+            console.error("Failed to delete event:", error);
+        }
+    };
+
+    return { addPeriod, addEvent, updatePeriod, updateEvent, deletePeriod, deleteEvent };
+};

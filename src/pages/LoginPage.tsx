@@ -4,7 +4,6 @@ import LoadingSpinner from '../icons/LoadingSpinner';
 import { useGlobalConfigStore } from '../store/globalConfigStore';
 
 const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSuccess: any, onNavigateToRegister: any, api: any }) => {
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -17,7 +16,7 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
         setError('');
         setLoading(true);
         try {
-            const response = await api.post('/auth/login', { name, email, password });
+            const response = await api.post('/auth/login', { email, password });
             if (response.data.token) {
                 setAuthToken(response.data.token);
                 onLoginSuccess();
@@ -47,14 +46,6 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="name" className="text-sm font-semibold text-gray-700">Nome</label>
-                        <input
-                            id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required
-                            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
-                            placeholder="Seu nome"
-                        />
-                    </div>
-                    <div>
                         <label htmlFor="email" className="text-sm font-semibold text-gray-700">E-mail</label>
                         <input
                             id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
@@ -77,9 +68,9 @@ const LoginPage = ({ onLoginSuccess, onNavigateToRegister, api }: { onLoginSucce
                     </div>
                     <button
                         type="submit" disabled={loading}
-                        className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-indigo-400 disabled:scale-100"
+                        className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-indigo-400 disabled:scale-100 flex justify-center items-center"
                     >
-                        {loading ? <LoadingSpinner /> : 'Entrar'}
+                        {loading ? <LoadingSpinner size="h-6 w-6" color="border-white" /> : 'Entrar'}
                     </button>
                 </form>
                 <p className="text-center text-sm text-gray-600">

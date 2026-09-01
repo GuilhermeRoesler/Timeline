@@ -6,15 +6,14 @@ import type { UserData } from "./types/userData";
 import RegisterPage from "./pages/RegisterPage";
 import { useGlobalConfigStore } from "./store/globalConfigStore";
 import initialData from "./data/initialData.json";
+import { SimpleDate } from "./lib/SimpleDate";
 
 const App = () => {
   const [page, setPage] = useState('login'); // 'login', 'register', 'timeline'
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const { api, setAuthToken } = useGlobalConfigStore(state => ({
-    api: state.api,
-    setAuthToken: state.setAuthToken
-  }));
+  const api = useGlobalConfigStore(state => state.api);
+  const setAuthToken = useGlobalConfigStore(state => state.setAuthToken);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -38,7 +37,19 @@ const App = () => {
       const settings = settingsRes.data;
 
       if (settings === null && periods.length === 0 && events.length === 0) {
-        setUserData(initialData as UserData);
+        const formattedInitialData = {
+          ...initialData,
+          periods: initialData.periods.map(p => ({
+            ...p,
+            start: new SimpleDate(p.start_date),
+            end: new SimpleDate(p.end_date),
+          })),
+          events: initialData.events.map(e => ({
+            ...e,
+            date: new SimpleDate(e.event_date),
+          })),
+        };
+        setUserData(formattedInitialData as UserData);
         await api.post('/settings', initialData.settings);
       } else {
         setUserData({ periods, events, settings });
@@ -77,7 +88,7 @@ const App = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-        <LoadingSpinner />
+        <LoadingSpinner size="h-16 w-16" />
       </div>
     )
   }
