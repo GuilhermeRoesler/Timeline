@@ -1,9 +1,9 @@
 ---
 name: timeline-state
 description: >-
-  Gerencia stores Zustand do Timeline — períodos, eventos, settings, projetos,
-  painel lateral, zoom e UI. Use ao criar ou modificar stores, sincronizar estado
-  com localStorage ou depurar re-renders.
+    Gerencia stores Zustand do Timeline — períodos, eventos, settings, projetos,
+    painel lateral, zoom e UI. Use ao criar ou modificar stores, sincronizar estado
+    com localStorage ou depurar re-renders.
 ---
 
 # Estado global (Zustand)
@@ -14,17 +14,17 @@ Stores Zustand são **estado em memória para a sessão ativa**. A persistência
 
 ## Stores existentes
 
-| Store | Arquivo | Responsabilidade |
-|-------|---------|------------------|
-| `useProjectsStore` | `projectsStore.ts` | Lista de projetos, projeto ativo, CRUD de metadados |
-| `usePeriodsStore` | `periodsStore.ts` | Períodos com `SimpleDate` |
-| `useEventsStore` | `eventsStore.ts` | Eventos com `SimpleDate` |
-| `useSettingsStore` | `settingsStore.tsx` | Parâmetros visuais da timeline |
-| `useSidePanelStore` | `sidePanelStore.tsx` | Formulário de criação/edição |
-| `useStageControlsStore` | `stageControlsStore.tsx` | Zoom e posição do stage Konva |
-| `useDetailsBalloonStore` | `detailsBalloonStore.tsx` | Card de detalhes focado |
-| `useUiStore` | `uiStore.tsx` | Toasts, diálogos de confirmação |
-| `useGlobalConfigStore` | `globalConfigStore.tsx` | Config global legada |
+| Store                    | Arquivo                   | Responsabilidade                                    |
+| ------------------------ | ------------------------- | --------------------------------------------------- |
+| `useProjectsStore`       | `projectsStore.ts`        | Lista de projetos, projeto ativo, CRUD de metadados |
+| `usePeriodsStore`        | `periodsStore.ts`         | Períodos com `SimpleDate`                           |
+| `useEventsStore`         | `eventsStore.ts`          | Eventos com `SimpleDate`                            |
+| `useSettingsStore`       | `settingsStore.tsx`       | Parâmetros visuais da timeline                      |
+| `useSidePanelStore`      | `sidePanelStore.tsx`      | Formulário de criação/edição                        |
+| `useStageControlsStore`  | `stageControlsStore.tsx`  | Zoom e posição do stage Konva                       |
+| `useDetailsBalloonStore` | `detailsBalloonStore.tsx` | Card de detalhes focado                             |
+| `useUiStore`             | `uiStore.tsx`             | Toasts, diálogos de confirmação                     |
+| `useGlobalConfigStore`   | `globalConfigStore.tsx`   | Config global legada                                |
 
 ## Hidratação (entrada de dados)
 
@@ -66,6 +66,7 @@ Após mutação na UI, o fluxo típico é:
 3. Store é atualizado (diretamente ou via `setPeriods`/`syncPeriods`).
 
 Funções de sync em `projectStorageService`:
+
 - `syncPeriods(periods: Period[])` — persiste níveis após `adjustLayer()`
 - `syncEvents(events: Event[])` — persiste eventos
 
@@ -82,6 +83,7 @@ Funções de sync em `projectStorageService`:
 ## Projetos ativos
 
 `projectsStore.selectProject(id)`:
+
 1. Busca projeto em `getProject(id)`
 2. Define `setActiveProjectId(id)` no service
 3. Atualiza `activeProject` no store

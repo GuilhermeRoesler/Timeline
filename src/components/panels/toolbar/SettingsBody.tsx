@@ -1,10 +1,19 @@
-import { useSettingsStore } from '../../../store/settingsStore';
-import { themeNames } from '../../../data/theme';
-import { colorize } from '../../../utils/colorUtils';
 import { useEffect } from 'react';
-import { adjustLayer } from '../../../utils/levelUtils';
-import { syncPeriods } from '../../../services/projectStorageService';
+import { useSettingsStore } from '@/store/settingsStore';
+import { themeNames } from '@/data/theme';
+import { colorize } from '@/utils/colorUtils';
+import { adjustLayer } from '@/utils/levelUtils';
+import { syncPeriods } from '@/services/projectStorageService';
 import ToggleSwitch from './ToggleSwitch';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 const SettingRow = ({
     title,
@@ -15,10 +24,10 @@ const SettingRow = ({
     description: string;
     children: React.ReactNode;
 }) => (
-    <div className="flex items-center justify-between gap-4 border-b border-gray-200 py-4 last:border-0">
+    <div className="flex items-center justify-between gap-4 border-b border-border py-4 last:border-0">
         <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium text-gray-900">{title}</p>
-            <p className="mt-0.5 text-xs text-gray-500">{description}</p>
+            <p className="text-sm font-medium text-foreground">{title}</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
         </div>
         <div className="shrink-0">{children}</div>
     </div>
@@ -58,7 +67,7 @@ const SettingsBody = () => {
 
     return (
         <div className="flex h-full flex-col overflow-y-auto p-6 pt-12">
-            <h3 className="mb-2 text-lg font-semibold text-gray-900">{sectionTitle}</h3>
+            <h3 className="mb-2 text-lg font-semibold text-foreground">{sectionTitle}</h3>
 
             {settingsIndex === 0 && (
                 <>
@@ -66,28 +75,28 @@ const SettingsBody = () => {
                         title="Ano base"
                         description="Ano inicial exibido na linha do tempo"
                     >
-                        <input
+                        <Input
                             type="number"
                             value={BASE_YEAR}
                             onChange={(e) =>
                                 useSettingsStore.setState({ BASE_YEAR: Number(e.target.value) })
                             }
-                            className="w-24 rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+                            className="w-24"
                         />
                     </SettingRow>
                     <SettingRow
                         title="Espaçamento entre anos"
                         description="Distância horizontal entre os marcadores de ano"
                     >
-                        <input
-                            type="range"
+                        <Slider
                             min={50}
                             max={200}
                             step={10}
-                            value={YEAR_SPACING}
-                            onChange={(e) =>
-                                useSettingsStore.setState({ YEAR_SPACING: Number(e.target.value) })
-                            }
+                            value={[YEAR_SPACING]}
+                            onValueChange={(value) => {
+                                const next = Array.isArray(value) ? value[0] : value;
+                                useSettingsStore.setState({ YEAR_SPACING: next });
+                            }}
                             className="w-32"
                         />
                     </SettingRow>
@@ -96,15 +105,15 @@ const SettingsBody = () => {
 
             {settingsIndex === 1 && (
                 <SettingRow title="Raio do evento" description="Tamanho visual dos eventos">
-                    <input
-                        type="range"
+                    <Slider
                         min={5}
                         max={40}
                         step={5}
-                        value={EVENT_RADIUS}
-                        onChange={(e) =>
-                            useSettingsStore.setState({ EVENT_RADIUS: Number(e.target.value) })
-                        }
+                        value={[EVENT_RADIUS]}
+                        onValueChange={(value) => {
+                            const next = Array.isArray(value) ? value[0] : value;
+                            useSettingsStore.setState({ EVENT_RADIUS: next });
+                        }}
                         className="w-32"
                     />
                 </SettingRow>
@@ -116,15 +125,15 @@ const SettingsBody = () => {
                         title="Altura do período"
                         description="Altura das barras de período"
                     >
-                        <input
-                            type="range"
+                        <Slider
                             min={40}
                             max={140}
                             step={5}
-                            value={PERIOD_HEIGHT}
-                            onChange={(e) =>
-                                useSettingsStore.setState({ PERIOD_HEIGHT: Number(e.target.value) })
-                            }
+                            value={[PERIOD_HEIGHT]}
+                            onValueChange={(value) => {
+                                const next = Array.isArray(value) ? value[0] : value;
+                                useSettingsStore.setState({ PERIOD_HEIGHT: next });
+                            }}
                             className="w-32"
                         />
                     </SettingRow>
@@ -132,15 +141,15 @@ const SettingsBody = () => {
                         title="Espaçamento entre camadas"
                         description="Distância vertical entre níveis de períodos"
                     >
-                        <input
-                            type="range"
+                        <Slider
                             min={0}
                             max={100}
                             step={1}
-                            value={LEVEL_SPACING}
-                            onChange={(e) =>
-                                useSettingsStore.setState({ LEVEL_SPACING: Number(e.target.value) })
-                            }
+                            value={[LEVEL_SPACING]}
+                            onValueChange={(value) => {
+                                const next = Array.isArray(value) ? value[0] : value;
+                                useSettingsStore.setState({ LEVEL_SPACING: next });
+                            }}
                             className="w-32"
                         />
                     </SettingRow>
@@ -177,17 +186,25 @@ const SettingsBody = () => {
                         title="Tema de cores"
                         description="Paleta aplicada aos períodos e eventos"
                     >
-                        <select
+                        <Select
                             value={themeNames[THEME_INDEX]}
-                            onChange={(e) => switchTheme(e.target.selectedIndex)}
-                            className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+                            onValueChange={(value) => {
+                                if (!value) return;
+                                const index = themeNames.indexOf(value);
+                                if (index >= 0) switchTheme(index);
+                            }}
                         >
-                            {themeNames.map((theme) => (
-                                <option key={theme} value={theme}>
-                                    {theme}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-36">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {themeNames.map((theme) => (
+                                    <SelectItem key={theme} value={theme}>
+                                        {theme}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </SettingRow>
                 </>
             )}

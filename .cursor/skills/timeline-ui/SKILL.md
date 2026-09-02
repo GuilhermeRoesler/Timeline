@@ -1,21 +1,21 @@
 ---
 name: timeline-ui
 description: >-
-  Padrões de interface do Timeline — páginas, painéis laterais, toolbar,
-  modais de configuração, hooks e feedback ao usuário. Use ao criar ou
-  modificar componentes React, páginas ou fluxos de interação.
+    Padrões de interface do Timeline — páginas, painéis laterais, toolbar,
+    modais de configuração, hooks e feedback ao usuário. Use ao criar ou
+    modificar componentes React, páginas ou fluxos de interação.
 ---
 
 # Interface e componentes
 
 ## Páginas (`src/pages/`)
 
-| Página | Responsabilidade |
-|--------|------------------|
-| `LandingPage` | Apresentação; links para demo e dashboard |
-| `DashboardPage` | Lista projetos, criar/editar/excluir, import/export |
+| Página          | Responsabilidade                                        |
+| --------------- | ------------------------------------------------------- |
+| `LandingPage`   | Apresentação; links para demo e dashboard               |
+| `DashboardPage` | Lista projetos, criar/editar/excluir, import/export     |
 | `TimelineRoute` | Carrega projeto por `:projectId`, onboarding, navegação |
-| `Timeline` | Layout da timeline: toolbar + canvas + painéis |
+| `Timeline`      | Layout da timeline: toolbar + canvas + painéis          |
 
 ### TimelineRoute — bootstrap
 
@@ -62,6 +62,7 @@ Hidrata stores no `useEffect` quando `data` muda. Adiciona classe `timeline-view
 - `ImageSection.tsx`, `ImageDisplay.tsx`, `ImageMiniBrowse.tsx` — imagens
 
 Estado em `useSidePanelStore`:
+
 - Modo (criar/editar)
 - Tipo (período/evento)
 - Dados do formulário
@@ -73,10 +74,10 @@ Exibe detalhes do item selecionado. Estado em `useDetailsBalloonStore`.
 
 ## UI global (`components/ui/`)
 
-| Componente | Store |
-|------------|-------|
-| `ToastContainer` | `useUiStore` — `toasts[]` |
-| `ConfirmDialog` | `useUiStore` — confirmações destrutivas |
+| Componente       | Store                                   |
+| ---------------- | --------------------------------------- |
+| `ToastContainer` | `useUiStore` — `toasts[]`               |
+| `ConfirmDialog`  | `useUiStore` — confirmações destrutivas |
 
 Montados em `App.tsx` (acima das rotas).
 
@@ -106,11 +107,11 @@ Controle via `visitTracking.ts` (`isOnboardingDismissed`, `dismissOnboarding`).
 
 ## Hooks (`src/hooks/`)
 
-| Hook | Uso |
-|------|-----|
-| `useStageControls` | Zoom e pan do canvas |
+| Hook                    | Uso                            |
+| ----------------------- | ------------------------------ |
+| `useStageControls`      | Zoom e pan do canvas           |
 | `usePeriodEventHandler` | CRUD de períodos/eventos na UI |
-| `useEventDetails` | Detalhes e seleção de eventos |
+| `useEventDetails`       | Detalhes e seleção de eventos  |
 
 Extrair lógica reutilizável dos componentes para hooks; manter componentes focados em render.
 
@@ -118,9 +119,9 @@ Extrair lógica reutilizável dos componentes para hooks; manter componentes foc
 
 - **Tailwind CSS v4** — classes utilitárias nos componentes
 - **CSS modules globais** em `src/styles/`:
-  - `globals.css` — variáveis e reset
-  - `animations.css` — transições
-  - `components/side-panel.css`, `info-card.css` — estilos específicos
+    - `globals.css` — variáveis e reset
+    - `animations.css` — transições
+    - `components/side-panel.css`, `info-card.css` — estilos específicos
 
 Não introduzir CSS-in-JS; seguir padrão existente.
 

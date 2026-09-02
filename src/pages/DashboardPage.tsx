@@ -11,16 +11,37 @@ import {
     Upload,
     Home,
 } from 'lucide-react';
-import { useProjectsStore } from '../store/projectsStore';
-import { confirmAction, toast } from '../store/uiStore';
-import PortfolioFooter from '../components/layout/PortfolioFooter';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
+import { useProjectsStore } from '@/store/projectsStore';
+import { confirmAction, toast } from '@/store/uiStore';
+import PortfolioFooter from '@/components/layout/PortfolioFooter';
 import {
     DEMO_PROJECT_ID,
     exportAllProjects,
     exportProjectById,
     importProjectFromJson,
-} from '../services/projectStorageService';
-import type { ProjectSummary } from '../types/project';
+} from '@/services/projectStorageService';
+import type { ProjectSummary } from '@/types/project';
+import { cn } from '@/lib/utils';
 
 type ProjectFormData = {
     name: string;
@@ -30,6 +51,32 @@ type ProjectFormData = {
 const emptyForm = (): ProjectFormData => ({ name: '', description: '' });
 
 const ProjectModal = ({
+    title,
+    open,
+    initial,
+    onClose,
+    onSubmit,
+}: {
+    title: string;
+    open: boolean;
+    initial: ProjectFormData;
+    onClose: () => void;
+    onSubmit: (data: ProjectFormData) => void;
+}) => {
+    if (!open) return null;
+
+    return (
+        <ProjectModalContent
+            key={`${title}-${initial.name}-${initial.description}`}
+            title={title}
+            initial={initial}
+            onClose={onClose}
+            onSubmit={onSubmit}
+        />
+    );
+};
+
+const ProjectModalContent = ({
     title,
     initial,
     onClose,
@@ -49,54 +96,43 @@ const ProjectModal = ({
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-                <h2 className="mb-4 text-xl font-semibold text-gray-900">{title}</h2>
+        <Dialog open onOpenChange={(isOpen) => !isOpen && onClose()}>
+            <DialogContent className="max-w-md">
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
+                </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                            Nome do projeto
-                        </label>
-                        <input
+                    <div className="space-y-2">
+                        <Label htmlFor="project-name">Nome do projeto</Label>
+                        <Input
+                            id="project-name"
                             type="text"
                             value={form.name}
                             onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                             placeholder="Ex: História da minha família"
                             autoFocus
                             required
                         />
                     </div>
-                    <div>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                            Descrição
-                        </label>
-                        <textarea
+                    <div className="space-y-2">
+                        <Label htmlFor="project-description">Descrição</Label>
+                        <Textarea
+                            id="project-description"
                             value={form.description}
                             onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                             placeholder="Descreva brevemente o projeto..."
                             rows={3}
                         />
                     </div>
-                    <div className="flex justify-end gap-2 pt-2">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100"
-                        >
+                    <DialogFooter>
+                        <Button type="button" variant="outline" onClick={onClose}>
                             Cancelar
-                        </button>
-                        <button
-                            type="submit"
-                            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                        >
-                            Salvar
-                        </button>
-                    </div>
+                        </Button>
+                        <Button type="submit">Salvar</Button>
+                    </DialogFooter>
                 </form>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 };
 
@@ -116,70 +152,62 @@ const ProjectCard = ({
     const formattedDate = new Date(project.updatedAt).toLocaleDateString('pt-BR');
 
     return (
-        <div className="group flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:shadow-md">
-            <div className="mb-3 flex items-start justify-between gap-2">
-                <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                        <h3 className="truncate text-lg font-semibold text-gray-900">
-                            {project.name}
-                        </h3>
-                        {project.isDemo && (
-                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
-                                <Sparkles className="h-3 w-3" />
-                                Demo
-                            </span>
-                        )}
-                    </div>
-                    {project.description && (
-                        <p className="mt-1 line-clamp-2 text-sm text-gray-500">
-                            {project.description}
-                        </p>
+        <Card className="group transition hover:border-primary/40 hover:shadow-md">
+            <CardHeader className="pb-3">
+                <div className="flex items-center gap-2">
+                    <CardTitle className="truncate text-lg">{project.name}</CardTitle>
+                    {project.isDemo && (
+                        <Badge
+                            variant="secondary"
+                            className="shrink-0 gap-1 bg-amber-100 text-amber-800"
+                        >
+                            <Sparkles className="h-3 w-3" />
+                            Demo
+                        </Badge>
                     )}
                 </div>
-            </div>
+                {project.description && (
+                    <CardDescription className="line-clamp-2">
+                        {project.description}
+                    </CardDescription>
+                )}
+            </CardHeader>
 
-            <div className="mb-4 flex items-center gap-4 text-xs text-gray-400">
-                <span className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {formattedDate}
-                </span>
-                <span>{project.periodCount} períodos</span>
-                <span>{project.eventCount} eventos</span>
-            </div>
+            <CardContent className="pb-3">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                        <Calendar className="h-3.5 w-3.5" />
+                        {formattedDate}
+                    </span>
+                    <span>{project.periodCount} períodos</span>
+                    <span>{project.eventCount} eventos</span>
+                </div>
+            </CardContent>
 
-            <div className="mt-auto flex gap-2">
-                <button
-                    onClick={onOpen}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
-                >
+            <CardFooter className="gap-2">
+                <Button onClick={onOpen} className="flex-1 gap-2">
                     <FolderOpen className="h-4 w-4" />
                     Abrir
-                </button>
-                <button
-                    onClick={onExport}
-                    className="rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-gray-50"
-                    title="Exportar JSON"
-                >
+                </Button>
+                <Button variant="outline" size="icon" onClick={onExport} title="Exportar JSON">
                     <Download className="h-4 w-4" />
-                </button>
-                <button
-                    onClick={onEdit}
-                    className="rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-gray-50"
-                    title="Editar"
-                >
+                </Button>
+                <Button variant="outline" size="icon" onClick={onEdit} title="Editar">
                     <Pencil className="h-4 w-4" />
-                </button>
+                </Button>
                 {!project.isDemo && (
-                    <button
+                    <Button
+                        variant="outline"
+                        size="icon"
                         onClick={onDelete}
-                        className="rounded-lg border border-gray-200 p-2 text-red-500 hover:bg-red-50"
                         title="Excluir"
+                        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                     >
                         <Trash2 className="h-4 w-4" />
-                    </button>
+                    </Button>
                 )}
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     );
 };
 
@@ -264,65 +292,56 @@ const DashboardPage = () => {
 
     return (
         <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 to-blue-50">
-            <header className="border-b border-gray-200 bg-white/80 backdrop-blur">
+            <header className="border-b border-border bg-white/80 backdrop-blur">
                 <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-5">
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-2xl font-bold text-gray-900">Meus projetos</h1>
+                            <h1 className="text-2xl font-bold text-foreground">Meus projetos</h1>
                             <Link
                                 to="/"
-                                className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600"
+                                className={cn(
+                                    buttonVariants({ variant: 'ghost', size: 'sm' }),
+                                    'gap-1 text-muted-foreground',
+                                )}
                             >
                                 <Home className="h-4 w-4" />
                                 Início
                             </Link>
                         </div>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-muted-foreground">
                             Dados salvos localmente no navegador ·{' '}
                             <Link
                                 to={`/project/${DEMO_PROJECT_ID}`}
-                                className="text-blue-600 hover:underline"
+                                className="text-primary hover:underline"
                             >
                                 Ver demo
                             </Link>
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <button
-                            onClick={() => importInputRef.current?.click()}
-                            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                        >
+                        <Button variant="outline" onClick={() => importInputRef.current?.click()}>
                             <Upload className="h-4 w-4" />
                             Importar
-                        </button>
-                        <button
-                            onClick={handleExportAll}
-                            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                        >
+                        </Button>
+                        <Button variant="outline" onClick={handleExportAll}>
                             <Download className="h-4 w-4" />
                             Exportar tudo
-                        </button>
-                        <button
-                            onClick={() => setModal('create')}
-                            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                        >
+                        </Button>
+                        <Button onClick={() => setModal('create')}>
                             <Plus className="h-4 w-4" />
                             Novo projeto
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </header>
 
             <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">
                 {sortedProjects.length === 0 ? (
-                    <div className="rounded-2xl border-2 border-dashed border-gray-300 p-12 text-center">
-                        <p className="text-gray-500">Nenhum projeto encontrado.</p>
-                        <button
-                            onClick={() => setModal('create')}
-                            className="mt-4 text-blue-600 hover:underline"
-                        >
+                    <div className="rounded-2xl border-2 border-dashed border-border p-12 text-center">
+                        <p className="text-muted-foreground">Nenhum projeto encontrado.</p>
+                        <Button variant="link" onClick={() => setModal('create')} className="mt-4">
                             Criar seu primeiro projeto
-                        </button>
+                        </Button>
                     </div>
                 ) : (
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -357,29 +376,27 @@ const DashboardPage = () => {
                 }}
             />
 
-            {modal === 'create' && (
-                <ProjectModal
-                    title="Novo projeto"
-                    initial={emptyForm()}
-                    onClose={() => setModal(null)}
-                    onSubmit={handleCreate}
-                />
-            )}
+            <ProjectModal
+                title="Novo projeto"
+                open={modal === 'create'}
+                initial={emptyForm()}
+                onClose={() => setModal(null)}
+                onSubmit={handleCreate}
+            />
 
-            {modal === 'edit' && editingProject && (
-                <ProjectModal
-                    title="Editar projeto"
-                    initial={{
-                        name: editingProject.name,
-                        description: editingProject.description,
-                    }}
-                    onClose={() => {
-                        setModal(null);
-                        setEditingProject(null);
-                    }}
-                    onSubmit={handleEdit}
-                />
-            )}
+            <ProjectModal
+                title="Editar projeto"
+                open={modal === 'edit' && editingProject !== null}
+                initial={{
+                    name: editingProject?.name ?? '',
+                    description: editingProject?.description ?? '',
+                }}
+                onClose={() => {
+                    setModal(null);
+                    setEditingProject(null);
+                }}
+                onSubmit={handleEdit}
+            />
         </div>
     );
 };

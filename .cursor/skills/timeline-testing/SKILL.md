@@ -1,8 +1,8 @@
 ---
 name: timeline-testing
 description: >-
-  Convenções de testes do Timeline com Vitest — escopo, ambiente, cobertura e
-  padrões para testar lib e utils. Use ao escrever ou modificar testes unitários.
+    Convenções de testes do Timeline com Vitest — escopo, ambiente, cobertura e
+    padrões para testar lib e utils. Use ao escrever ou modificar testes unitários.
 ---
 
 # Testes (Vitest)
@@ -25,20 +25,20 @@ Arquivo: `vitest.config.ts`
 
 ## Scripts
 
-| Comando | Ação |
-|---------|------|
-| `npm test` | Roda todos os testes uma vez |
-| `npm run test:watch` | Modo watch |
-| `npm run test:coverage` | Com relatório de cobertura |
-| `npm run validate` | lint + format + typecheck + test + build |
+| Comando                 | Ação                                     |
+| ----------------------- | ---------------------------------------- |
+| `npm test`              | Roda todos os testes uma vez             |
+| `npm run test:watch`    | Modo watch                               |
+| `npm run test:coverage` | Com relatório de cobertura               |
+| `npm run validate`      | lint + format + typecheck + test + build |
 
 ## O que testar
 
 ### Prioridade alta (lógica pura)
 
-| Área | Exemplos existentes |
-|------|---------------------|
-| `src/lib/` | `SimpleDate.test.ts` |
+| Área         | Exemplos existentes                                                      |
+| ------------ | ------------------------------------------------------------------------ |
+| `src/lib/`   | `SimpleDate.test.ts`                                                     |
 | `src/utils/` | `timelineYearsUtils.test.ts`, `levelUtils.test.ts`, `colorUtils.test.ts` |
 
 Funções determinísticas, sem DOM, sem stores — ideais para unit tests.
@@ -97,6 +97,7 @@ it('rejeita formato inválido', () => {
 `levelUtils` usa `useSettingsStore.getState()` e `usePeriodsStore.getState()`.
 
 Opções:
+
 1. **Extrair lógica pura** — passar `NEGATIVE_LEVEL` e `periods` como parâmetros (preferido para novo código)
 2. **Resetar store antes do teste** — se inevitável:
 

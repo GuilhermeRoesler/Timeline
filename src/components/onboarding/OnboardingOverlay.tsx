@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { MousePointerClick, Plus, Settings, X } from 'lucide-react';
-import { dismissOnboarding } from '../../utils/visitTracking';
+import { dismissOnboarding } from '@/utils/visitTracking';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 
 const steps = [
     {
@@ -46,52 +48,47 @@ const OnboardingOverlay = ({ onDismiss }: OnboardingOverlayProps) => {
 
     return (
         <div className="fixed inset-0 z-[2000] flex items-end justify-center bg-black/30 p-4 sm:items-center">
-            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-                <div className="mb-4 flex items-start justify-between">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
-                        <Icon className="h-5 w-5" />
+            <Card className="w-full max-w-md shadow-2xl">
+                <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
+                            <Icon className="h-5 w-5" />
+                        </div>
+                        <Button
+                            variant="ghost"
+                            size="icon-sm"
+                            onClick={handleSkip}
+                            aria-label="Fechar onboarding"
+                        >
+                            <X className="h-5 w-5" />
+                        </Button>
                     </div>
-                    <button
-                        onClick={handleSkip}
-                        className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                        aria-label="Fechar onboarding"
-                    >
-                        <X className="h-5 w-5" />
-                    </button>
-                </div>
+                </CardHeader>
+                <CardContent>
+                    <p className="mb-1 text-xs font-medium uppercase tracking-wide text-primary">
+                        Passo {step + 1} de {steps.length}
+                    </p>
+                    <h3 className="text-lg font-semibold text-foreground">{current.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{current.description}</p>
 
-                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-blue-600">
-                    Passo {step + 1} de {steps.length}
-                </p>
-                <h3 className="text-lg font-semibold text-gray-900">{current.title}</h3>
-                <p className="mt-2 text-sm text-gray-600">{current.description}</p>
-
-                <div className="mt-4 flex gap-1">
-                    {steps.map((_, index) => (
-                        <div
-                            key={index}
-                            className={`h-1.5 flex-1 rounded-full ${
-                                index <= step ? 'bg-blue-600' : 'bg-gray-200'
-                            }`}
-                        />
-                    ))}
-                </div>
-
-                <div className="mt-6 flex justify-between gap-2">
-                    <button
-                        onClick={handleSkip}
-                        className="rounded-lg px-3 py-2 text-sm text-gray-500 hover:bg-gray-100"
-                    >
+                    <div className="mt-4 flex gap-1">
+                        {steps.map((_, index) => (
+                            <div
+                                key={index}
+                                className={`h-1.5 flex-1 rounded-full ${
+                                    index <= step ? 'bg-primary' : 'bg-muted'
+                                }`}
+                            />
+                        ))}
+                    </div>
+                </CardContent>
+                <CardFooter className="justify-between gap-2 border-t-0 bg-transparent">
+                    <Button variant="ghost" onClick={handleSkip}>
                         Pular
-                    </button>
-                    <button
-                        onClick={handleNext}
-                        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-                    >
-                        {isLast ? 'Começar' : 'Próximo'}
-                    </button>
-                </div>
-            </div>
+                    </Button>
+                    <Button onClick={handleNext}>{isLast ? 'Começar' : 'Próximo'}</Button>
+                </CardFooter>
+            </Card>
         </div>
     );
 };

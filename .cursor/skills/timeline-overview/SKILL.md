@@ -1,9 +1,9 @@
 ---
 name: timeline-overview
 description: >-
-  Visão geral da arquitetura do projeto Timeline — stack, rotas, fluxo de dados,
-  estrutura de pastas e convenções gerais. Use ao iniciar trabalho no projeto,
-  adicionar features novas ou quando precisar entender como as partes se conectam.
+    Visão geral da arquitetura do projeto Timeline — stack, rotas, fluxo de dados,
+    estrutura de pastas e convenções gerais. Use ao iniciar trabalho no projeto,
+    adicionar features novas ou quando precisar entender como as partes se conectam.
 ---
 
 # Timeline — Visão geral do projeto
@@ -14,15 +14,15 @@ Timeline é uma aplicação web interativa para criar, visualizar e editar linha
 
 ## Stack
 
-| Camada | Tecnologia |
-|--------|------------|
-| UI | React 19, TypeScript, Tailwind CSS v4 |
-| Build | Vite 8 |
-| Roteamento | react-router-dom v7 |
-| Estado | Zustand |
-| Canvas | react-konva / Konva |
-| HTTP | Axios (Gemini, Unsplash) |
-| Testes | Vitest |
+| Camada     | Tecnologia                            |
+| ---------- | ------------------------------------- |
+| UI         | React 19, TypeScript, Tailwind CSS v4 |
+| Build      | Vite 8                                |
+| Roteamento | react-router-dom v7                   |
+| Estado     | Zustand                               |
+| Canvas     | react-konva / Konva                   |
+| HTTP       | Axios (Gemini, Unsplash)              |
+| Testes     | Vitest                                |
 
 ## Estrutura de pastas
 
@@ -48,13 +48,13 @@ src/
 
 ## Rotas
 
-| Rota | Componente | Comportamento |
-|------|------------|---------------|
-| `/` | `FirstVisitRedirect` | 1ª visita → `/project/demo-project`; depois → `LandingPage` |
-| `/demo` | `DemoRedirect` | Redireciona para projeto demo |
-| `/dashboard` | `DashboardPage` | CRUD de projetos, import/export JSON |
-| `/project/:projectId` | `TimelineRoute` | Carrega projeto, hidrata stores, renderiza `Timeline` |
-| `*` | `Navigate` | Volta para `/` |
+| Rota                  | Componente           | Comportamento                                               |
+| --------------------- | -------------------- | ----------------------------------------------------------- |
+| `/`                   | `FirstVisitRedirect` | 1ª visita → `/project/demo-project`; depois → `LandingPage` |
+| `/demo`               | `DemoRedirect`       | Redireciona para projeto demo                               |
+| `/dashboard`          | `DashboardPage`      | CRUD de projetos, import/export JSON                        |
+| `/project/:projectId` | `TimelineRoute`      | Carrega projeto, hidrata stores, renderiza `Timeline`       |
+| `*`                   | `Navigate`           | Volta para `/`                                              |
 
 `BrowserRouter` usa `basename` de `import.meta.env.BASE_URL` (GitHub Pages: `/Timeline/`).
 
@@ -76,11 +76,11 @@ Timeline (hidrata stores)  →  TimelineAxis (Konva) + SidePanel + Toolbar
 
 ## Variáveis de ambiente
 
-| Variável | Uso |
-|----------|-----|
-| `VITE_UNSPLASH_API_KEY` | Busca de imagens no side panel |
-| `VITE_GEMINI_API_KEY` | Geração de descrições em português |
-| `VITE_BASE_PATH` | Base path do Vite (deploy GitHub Pages) |
+| Variável                | Uso                                     |
+| ----------------------- | --------------------------------------- |
+| `VITE_UNSPLASH_API_KEY` | Busca de imagens no side panel          |
+| `VITE_GEMINI_API_KEY`   | Geração de descrições em português      |
+| `VITE_BASE_PATH`        | Base path do Vite (deploy GitHub Pages) |
 
 Copie `.env.example` para `.env` no desenvolvimento local.
 

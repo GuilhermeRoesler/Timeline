@@ -1,12 +1,14 @@
-import { useSidePanelStore } from '../../../../store/sidePanelStore';
+import { useSidePanelStore } from '@/store/sidePanelStore';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const End = () => {
     const endValue = useSidePanelStore((state) => state.endValue);
 
     return (
-        <>
-            <label htmlFor="side-panel-end-id">Fim</label>
-            <input
+        <div className="space-y-2">
+            <Label htmlFor="side-panel-end-id">Fim</Label>
+            <Input
                 type="date"
                 name="end"
                 id="side-panel-end-id"
@@ -16,7 +18,7 @@ const End = () => {
                 value={endValue}
                 onChange={(e) => useSidePanelStore.setState({ endValue: e.target.value })}
             />
-        </>
+        </div>
     );
 };
 

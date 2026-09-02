@@ -1,12 +1,7 @@
 import { create } from 'zustand';
+import { toast as sonnerToast } from 'sonner';
 
 export type ToastType = 'success' | 'error' | 'info';
-
-export interface Toast {
-    id: string;
-    message: string;
-    type: ToastType;
-}
 
 export interface ConfirmOptions {
     title: string;
@@ -22,10 +17,7 @@ type ConfirmState = ConfirmOptions & {
 };
 
 type UiState = {
-    toasts: Toast[];
     confirm: ConfirmState;
-    addToast: (message: string, type: ToastType) => void;
-    removeToast: (id: string) => void;
     showConfirm: (options: ConfirmOptions) => Promise<boolean>;
     resolveConfirm: (value: boolean) => void;
 };
@@ -38,18 +30,7 @@ const emptyConfirm = (): ConfirmState => ({
 });
 
 export const useUiStore = create<UiState>((set, get) => ({
-    toasts: [],
     confirm: emptyConfirm(),
-
-    addToast: (message, type) => {
-        const id = crypto.randomUUID();
-        set((state) => ({ toasts: [...state.toasts, { id, message, type }] }));
-        window.setTimeout(() => get().removeToast(id), 4000);
-    },
-
-    removeToast: (id) => {
-        set((state) => ({ toasts: state.toasts.filter((toast) => toast.id !== id) }));
-    },
 
     showConfirm: (options) =>
         new Promise((resolve) => {
@@ -64,9 +45,9 @@ export const useUiStore = create<UiState>((set, get) => ({
 }));
 
 export const toast = {
-    success: (message: string) => useUiStore.getState().addToast(message, 'success'),
-    error: (message: string) => useUiStore.getState().addToast(message, 'error'),
-    info: (message: string) => useUiStore.getState().addToast(message, 'info'),
+    success: (message: string) => sonnerToast.success(message),
+    error: (message: string) => sonnerToast.error(message),
+    info: (message: string) => sonnerToast.info(message),
 };
 
 export const confirmAction = (options: ConfirmOptions) =>

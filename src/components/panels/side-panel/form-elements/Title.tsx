@@ -1,12 +1,14 @@
-import { useSidePanelStore } from '../../../../store/sidePanelStore';
+import { useSidePanelStore } from '@/store/sidePanelStore';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const Title = () => {
     const titleValue = useSidePanelStore((state) => state.titleValue);
 
     return (
-        <>
-            <label htmlFor="side-panel-title-id">Título</label>
-            <input
+        <div className="space-y-2">
+            <Label htmlFor="side-panel-title-id">Título</Label>
+            <Input
                 type="text"
                 name="title"
                 id="side-panel-title-id"
@@ -16,7 +18,7 @@ const Title = () => {
                 value={titleValue}
                 onChange={(e) => useSidePanelStore.setState({ titleValue: e.target.value })}
             />
-        </>
+        </div>
     );
 };
 

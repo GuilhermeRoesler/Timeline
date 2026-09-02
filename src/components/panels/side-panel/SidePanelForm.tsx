@@ -1,5 +1,6 @@
-import { usePeriodEventHandler } from '../../../hooks/usePeriodEventHandler';
-import { useSidePanelStore } from '../../../store/sidePanelStore';
+import { usePeriodEventHandler } from '@/hooks/usePeriodEventHandler';
+import { useSidePanelStore } from '@/store/sidePanelStore';
+import { Button } from '@/components/ui/button';
 
 import SidePanelFormType from './SidePanelFormType';
 import SidePanelImageType from './SidePanelImageType';
@@ -10,8 +11,8 @@ import End from './form-elements/End';
 import Date from './form-elements/Date';
 import Color from './form-elements/Color';
 import ImageSection from './ImageSection';
-import { colorize } from '../../../utils/colorUtils';
-import { useSettingsStore } from '../../../store/settingsStore';
+import { colorize } from '@/utils/colorUtils';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const SidePanelForm = () => {
     const selectedType = useSidePanelStore((state) => state.selectedType);
@@ -31,7 +32,7 @@ const SidePanelForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">Adicionar</h2>
             <SidePanelFormType />
 
@@ -49,9 +50,9 @@ const SidePanelForm = () => {
             <SidePanelImageType />
             <ImageSection />
 
-            <button className="px-4 py-2 hover:bg-gray-200 transition-colors transition duration-500">
+            <Button type="submit" className="w-full">
                 Criar
-            </button>
+            </Button>
         </form>
     );
 };

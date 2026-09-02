@@ -1,9 +1,9 @@
 ---
 name: timeline-canvas
 description: >-
-  Renderização e interação da timeline com react-konva — stage, zoom, períodos,
-  eventos, marcadores de ano e camadas. Use ao modificar componentes em
-  src/components/timeline/ ou comportamento visual da linha do tempo.
+    Renderização e interação da timeline com react-konva — stage, zoom, períodos,
+    eventos, marcadores de ano e camadas. Use ao modificar componentes em
+    src/components/timeline/ ou comportamento visual da linha do tempo.
 ---
 
 # Canvas da timeline (react-konva)
@@ -24,6 +24,7 @@ Arquivos em `src/components/timeline/`.
 ## TimelineStage
 
 Container principal do canvas Konva. Responsável por:
+
 - Dimensões do stage (largura/altura)
 - Zoom (scroll/pinch)
 - Drag/pan do viewport
@@ -40,6 +41,7 @@ x = (ano - BASE_YEAR) * YEAR_SPACING
 ```
 
 Valores vêm de `useSettingsStore`:
+
 - `BASE_YEAR` — ano de referência (início visual)
 - `YEAR_SPACING` — pixels por ano
 
@@ -56,6 +58,7 @@ Para datas com mês/dia, utils em `timelineYearsUtils.ts` interpolam dentro do a
 ### Algoritmo de camadas
 
 `src/utils/levelUtils.ts`:
+
 - `calculateLevel(start, end, periods)` — encontra camada sem sobreposição
 - `adjustLayer()` — recalcula todos os períodos e chama `setPeriods` + `syncPeriods`
 
@@ -70,12 +73,12 @@ Sobreposição detectada por ano: `period.start.getYear() < end && period.end.ge
 
 ## Interações
 
-| Ação | Comportamento esperado |
-|------|------------------------|
-| Hover | Destaque visual; pode abrir preview no InfoCard |
-| Click | Abre side panel em modo edição |
-| Zoom | Atualiza escala no `stageControlsStore` |
-| Teclado | Navegação via handlers no stage (setas, etc.) |
+| Ação    | Comportamento esperado                          |
+| ------- | ----------------------------------------------- |
+| Hover   | Destaque visual; pode abrir preview no InfoCard |
+| Click   | Abre side panel em modo edição                  |
+| Zoom    | Atualiza escala no `stageControlsStore`         |
+| Teclado | Navegação via handlers no stage (setas, etc.)   |
 
 Handlers de período/evento: `usePeriodEventHandler.tsx`, `useEventDetails.tsx`.
 
@@ -100,12 +103,12 @@ Não passar props de dados pelo `TimelineAxis` — stores são a fonte.
 
 ## Arquivos de apoio
 
-| Arquivo | Função |
-|---------|--------|
+| Arquivo                 | Função                                  |
+| ----------------------- | --------------------------------------- |
 | `timelineYearsUtils.ts` | Cálculo de posições e marcadores de ano |
-| `levelUtils.ts` | Camadas de períodos |
-| `colorUtils.ts` | Temas e colorização automática |
-| `data/theme.ts` | Paletas de cores disponíveis |
+| `levelUtils.ts`         | Camadas de períodos                     |
+| `colorUtils.ts`         | Temas e colorização automática          |
+| `data/theme.ts`         | Paletas de cores disponíveis            |
 
 ## Ao adicionar elemento visual
 

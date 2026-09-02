@@ -1,5 +1,7 @@
-import { useSettingsStore } from '../../../store/settingsStore';
-import { confirmAction } from '../../../store/uiStore';
+import { useSettingsStore } from '@/store/settingsStore';
+import { confirmAction } from '@/store/uiStore';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 type SettingsSidebarProps = {
     onClose: () => void;
@@ -29,25 +31,28 @@ const SettingsSidebar = ({ onClose }: SettingsSidebarProps) => {
             </p>
             <nav className="flex flex-col gap-1">
                 {settings.map((label, index) => (
-                    <button
+                    <Button
                         key={label}
+                        variant="ghost"
                         onClick={() => useSettingsStore.setState({ settingsIndex: index })}
-                        className={`rounded-lg px-3 py-2 text-left text-sm transition ${
+                        className={cn(
+                            'justify-start px-3 py-2 text-sm',
                             settingsIndex === index
-                                ? 'bg-white/10 text-white'
-                                : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                        }`}
+                                ? 'bg-white/10 text-white hover:bg-white/10 hover:text-white'
+                                : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                        )}
                     >
                         {label}
-                    </button>
+                    </Button>
                 ))}
             </nav>
-            <button
+            <Button
+                variant="destructive"
                 onClick={() => void handleReset()}
-                className="mt-auto rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
+                className="mt-auto bg-red-600 hover:bg-red-700"
             >
                 Restaurar padrão
-            </button>
+            </Button>
         </aside>
     );
 };

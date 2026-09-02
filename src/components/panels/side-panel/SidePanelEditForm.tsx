@@ -1,5 +1,6 @@
-import { usePeriodEventHandler } from '../../../hooks/usePeriodEventHandler';
-import { useSidePanelStore } from '../../../store/sidePanelStore';
+import { usePeriodEventHandler } from '@/hooks/usePeriodEventHandler';
+import { useSidePanelStore } from '@/store/sidePanelStore';
+import { Button } from '@/components/ui/button';
 
 import SidePanelImageType from './SidePanelImageType';
 import Title from './form-elements/Title';
@@ -23,12 +24,12 @@ const SidePanelEditForm = () => {
             updateEvent(e);
         }
 
-        e.currentTarget.reset(); // Clear the form after submission
+        e.currentTarget.reset();
         useSidePanelStore.getState().resetFields();
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">Editar</h2>
 
             <Title />
@@ -45,7 +46,9 @@ const SidePanelEditForm = () => {
             <SidePanelImageType />
             <ImageSection />
 
-            <button>Atualizar</button>
+            <Button type="submit" className="w-full">
+                Atualizar
+            </Button>
         </form>
     );
 };

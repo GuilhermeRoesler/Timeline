@@ -1,7 +1,7 @@
 import SettingsSidebar from './SettingsSidebar';
 import SettingsBody from './SettingsBody';
-import { useSettingsStore } from '../../../store/settingsStore';
-import { X } from 'lucide-react';
+import { useSettingsStore } from '@/store/settingsStore';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 type SettingsModalProps = {
     isOpen: boolean;
@@ -9,35 +9,23 @@ type SettingsModalProps = {
 };
 
 const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
-    if (!isOpen) return null;
-
     const handleClose = () => {
         useSettingsStore.getState().saveSettings();
         onClose();
     };
 
     return (
-        <div
-            className="fixed inset-0 z-[1200] flex items-center justify-center bg-black/50 p-4"
-            onClick={handleClose}
-        >
-            <div
-                className="flex h-[min(90vh,640px)] w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
-                onClick={(e) => e.stopPropagation()}
+        <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+            <DialogContent
+                showCloseButton
+                className="flex h-[min(90vh,640px)] w-full max-w-3xl flex-row gap-0 overflow-hidden p-0 sm:max-w-3xl"
             >
                 <SettingsSidebar onClose={handleClose} />
                 <div className="relative flex min-w-0 flex-1 flex-col">
-                    <button
-                        onClick={handleClose}
-                        className="absolute top-3 right-3 rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                        aria-label="Fechar configurações"
-                    >
-                        <X className="h-5 w-5" />
-                    </button>
                     <SettingsBody />
                 </div>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 };
 

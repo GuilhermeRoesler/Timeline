@@ -1,4 +1,5 @@
 import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const InfoCardContent = ({
     title,
@@ -18,18 +19,21 @@ const InfoCardContent = ({
     return (
         <div className="content">
             <h3 className="title">{title}</h3>
-            <button
+            <Button
+                variant="ghost"
+                size="icon-sm"
                 onClick={onClose}
-                className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                className="absolute top-2 right-2"
+                aria-label="Fechar"
             >
-                <X className="w-5 h-5 text-gray-600" />
-            </button>
+                <X className="h-5 w-5 text-muted-foreground" />
+            </Button>
             <p className="date">{date}</p>
-            <p className="description">{description || 'Add a description here...'}</p>
+            <p className="description">{description || 'Adicione uma descrição aqui...'}</p>
             {image && <img src={image} alt={title} />}
-            <button className="delete" onClick={onDelete}>
-                Delete
-            </button>
+            <Button variant="destructive" className="delete" onClick={onDelete}>
+                Excluir
+            </Button>
         </div>
     );
 };

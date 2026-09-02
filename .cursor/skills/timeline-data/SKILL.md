@@ -1,9 +1,9 @@
 ---
 name: timeline-data
 description: >-
-  Camada de dados do Timeline — tipos de domínio, SimpleDate, persistência em
-  localStorage, CRUD de projetos/períodos/eventos e integrações Gemini/Unsplash.
-  Use ao alterar services, types, lib ou formato de persistência.
+    Camada de dados do Timeline — tipos de domínio, SimpleDate, persistência em
+    localStorage, CRUD de projetos/períodos/eventos e integrações Gemini/Unsplash.
+    Use ao alterar services, types, lib ou formato de persistência.
 ---
 
 # Camada de dados
@@ -17,7 +17,7 @@ interface Project {
     id: string;
     name: string;
     description: string;
-    createdAt: string;      // ISO 8601
+    createdAt: string; // ISO 8601
     updatedAt: string;
     isDemo: boolean;
     data: ProjectData;
@@ -32,14 +32,15 @@ interface ProjectData {
 
 ## Fronteira API ↔ domínio
 
-| Domínio (runtime) | Persistência (JSON) |
-|-------------------|---------------------|
+| Domínio (runtime)          | Persistência (JSON)  |
+| -------------------------- | -------------------- |
 | `Period.start: SimpleDate` | `start_date: string` |
-| `Period.end: SimpleDate` | `end_date: string` |
-| `Event.date: SimpleDate` | `event_date: string` |
-| `Settings` (snake_case) | idem |
+| `Period.end: SimpleDate`   | `end_date: string`   |
+| `Event.date: SimpleDate`   | `event_date: string` |
+| `Settings` (snake_case)    | idem                 |
 
 Tipos em `src/types/userData.ts`:
+
 - `ApiPeriod`, `ApiEvent`, `ApiUserData` — formato persistido/API
 - `Period`, `Event`, `UserData` — formato com `SimpleDate`
 
@@ -49,11 +50,11 @@ Classe em `src/lib/SimpleDate.ts`:
 
 ```typescript
 new SimpleDate('2024-03-15'); // YYYY-MM-DD obrigatório
-date.getYear();   // 2024
-date.getMonth();  // 3
-date.getDay();    // 15
-date.toString();  // '2024-03-15'
-date.toDate();    // Date local
+date.getYear(); // 2024
+date.getMonth(); // 3
+date.getDay(); // 15
+date.toString(); // '2024-03-15'
+date.toDate(); // Date local
 ```
 
 Sempre validar formato na entrada; nunca usar `Date` diretamente no domínio.
@@ -74,7 +75,7 @@ Mutations de períodos/eventos/settings operam no projeto ativo. Erro se nenhum 
 ### Inicialização
 
 ```typescript
-initializeStorage()
+initializeStorage();
 ```
 
 - Cria array vazio com projeto demo se não existir
@@ -82,24 +83,24 @@ initializeStorage()
 
 ### CRUD de projetos
 
-| Função | Notas |
-|--------|-------|
-| `createProject(name, desc)` | UUID novo, `isDemo: false` |
-| `updateProjectMeta(id, updates)` | Só nome/descrição |
-| `deleteProject(id)` | Bloqueia demo (`isDemo`) |
-| `getProject(id)` | Retorna `Project \| null` |
-| `getAllProjectSummaries()` | Lista sem `data` completo |
+| Função                           | Notas                      |
+| -------------------------------- | -------------------------- |
+| `createProject(name, desc)`      | UUID novo, `isDemo: false` |
+| `updateProjectMeta(id, updates)` | Só nome/descrição          |
+| `deleteProject(id)`              | Bloqueia demo (`isDemo`)   |
+| `getProject(id)`                 | Retorna `Project \| null`  |
+| `getAllProjectSummaries()`       | Lista sem `data` completo  |
 
 ### CRUD de períodos/eventos
 
-| Função | Retorno |
-|--------|---------|
+| Função               | Retorno     |
+| -------------------- | ----------- |
 | `createPeriod(data)` | `ApiPeriod` |
 | `updatePeriod(data)` | `ApiPeriod` |
-| `deletePeriod(id)` | void |
-| `createEvent(data)` | `ApiEvent` |
-| `updateEvent(data)` | `ApiEvent` |
-| `deleteEvent(id)` | void |
+| `deletePeriod(id)`   | void        |
+| `createEvent(data)`  | `ApiEvent`  |
+| `updateEvent(data)`  | `ApiEvent`  |
+| `deleteEvent(id)`    | void        |
 
 IDs gerados com `crypto.randomUUID()` se `id` for `null`.
 

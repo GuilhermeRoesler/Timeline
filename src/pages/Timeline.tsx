@@ -11,6 +11,9 @@ import { useSettingsStore } from '../store/settingsStore';
 import type { ApiUserData } from '../types/userData';
 import { Sparkles, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 type TimelineProps = {
     data: ApiUserData;
@@ -67,17 +70,22 @@ const Timeline = ({
                     </span>
                     <Link
                         to="/dashboard"
-                        className="rounded-md bg-white/20 px-2 py-0.5 text-xs font-medium hover:bg-white/30"
+                        className={cn(
+                            buttonVariants({ variant: 'secondary', size: 'sm' }),
+                            'bg-white/20 text-xs text-white hover:bg-white/30',
+                        )}
                     >
                         Meus projetos
                     </Link>
-                    <button
+                    <Button
+                        variant="ghost"
+                        size="icon-sm"
                         onClick={() => setBannerVisible(false)}
-                        className="rounded p-0.5 hover:bg-white/20"
+                        className="text-white hover:bg-white/20"
                         aria-label="Fechar aviso"
                     >
                         <X className="h-4 w-4" />
-                    </button>
+                    </Button>
                 </div>
             )}
 
