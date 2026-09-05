@@ -9,7 +9,6 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
     );
     const { handleDragEnd, handleWheel, handleMouseDown, handleMouseUp } = useStageZoom();
 
-    // keyboard controls and movements
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             const prevStagePos = useStageControlsStore.getState().stagePos;
@@ -50,25 +49,27 @@ const TimelineStage = ({ children }: { children: React.ReactNode }) => {
     }, [setStagePos, setStageScale]);
 
     return (
-        <Stage
-            width={window.innerWidth}
-            height={window.innerHeight}
-            draggable
-            onWheel={handleWheel}
-            onDragEnd={handleDragEnd}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            scaleX={stageScale}
-            scaleY={stageScale}
-            x={stagePos.x}
-            y={stagePos.y}
-            style={{
-                backgroundColor: '#f2f2f2 !important',
-                cursor: cursor,
-            }}
-        >
-            <Layer>{children}</Layer>
-        </Stage>
+        <div className="timeline-canvas-surface">
+            <Stage
+                width={window.innerWidth}
+                height={window.innerHeight}
+                draggable
+                onWheel={handleWheel}
+                onDragEnd={handleDragEnd}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                scaleX={stageScale}
+                scaleY={stageScale}
+                x={stagePos.x}
+                y={stagePos.y}
+                style={{
+                    backgroundColor: 'transparent',
+                    cursor: cursor,
+                }}
+            >
+                <Layer>{children}</Layer>
+            </Stage>
+        </div>
     );
 };
 

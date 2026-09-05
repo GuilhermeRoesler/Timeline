@@ -4,7 +4,7 @@ import type { Settings } from '../types/settings';
 
 export const settings = ['Geral', 'Eventos', 'Períodos', 'Cores'];
 
-export const TIMELINE_Y = window.innerHeight; // Meio da tela verticalmente
+export const TIMELINE_Y = window.innerHeight / 2;
 
 type SettingsState = {
     settings: string[];

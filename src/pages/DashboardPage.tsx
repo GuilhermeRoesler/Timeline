@@ -40,6 +40,7 @@ import {
     exportProjectById,
     importProjectFromJson,
 } from '@/services/projectStorageService';
+import TimelineThumbnail from '@/components/dashboard/TimelineThumbnail';
 import type { ProjectSummary } from '@/types/project';
 import { cn } from '@/lib/utils';
 
@@ -152,14 +153,28 @@ const ProjectCard = ({
     const formattedDate = new Date(project.updatedAt).toLocaleDateString('pt-BR');
 
     return (
-        <Card className="group transition hover:border-primary/40 hover:shadow-md">
+        <Card className="group overflow-hidden py-0 transition hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
+            <button type="button" onClick={onOpen} className="block w-full text-left">
+                {project.periodCount > 0 || project.eventCount > 0 ? (
+                    <TimelineThumbnail
+                        periods={project.previewPeriods}
+                        events={project.previewEvents}
+                    />
+                ) : (
+                    <div className="flex h-28 items-center justify-center bg-[oklch(0.955_0.01_210)] text-xs text-muted-foreground">
+                        Timeline vazia — clique para começar
+                    </div>
+                )}
+            </button>
             <CardHeader className="pb-3">
                 <div className="flex items-center gap-2">
-                    <CardTitle className="truncate text-lg">{project.name}</CardTitle>
+                    <CardTitle className="truncate font-heading text-lg tracking-tight">
+                        {project.name}
+                    </CardTitle>
                     {project.isDemo && (
                         <Badge
                             variant="secondary"
-                            className="shrink-0 gap-1 bg-amber-100 text-amber-800"
+                            className="shrink-0 gap-1 bg-accent text-accent-foreground"
                         >
                             <Sparkles className="h-3 w-3" />
                             Demo
@@ -184,7 +199,7 @@ const ProjectCard = ({
                 </div>
             </CardContent>
 
-            <CardFooter className="gap-2">
+            <CardFooter className="gap-2 pb-4">
                 <Button onClick={onOpen} className="flex-1 gap-2">
                     <FolderOpen className="h-4 w-4" />
                     Abrir
@@ -291,12 +306,14 @@ const DashboardPage = () => {
     });
 
     return (
-        <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 to-blue-50">
-            <header className="border-b border-border bg-white/80 backdrop-blur">
+        <div className="flex min-h-screen flex-col bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,oklch(0.72_0.08_185/0.12),transparent),oklch(0.985_0.008_200)]">
+            <header className="border-b border-border/80 bg-background/80 backdrop-blur">
                 <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-5">
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-2xl font-bold text-foreground">Meus projetos</h1>
+                            <h1 className="font-heading text-3xl tracking-tight text-ink">
+                                Meus projetos
+                            </h1>
                             <Link
                                 to="/"
                                 className={cn(
@@ -337,11 +354,41 @@ const DashboardPage = () => {
 
             <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">
                 {sortedProjects.length === 0 ? (
-                    <div className="rounded-2xl border-2 border-dashed border-border p-12 text-center">
-                        <p className="text-muted-foreground">Nenhum projeto encontrado.</p>
-                        <Button variant="link" onClick={() => setModal('create')} className="mt-4">
-                            Criar seu primeiro projeto
-                        </Button>
+                    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/60 px-8 py-16 text-center">
+                        <div className="mb-6 w-full max-w-sm overflow-hidden rounded-xl opacity-80">
+                            <TimelineThumbnail
+                                periods={[
+                                    { color: '#8ecae6', startYear: 1830, endYear: 1945, level: 1 },
+                                    { color: '#219ebc', startYear: 1945, endYear: 1975, level: 2 },
+                                    { color: '#ffb703', startYear: 1975, endYear: 1995, level: 1 },
+                                    { color: '#fb8500', startYear: 1990, endYear: 2010, level: 3 },
+                                ]}
+                                events={[
+                                    { color: '#023047', year: 1837 },
+                                    { color: '#ffb703', year: 1977 },
+                                    { color: '#e63946', year: 2007 },
+                                ]}
+                            />
+                        </div>
+                        <h2 className="font-heading text-xl text-ink">
+                            Comece sua primeira timeline
+                        </h2>
+                        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+                            Crie um projeto em branco ou explore a demo para ver períodos, eventos e
+                            o canvas interativo em ação.
+                        </p>
+                        <div className="mt-6 flex flex-wrap justify-center gap-3">
+                            <Button onClick={() => setModal('create')} className="gap-2">
+                                <Plus className="h-4 w-4" />
+                                Novo projeto
+                            </Button>
+                            <Link
+                                to={`/project/${DEMO_PROJECT_ID}`}
+                                className={buttonVariants({ variant: 'outline' })}
+                            >
+                                Ver demo
+                            </Link>
+                        </div>
                     </div>
                 ) : (
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -1,18 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Snowburst+One&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Young+Serif&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
 /* STANDAR STYLES */
 
 :root {
     --shadow-main: 3px 10px 10px rgba(0, 0, 0, 0.5);
+    --canvas-bg: oklch(0.955 0.01 210);
+    --canvas-grid: oklch(0.22 0.025 250 / 4%);
 }
 
 @media (max-width: 1400px) {
@@ -21,12 +12,28 @@
     }
 }
 
-canvas {
-    background-color: #f2f2f2 !important;
+.timeline-canvas-surface {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--canvas-bg);
+    background-image:
+        radial-gradient(ellipse 80% 50% at 50% 42%, oklch(0.72 0.06 185 / 8%), transparent 70%),
+        linear-gradient(var(--canvas-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--canvas-grid) 1px, transparent 1px);
+    background-size:
+        auto,
+        56px 56px,
+        56px 56px;
+}
+
+.timeline-canvas-surface canvas {
+    background-color: transparent !important;
 }
 
 body.timeline-view {
     overflow: hidden;
+    background-color: var(--canvas-bg);
 }
 
 button:active {

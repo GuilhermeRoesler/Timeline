@@ -26,4 +26,14 @@ export interface ProjectSummary {
     isDemo: boolean;
     periodCount: number;
     eventCount: number;
+    previewPeriods: {
+        color: string;
+        startYear: number;
+        endYear: number;
+        level: number;
+    }[];
+    previewEvents: {
+        color: string;
+        year: number;
+    }[];
 }

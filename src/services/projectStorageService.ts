@@ -103,6 +103,16 @@ export const getAllProjectSummaries = (): ProjectSummary[] => {
         isDemo: project.isDemo,
         periodCount: project.data.periods.length,
         eventCount: project.data.events.length,
+        previewPeriods: project.data.periods.slice(0, 8).map((period) => ({
+            color: period.color,
+            startYear: Number(period.start_date.slice(0, 4)),
+            endYear: Number(period.end_date.slice(0, 4)),
+            level: period.level,
+        })),
+        previewEvents: project.data.events.slice(0, 12).map((event) => ({
+            color: event.color,
+            year: Number(event.event_date.slice(0, 4)),
+        })),
     }));
 };
 

@@ -29,7 +29,7 @@ const YearMarker = ({ year }: { year: number }) => {
                     x,
                     TIMELINE_Y + (20 / stageScale) * 0.7,
                 ]}
-                stroke="#666"
+                stroke="#64748b"
                 strokeWidth={(1 / stageScale) * 2}
             />
 
@@ -38,7 +38,7 @@ const YearMarker = ({ year }: { year: number }) => {
                 y={TIMELINE_Y + 25 / stageScale}
                 text={year.toString()}
                 fontSize={14 / stageScale}
-                fill="#333"
+                fill="#334155"
                 align="center"
                 offsetX={offsetX} // Centralizar o texto
                 fontStyle={year % 10 === 0 ? 'bold' : 'normal'}

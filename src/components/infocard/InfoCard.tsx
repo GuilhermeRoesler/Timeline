@@ -13,7 +13,7 @@ import { deleteEvent } from '../../services/eventService';
 
 const InfoCard = () => {
     const { stageScale, stagePos } = useStageControlsStore((state) => state);
-    const { event, period } = useDetailsBalloonStore((state) => state);
+    const { event, period, pinned, clearDetails } = useDetailsBalloonStore((state) => state);
     const { YEAR_SPACING, BASE_YEAR, PERIOD_HEIGHT, LEVEL_SPACING } = useSettingsStore(
         (state) => state,
     );
@@ -25,6 +25,11 @@ const InfoCard = () => {
     const [sameYearEventsIndex, setSameYearEventsIndex] = useState(0);
     const events = useEventsStore((state) => state.events);
 
+    const handleClose = () => {
+        setIsHovered(false);
+        clearDetails();
+    };
+
     const handleDelete = () => {
         if (localEvent) {
             deleteEvent(localEvent.id);
@@ -35,7 +40,8 @@ const InfoCard = () => {
             usePeriodsStore.getState().removePeriod(localPeriod.id);
             setLocalPeriod(null);
         }
-        setAnimation('infoCardFadeOut 0.3s ease-in-out');
+        clearDetails();
+        setAnimation('infoCardFadeOut 0.35s cubic-bezier(0.22, 1, 0.36, 1)');
     };
 
     const getOtherEvents = useCallback(
@@ -50,34 +56,42 @@ const InfoCard = () => {
 
     useEffect(() => {
         if (event) {
-            setTimeout(() => {
-                setLocalEvent(event);
-                setAnimation('infoCardFadeIn 0.3s ease-in-out');
-                setLocalPeriod(null);
-                getOtherEvents(event);
-            }, 300);
+            const timeout = window.setTimeout(
+                () => {
+                    setLocalEvent(event);
+                    setAnimation('infoCardFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1)');
+                    setLocalPeriod(null);
+                    getOtherEvents(event);
+                },
+                pinned ? 0 : 220,
+            );
+            return () => window.clearTimeout(timeout);
         }
         if (period) {
-            setTimeout(() => {
-                setLocalPeriod(period);
-                setAnimation('infoCardFadeIn 0.3s ease-in-out');
-                setLocalEvent(null);
-            }, 300);
+            const timeout = window.setTimeout(
+                () => {
+                    setLocalPeriod(period);
+                    setAnimation('infoCardFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1)');
+                    setLocalEvent(null);
+                },
+                pinned ? 0 : 220,
+            );
+            return () => window.clearTimeout(timeout);
         }
-    }, [event, period, getOtherEvents]);
+    }, [event, period, getOtherEvents, pinned]);
 
     useEffect(() => {
-        if (!isHovered && !(event || period)) {
+        if (!isHovered && !pinned && !(event || period)) {
             const fadeTimeout = window.setTimeout(() => {
                 setAnimation('infoCardFadeOut 0.3s ease-in-out');
                 window.setTimeout(() => {
                     setLocalEvent(null);
                     setLocalPeriod(null);
-                }, 300);
+                }, 280);
             }, 0);
             return () => window.clearTimeout(fadeTimeout);
         }
-    }, [event, period, isHovered]);
+    }, [event, period, isHovered, pinned]);
 
     if (localEvent)
         return (
@@ -97,7 +111,7 @@ const InfoCard = () => {
                     date={sameYearEvents[sameYearEventsIndex].date.getYear().toString()}
                     description={sameYearEvents[sameYearEventsIndex].description}
                     image={sameYearEvents[sameYearEventsIndex].image}
-                    onClose={() => setIsHovered(false)}
+                    onClose={handleClose}
                     onDelete={handleDelete}
                 />
                 <SameYearEventsList
@@ -126,7 +140,7 @@ const InfoCard = () => {
                     date={`${localPeriod.start.getYear()} - ${localPeriod.end.getYear()}`}
                     description={localPeriod.description}
                     image={localPeriod.image}
-                    onClose={() => setIsHovered(false)}
+                    onClose={handleClose}
                     onDelete={handleDelete}
                 />
             </div>

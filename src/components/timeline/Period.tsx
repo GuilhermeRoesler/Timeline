@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { type Period as PeriodType } from '../../types/period';
 import { Rect } from 'react-konva';
 import { useStageControlsStore } from '../../store/stageControlsStore';
@@ -6,6 +7,7 @@ import { useSidePanelStore } from '../../store/sidePanelStore';
 import { TIMELINE_Y, useSettingsStore } from '../../store/settingsStore';
 
 const Period = ({ period }: { period: PeriodType }) => {
+    const [hovered, setHovered] = useState(false);
     const stageScale = useStageControlsStore((state) => state.stageScale);
     const setPeriod = useDetailsBalloonStore((state) => state.setPeriod);
     const { YEAR_SPACING, BASE_YEAR, PERIOD_HEIGHT, LEVEL_SPACING } = useSettingsStore(
@@ -19,20 +21,33 @@ const Period = ({ period }: { period: PeriodType }) => {
     const y = TIMELINE_Y - (PERIOD_HEIGHT + LEVEL_SPACING) * period.level - 10;
 
     return (
-        <>
-            <Rect
-                x={xStart}
-                y={y}
-                width={width}
-                height={PERIOD_HEIGHT}
-                fill={period.color || '#8ecae6'}
-                opacity={0.7}
-                cornerRadius={12 / stageScale}
-                onMouseEnter={() => setPeriod(period)}
-                onMouseLeave={() => setPeriod(null)}
-                onClick={() => useSidePanelStore.setState({ editPeriod: period })} // Abre o painel de edição(period)}
-            />
-        </>
+        <Rect
+            x={xStart}
+            y={y}
+            width={width}
+            height={PERIOD_HEIGHT}
+            fill={period.color || '#8ecae6'}
+            opacity={hovered ? 0.95 : 0.78}
+            cornerRadius={12 / stageScale}
+            shadowEnabled
+            shadowColor="rgba(15, 23, 42, 0.28)"
+            shadowBlur={(hovered ? 18 : 8) / stageScale}
+            shadowOffsetY={(hovered ? 6 : 3) / stageScale}
+            shadowOpacity={hovered ? 0.45 : 0.22}
+            onMouseEnter={() => {
+                setHovered(true);
+                if (!useDetailsBalloonStore.getState().pinned) {
+                    setPeriod(period);
+                }
+            }}
+            onMouseLeave={() => {
+                setHovered(false);
+                if (!useDetailsBalloonStore.getState().pinned) {
+                    setPeriod(null);
+                }
+            }}
+            onClick={() => useSidePanelStore.setState({ editPeriod: period })}
+        />
     );
 };
 

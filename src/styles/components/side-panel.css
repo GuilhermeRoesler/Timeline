@@ -6,11 +6,12 @@
     right: 30px;
     width: 400px;
     height: calc(100% - 100px);
-    background-color: #f0f0f0;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background-color: oklch(0.975 0.008 200);
+    box-shadow: -8px 0 32px oklch(0.2 0.03 250 / 0.1);
+    border-radius: 14px;
     padding: 16px;
-    font-family: 'Poppins';
+    font-family: var(--font-sans), system-ui, sans-serif;
+    border: 1px solid oklch(0.88 0.015 210);
     transition: all 0.3s ease-in-out;
     padding-left: 35px;
     overflow-y: auto;
