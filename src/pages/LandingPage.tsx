@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, FolderKanban, Hand, Layers, Sparkles, ZoomIn } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
+import { FeatureShiftCard } from '@/components/ui/shift-card';
+import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { cn } from '@/lib/utils';
 import PortfolioFooter from '@/components/layout/PortfolioFooter';
 import HeroTimelineVisual from '@/components/landing/HeroTimelineVisual';
@@ -13,16 +15,19 @@ const FEATURES = [
         icon: Hand,
         title: 'Pan e zoom fluidos',
         body: 'Navegue séculos com o mesmo gesto de um mapa — o canvas responde na hora.',
+        hint: 'Canvas',
     },
     {
         icon: Layers,
         title: 'Camadas que contam',
         body: 'Períodos coloridos, eventos e cartões de detalhe com imagem.',
+        hint: 'Camadas',
     },
     {
         icon: ZoomIn,
         title: '100% no navegador',
         body: `${PORTFOLIO_TAGLINE}. Sem conta, sem servidor.`,
+        hint: 'Local',
     },
 ] as const;
 
@@ -49,7 +54,11 @@ const LandingPage = () => {
                             Timeline
                         </p>
                         <h1 className="animate-hero-rise-delay-1 mt-4 max-w-xl font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-                            Conte séculos. Explore com o dedo.
+                            <TextGenerateEffect
+                                words="Conte séculos. Explore com o dedo."
+                                className="font-heading font-medium text-foreground"
+                                duration={0.45}
+                            />
                         </h1>
                         <p className="animate-hero-rise-delay-2 mt-3 max-w-md text-base text-muted-foreground sm:text-lg">
                             Pan, zoom e camadas em um canvas vivo — {PORTFOLIO_TAGLINE}.
@@ -108,14 +117,16 @@ const LandingPage = () => {
                             <ProductFrame />
                         </div>
 
-                        <ul className="mt-16 grid gap-10 sm:grid-cols-3">
-                            {FEATURES.map(({ icon: Icon, title, body }) => (
-                                <li key={title}>
-                                    <Icon className="mb-3 h-5 w-5 text-primary" aria-hidden />
-                                    <p className="font-medium text-foreground">{title}</p>
-                                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                                        {body}
-                                    </p>
+                        <ul className="mt-16 grid list-none gap-4 p-0 sm:grid-cols-3 sm:gap-5">
+                            {FEATURES.map(({ icon: Icon, title, body, hint }, index) => (
+                                <li key={title} className="min-w-0">
+                                    <FeatureShiftCard
+                                        index={index}
+                                        icon={<Icon aria-hidden />}
+                                        title={title}
+                                        description={body}
+                                        hint={hint}
+                                    />
                                 </li>
                             ))}
                         </ul>

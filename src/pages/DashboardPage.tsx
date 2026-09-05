@@ -31,6 +31,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { ShiftCard } from '@/components/ui/shift-card';
 import { useProjectsStore } from '@/store/projectsStore';
 import { confirmAction, toast } from '@/store/uiStore';
 import PortfolioFooter from '@/components/layout/PortfolioFooter';
@@ -396,62 +397,73 @@ const DashboardPage = () => {
                     </div>
 
                     {userProjects.length === 0 ? (
-                        <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/60 px-8 py-14 text-center">
-                            <div className="mb-6 w-full max-w-sm overflow-hidden rounded-xl opacity-80">
-                                <TimelineThumbnail
-                                    periods={[
-                                        {
-                                            color: '#8ecae6',
-                                            startYear: 1830,
-                                            endYear: 1945,
-                                            level: 1,
-                                        },
-                                        {
-                                            color: '#219ebc',
-                                            startYear: 1945,
-                                            endYear: 1975,
-                                            level: 2,
-                                        },
-                                        {
-                                            color: '#ffb703',
-                                            startYear: 1975,
-                                            endYear: 1995,
-                                            level: 1,
-                                        },
-                                        {
-                                            color: '#fb8500',
-                                            startYear: 1990,
-                                            endYear: 2010,
-                                            level: 3,
-                                        },
-                                    ]}
-                                    events={[
-                                        { color: '#023047', year: 1837 },
-                                        { color: '#ffb703', year: 1977 },
-                                        { color: '#e63946', year: 2007 },
-                                    ]}
-                                />
-                            </div>
-                            <h3 className="font-heading text-xl text-ink">
-                                Comece sua primeira timeline
-                            </h3>
-                            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                                Crie um projeto em branco ou explore uma vitrine para ver períodos,
-                                eventos e o canvas interativo em ação.
-                            </p>
-                            <div className="mt-6 flex flex-wrap justify-center gap-3">
-                                <Button onClick={() => setModal('create')} className="gap-2">
-                                    <Plus className="h-4 w-4" />
-                                    Novo projeto
-                                </Button>
-                                <Link
-                                    to={`/project/${DEMO_PROJECT_ID}`}
-                                    className={buttonVariants({ variant: 'outline' })}
-                                >
-                                    Ver demo
-                                </Link>
-                            </div>
-                        </div>
+                        <ShiftCard
+                            className="mx-auto max-w-lg items-center border border-dashed border-border/80 bg-card/80 p-6 text-center md:max-w-xl"
+                            whileHover={{ scale: 1.01 }}
+                            topContent={
+                                <div className="w-full overflow-hidden rounded-xl opacity-90">
+                                    <TimelineThumbnail
+                                        periods={[
+                                            {
+                                                color: '#8ecae6',
+                                                startYear: 1830,
+                                                endYear: 1945,
+                                                level: 1,
+                                            },
+                                            {
+                                                color: '#219ebc',
+                                                startYear: 1945,
+                                                endYear: 1975,
+                                                level: 2,
+                                            },
+                                            {
+                                                color: '#ffb703',
+                                                startYear: 1975,
+                                                endYear: 1995,
+                                                level: 1,
+                                            },
+                                            {
+                                                color: '#fb8500',
+                                                startYear: 1990,
+                                                endYear: 2010,
+                                                level: 3,
+                                            },
+                                        ]}
+                                        events={[
+                                            { color: '#023047', year: 1837 },
+                                            { color: '#ffb703', year: 1977 },
+                                            { color: '#e63946', year: 2007 },
+                                        ]}
+                                    />
+                                </div>
+                            }
+                            bottomContent={
+                                <div className="flex flex-col items-center pt-2">
+                                    <h3 className="font-heading text-xl text-ink">
+                                        Comece sua primeira timeline
+                                    </h3>
+                                    <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+                                        Crie um projeto em branco ou explore uma vitrine para ver
+                                        períodos, eventos e o canvas interativo em ação.
+                                    </p>
+                                    <div className="mt-6 flex flex-wrap justify-center gap-3">
+                                        <Button
+                                            onClick={() => setModal('create')}
+                                            className="gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Novo projeto
+                                        </Button>
+                                        <Link
+                                            to={`/project/${DEMO_PROJECT_ID}`}
+                                            className={buttonVariants({ variant: 'outline' })}
+                                        >
+                                            Ver demo
+                                        </Link>
+                                    </div>
+                                </div>
+                            }
+                        />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             {userProjects.map((project) => (
