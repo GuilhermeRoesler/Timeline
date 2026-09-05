@@ -102,6 +102,9 @@
     --chrome: oklch(0.995 0.004 200 / 0.92);
     --chrome-border: oklch(0.88 0.015 210 / 0.85);
     --chrome-shadow: 0 4px 6px oklch(0.2 0.03 250 / 0.04), 0 16px 40px oklch(0.2 0.03 250 / 0.1);
+    --scrollbar-size: 8px;
+    --scrollbar-thumb: oklch(0.48 0.1 185 / 0.32);
+    --scrollbar-thumb-hover: oklch(0.48 0.1 185 / 0.52);
 }
 
 .dark {
@@ -141,6 +144,8 @@
     --chrome: oklch(0.22 0.02 250 / 0.92);
     --chrome-border: oklch(1 0 0 / 14%);
     --chrome-shadow: 0 4px 6px oklch(0 0 0 / 0.2), 0 16px 40px oklch(0 0 0 / 0.35);
+    --scrollbar-thumb: oklch(0.72 0.1 185 / 0.35);
+    --scrollbar-thumb-hover: oklch(0.72 0.1 185 / 0.55);
 }
 
 @layer base {
