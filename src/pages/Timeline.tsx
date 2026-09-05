@@ -14,6 +14,7 @@ import { useSidePanelStore } from '../store/sidePanelStore';
 import type { ApiUserData } from '../types/userData';
 import { DEMO_INITIAL_VIEW, SPACE_DEMO_INITIAL_VIEW } from '../constants/demoView';
 import { computeFitTimelineView, getContentYearBounds } from '../utils/fitTimelineView';
+import { animateStageView } from '../utils/animateStageView';
 import { DEMO_SPACE_PROJECT_ID } from '../services/projectStorageService';
 import { Sparkles, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -46,6 +47,7 @@ const Timeline = ({
     onBack,
 }: TimelineProps) => {
     const [bannerVisible, setBannerVisible] = useState(isDemo);
+    const [onboardingReady, setOnboardingReady] = useState(!isDemo);
     const setPeriods = usePeriodsStore((state) => state.setPeriods);
     const setEvents = useEventsStore((state) => state.setEvents);
     const setSettings = useSettingsStore((state) => state.setSettings);
@@ -103,44 +105,77 @@ const Timeline = ({
                   baseYear,
               );
 
-        const view = computeFitTimelineView({
-            startYear: bounds.startYear,
-            endYear: bounds.endYear,
-            baseYear,
-            yearSpacing,
+        const viewport = {
             viewportWidth: window.innerWidth,
             viewportHeight: window.innerHeight,
             timelineY: TIMELINE_Y,
+            baseYear,
+            yearSpacing,
+        };
+
+        const target = computeFitTimelineView({
+            startYear: bounds.startYear,
+            endYear: bounds.endYear,
+            ...viewport,
             paddingRatio: isDemo ? 0.1 : 0.16,
         });
 
-        useStageControlsStore.getState().setStageScale(view.scale);
-        useStageControlsStore.getState().setStagePos(view.pos);
+        const applyView = (view: typeof target) => {
+            useStageControlsStore.getState().setStageScale(view.scale);
+            useStageControlsStore.getState().setStagePos(view.pos);
+        };
 
-        if (!isDemo) {
-            return;
+        let cancelCamera: (() => void) | undefined;
+        let pinTimeout: number | undefined;
+        let onboardTimeout: number | undefined;
+
+        if (isDemo) {
+            const overview = computeFitTimelineView({
+                startYear: bounds.startYear - demoView.overviewPadYears,
+                endYear: bounds.endYear + demoView.overviewPadYears,
+                ...viewport,
+                paddingRatio: 0.12,
+            });
+            applyView(overview);
+
+            cancelCamera = animateStageView({
+                from: overview,
+                to: target,
+                durationMs: demoView.cinematicZoomMs,
+                onUpdate: applyView,
+                onComplete: () => {
+                    const featured = formattedPeriods.find(
+                        (p) => p.id === demoView.featuredPeriodId,
+                    );
+                    if (!featured) return;
+                    pinTimeout = window.setTimeout(() => {
+                        useDetailsBalloonStore.getState().pinPeriod(featured);
+                    }, demoView.featuredPinDelayMs);
+                },
+            });
+
+            if (showOnboarding) {
+                onboardTimeout = window.setTimeout(() => {
+                    setOnboardingReady(true);
+                }, demoView.onboardingDelayMs);
+            }
+        } else {
+            applyView(target);
         }
 
-        const featured = formattedPeriods.find((p) => p.id === demoView.featuredPeriodId);
-        if (!featured) {
-            return;
-        }
-
-        const pinTimeout = window.setTimeout(() => {
-            useDetailsBalloonStore.getState().pinPeriod(featured);
-        }, demoView.featuredPinDelayMs);
-
-        return () => window.clearTimeout(pinTimeout);
-    }, [data, isDemo, projectId, setPeriods, setEvents, setSettings]);
+        return () => {
+            cancelCamera?.();
+            if (pinTimeout) window.clearTimeout(pinTimeout);
+            if (onboardTimeout) window.clearTimeout(onboardTimeout);
+        };
+    }, [data, isDemo, projectId, setPeriods, setEvents, setSettings, showOnboarding]);
 
     return (
         <>
             {isDemo && bannerVisible && (
-                <div className="animate-hero-rise fixed bottom-6 left-1/2 z-[1100] flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 rounded-full border border-border/80 bg-background/95 px-4 py-2.5 text-sm text-foreground shadow-lg shadow-ink/10 backdrop-blur">
+                <div className="product-chrome animate-hero-rise fixed bottom-6 left-1/2 z-[1100] flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-foreground">
                     <Sparkles className="h-4 w-4 shrink-0 text-primary" />
-                    <span className="min-w-0 truncate">
-                        Demo — <strong className="font-medium">{projectName}</strong>
-                    </span>
+                    <span className="min-w-0 truncate font-medium">{projectName}</span>
                     <Link
                         to="/dashboard"
                         className={cn(
@@ -166,7 +201,9 @@ const Timeline = ({
             <InfoCard />
             <SidePanel />
 
-            {showOnboarding && <OnboardingOverlay onDismiss={onDismissOnboarding} />}
+            {showOnboarding && onboardingReady && (
+                <OnboardingOverlay onDismiss={onDismissOnboarding} />
+            )}
         </>
     );
 };

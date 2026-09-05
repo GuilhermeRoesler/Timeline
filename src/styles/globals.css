@@ -6,6 +6,14 @@
     --canvas-grid: oklch(0.22 0.025 250 / 4%);
 }
 
+.product-chrome {
+    background: var(--chrome, oklch(0.995 0.004 200 / 0.92));
+    border: 1px solid var(--chrome-border, oklch(0.88 0.015 210 / 0.85));
+    box-shadow: var(--chrome-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
 @media (max-width: 1400px) {
     html {
         font-size: 80%;

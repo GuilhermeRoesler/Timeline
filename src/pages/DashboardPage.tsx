@@ -154,7 +154,7 @@ const ProjectCard = ({
     const formattedDate = new Date(project.updatedAt).toLocaleDateString('pt-BR');
 
     return (
-        <Card className="group overflow-hidden py-0 transition hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
+        <Card className="group overflow-hidden border-border/80 py-0 shadow-[var(--chrome-shadow)] transition hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
             <button type="button" onClick={onOpen} className="block w-full text-left">
                 {project.periodCount > 0 || project.eventCount > 0 ? (
                     <TimelineThumbnail
@@ -311,7 +311,7 @@ const DashboardPage = () => {
 
     return (
         <div className="flex min-h-screen flex-col bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,oklch(0.72_0.08_185/0.12),transparent),oklch(0.985_0.008_200)]">
-            <header className="border-b border-border/80 bg-background/80 backdrop-blur">
+            <header className="border-b border-border/80 bg-[var(--chrome)] backdrop-blur">
                 <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-5">
                     <div>
                         <div className="flex items-center gap-3">

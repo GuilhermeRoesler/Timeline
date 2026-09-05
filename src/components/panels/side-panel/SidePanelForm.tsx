@@ -32,25 +32,37 @@ const SidePanelForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <h2 className="font-heading text-2xl tracking-tight text-ink">Adicionar</h2>
-            <SidePanelFormType />
+        <form onSubmit={handleSubmit}>
+            <h2>Adicionar</h2>
+            <p className="side-panel-kicker">Novo item na linha do tempo</p>
 
-            <Title />
-            <Description />
-            {selectedType === 'period' ? (
-                <>
-                    <Start />
-                    <End />
-                </>
-            ) : (
-                <Date />
-            )}
-            <Color />
-            <SidePanelImageType />
-            <ImageSection />
+            <div className="side-panel-section">
+                <p className="side-panel-section-label">Tipo</p>
+                <SidePanelFormType />
+            </div>
 
-            <Button type="submit" className="w-full">
+            <div className="side-panel-section">
+                <p className="side-panel-section-label">Conteúdo</p>
+                <Title />
+                <Description />
+                {selectedType === 'period' ? (
+                    <>
+                        <Start />
+                        <End />
+                    </>
+                ) : (
+                    <Date />
+                )}
+                <Color />
+            </div>
+
+            <div className="side-panel-section">
+                <p className="side-panel-section-label">Imagem</p>
+                <SidePanelImageType />
+                <ImageSection />
+            </div>
+
+            <Button type="submit" className="mt-1 w-full">
                 Criar
             </Button>
         </form>

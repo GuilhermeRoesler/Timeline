@@ -62,22 +62,42 @@ export function colorize() {
     useEventsStore.getState().setEvents(colorizedEvents);
 }
 
+const expandHex = (hex: string): string => {
+    const cleaned = hex.replace('#', '');
+    if (cleaned.length === 3) {
+        return cleaned
+            .split('')
+            .map((char) => char + char)
+            .join('');
+    }
+    return cleaned;
+};
+
 export function hexToRgba(hex: string, alpha: number): string {
-    // Remove o sinal de "#" se estiver presente
-    const cleanedHex = hex.replace('#', '');
-
-    // Converte valores curtos como "F00" para "FF0000"
-    const fullHex =
-        cleanedHex.length === 3
-            ? cleanedHex
-                  .split('')
-                  .map((char) => char + char)
-                  .join('')
-            : cleanedHex;
-
+    const fullHex = expandHex(hex);
     const r = parseInt(fullHex.substring(0, 2), 16);
     const g = parseInt(fullHex.substring(2, 4), 16);
     const b = parseInt(fullHex.substring(4, 6), 16);
-
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+/** Mix hex toward white (amount 0–1). */
+export function lightenHex(hex: string, amount = 0.22): string {
+    const fullHex = expandHex(hex);
+    const mix = (channel: number) =>
+        Math.round(channel + (255 - channel) * Math.min(1, Math.max(0, amount)));
+    const r = mix(parseInt(fullHex.substring(0, 2), 16));
+    const g = mix(parseInt(fullHex.substring(2, 4), 16));
+    const b = mix(parseInt(fullHex.substring(4, 6), 16));
+    return `#${[r, g, b].map((c) => c.toString(16).padStart(2, '0')).join('')}`;
+}
+
+/** Mix hex toward black (amount 0–1). */
+export function darkenHex(hex: string, amount = 0.14): string {
+    const fullHex = expandHex(hex);
+    const mix = (channel: number) => Math.round(channel * (1 - Math.min(1, Math.max(0, amount))));
+    const r = mix(parseInt(fullHex.substring(0, 2), 16));
+    const g = mix(parseInt(fullHex.substring(2, 4), 16));
+    const b = mix(parseInt(fullHex.substring(4, 6), 16));
+    return `#${[r, g, b].map((c) => c.toString(16).padStart(2, '0')).join('')}`;
 }

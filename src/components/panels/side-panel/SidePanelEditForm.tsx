@@ -28,25 +28,35 @@ const SidePanelEditForm = () => {
         useSidePanelStore.getState().resetFields();
     };
 
+    const itemTitle = editPeriod?.title || editEvent?.title || 'item';
+
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <h2 className="font-heading text-2xl tracking-tight text-ink">Editar</h2>
+        <form onSubmit={handleSubmit}>
+            <h2>Editar</h2>
+            <p className="side-panel-kicker truncate">{itemTitle}</p>
 
-            <Title />
-            <Description />
-            {editPeriod ? (
-                <>
-                    <Start />
-                    <End />
-                </>
-            ) : (
-                <Date />
-            )}
-            <Color />
-            <SidePanelImageType />
-            <ImageSection />
+            <div className="side-panel-section">
+                <p className="side-panel-section-label">Conteúdo</p>
+                <Title />
+                <Description />
+                {editPeriod ? (
+                    <>
+                        <Start />
+                        <End />
+                    </>
+                ) : (
+                    <Date />
+                )}
+                <Color />
+            </div>
 
-            <Button type="submit" className="w-full">
+            <div className="side-panel-section">
+                <p className="side-panel-section-label">Imagem</p>
+                <SidePanelImageType />
+                <ImageSection />
+            </div>
+
+            <Button type="submit" className="mt-1 w-full">
                 Atualizar
             </Button>
         </form>

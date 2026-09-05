@@ -42,7 +42,7 @@ const Toolbar = ({ onBack, projectName }: ToolbarProps) => {
 
     return (
         <>
-            <div className="fixed top-4 left-4 z-[1000] flex items-center gap-2 rounded-xl border border-border bg-white/95 px-3 py-2 shadow-lg shadow-ink/5 backdrop-blur">
+            <div className="product-chrome fixed top-4 left-4 z-[1000] flex items-center gap-2 rounded-xl px-3 py-2">
                 <Button variant="ghost" size="icon" onClick={onBack} title="Voltar ao dashboard">
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
