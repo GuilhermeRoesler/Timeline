@@ -1,13 +1,13 @@
 {
     "name": "Demo — História da Computação",
-    "description": "Projeto de demonstração com períodos e eventos que mostram o poder da timeline interativa.",
+    "description": "Do mecânico ao mobile: períodos e eventos que mostram o canvas interativo em ação.",
     "data": {
         "periods": [
             {
                 "id": "demo-p1",
                 "title": "Era Mecânica",
-                "description": "Máquinas analíticas e primeiros conceitos de computação programável.",
-                "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500",
+                "description": "Engrenagens, cartões perfurados e as primeiras máquinas programáveis.",
+                "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80",
                 "color": "#8ecae6",
                 "start_date": "1830-01-01",
                 "end_date": "1945-01-01",
@@ -16,8 +16,8 @@
             {
                 "id": "demo-p2",
                 "title": "Era dos Mainframes",
-                "description": "Computadores de sala, linguagens de programação e a base da computação moderna.",
-                "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500",
+                "description": "Computadores de sala, linguagens pioneiras e a base da computação moderna.",
+                "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
                 "color": "#219ebc",
                 "start_date": "1945-01-01",
                 "end_date": "1975-01-01",
@@ -26,8 +26,8 @@
             {
                 "id": "demo-p3",
                 "title": "Era Pessoal",
-                "description": "Microcomputadores, interfaces gráficas e software para todos.",
-                "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500",
+                "description": "Microcomputadores, interfaces gráficas e software ao alcance de todos.",
+                "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
                 "color": "#ffb703",
                 "start_date": "1975-01-01",
                 "end_date": "1995-01-01",
@@ -36,8 +36,8 @@
             {
                 "id": "demo-p4",
                 "title": "Era da Internet",
-                "description": "World Wide Web, e-commerce e a conexão global de pessoas e dados.",
-                "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500",
+                "description": "A Web conecta o mundo: informação, comércio e comunicação em rede.",
+                "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
                 "color": "#fb8500",
                 "start_date": "1990-01-01",
                 "end_date": "2010-01-01",
@@ -46,8 +46,8 @@
             {
                 "id": "demo-p5",
                 "title": "Era Mobile & Cloud",
-                "description": "Smartphones, serviços em nuvem e inteligência artificial generativa.",
-                "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500",
+                "description": "Smartphones, nuvem e IA generativa redefinem o software cotidiano.",
+                "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80",
                 "color": "#e63946",
                 "start_date": "2007-01-01",
                 "end_date": "2026-01-01",
@@ -59,15 +59,15 @@
                 "id": "demo-e1",
                 "title": "Máquina Analítica de Babbage",
                 "description": "Charles Babbage projeta a primeira máquina de uso geral programável.",
-                "image": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500",
+                "image": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80",
                 "color": "#023047",
                 "event_date": "1837-01-01"
             },
             {
                 "id": "demo-e2",
                 "title": "Ada Lovelace",
-                "description": "Primeiro algoritmo publicado, reconhecida como a primeira programadora.",
-                "image": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=500",
+                "description": "Publica o primeiro algoritmo — referência como primeira programadora.",
+                "image": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&q=80",
                 "color": "#219ebc",
                 "event_date": "1843-01-01"
             },
@@ -75,15 +75,15 @@
                 "id": "demo-e3",
                 "title": "ENIAC",
                 "description": "Primeiro computador eletrônico de propósito geral entra em operação.",
-                "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500",
+                "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
                 "color": "#126782",
                 "event_date": "1946-01-01"
             },
             {
                 "id": "demo-e4",
                 "title": "Linguagem Fortran",
-                "description": "IBM lança Fortran, revolucionando programação científica.",
-                "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
+                "description": "A IBM lança Fortran e acelera a programação científica.",
+                "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
                 "color": "#8ecae6",
                 "event_date": "1957-01-01"
             },
@@ -91,31 +91,31 @@
                 "id": "demo-e5",
                 "title": "Apple II",
                 "description": "Um dos primeiros microcomputadores de sucesso comercial.",
-                "image": "https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=500",
+                "image": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&q=80",
                 "color": "#ffb703",
                 "event_date": "1977-01-01"
             },
             {
                 "id": "demo-e6",
                 "title": "World Wide Web",
-                "description": "Tim Berners-Lee propõe a WWW no CERN, transformando a comunicação global.",
-                "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500",
+                "description": "Tim Berners-Lee propõe a WWW no CERN e muda a comunicação global.",
+                "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
                 "color": "#fb8500",
                 "event_date": "1991-01-01"
             },
             {
                 "id": "demo-e7",
                 "title": "Lançamento do iPhone",
-                "description": "Apple redefine o mercado mobile com touchscreen e app store.",
-                "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500",
+                "description": "A Apple redefine o mobile com touchscreen e App Store.",
+                "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80",
                 "color": "#e63946",
                 "event_date": "2007-01-01"
             },
             {
                 "id": "demo-e8",
                 "title": "ChatGPT",
-                "description": "IA generativa entra no mainstream, mudando como interagimos com software.",
-                "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500",
+                "description": "IA generativa entra no mainstream e muda como usamos software.",
+                "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
                 "color": "#9b5de5",
                 "event_date": "2022-01-01"
             }

@@ -30,7 +30,7 @@ const SidePanelEditForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">Editar</h2>
+            <h2 className="font-heading text-2xl tracking-tight text-ink">Editar</h2>
 
             <Title />
             <Description />

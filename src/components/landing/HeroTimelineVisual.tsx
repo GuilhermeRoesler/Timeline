@@ -1,168 +1,268 @@
 /**
- * Full-bleed decorative timeline for the landing hero — mirrors product shapes without Konva.
+ * Full-bleed product-shot for the landing hero — mirrors real timeline shapes with labels.
  */
 const HeroTimelineVisual = () => {
     return (
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_60%_45%,oklch(0.72_0.08_185/0.18),transparent_65%),linear-gradient(160deg,oklch(0.97_0.015_200),oklch(0.93_0.02_210)_45%,oklch(0.9_0.03_185/0.5))]" />
 
-            <div className="animate-hero-drift absolute inset-y-[12%] left-[28%] w-[100%] sm:inset-y-[16%] sm:left-[36%] lg:left-[42%]">
+            <div className="animate-hero-drift absolute inset-y-[14%] -left-[6%] w-[118%] sm:inset-y-[18%]">
                 <svg
-                    viewBox="0 0 1200 420"
+                    viewBox="0 0 1200 440"
                     className="h-full w-full"
-                    preserveAspectRatio="xMinYMid slice"
+                    preserveAspectRatio="xMidYMid slice"
                 >
+                    <defs>
+                        <filter id="cardShadow" x="-25%" y="-25%" width="150%" height="150%">
+                            <feDropShadow
+                                dx="0"
+                                dy="14"
+                                stdDeviation="18"
+                                floodColor="oklch(0.2 0.03 250)"
+                                floodOpacity="0.2"
+                            />
+                        </filter>
+                        <linearGradient id="cardImage" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor="#126782" />
+                            <stop offset="55%" stopColor="#219ebc" />
+                            <stop offset="100%" stopColor="#8ecae6" />
+                        </linearGradient>
+                    </defs>
+
                     <line
-                        x1="0"
-                        y1="210"
-                        x2="1200"
-                        y2="210"
-                        stroke="oklch(0.28 0.03 250 / 0.55)"
+                        x1="40"
+                        y1="220"
+                        x2="1160"
+                        y2="220"
+                        stroke="oklch(0.28 0.03 250 / 0.5)"
                         strokeWidth="2.5"
                     />
-                    {[120, 240, 360, 480, 600, 720, 840, 960, 1080].map((x) => (
-                        <g key={x}>
+
+                    {(
+                        [
+                            [140, '1945'],
+                            [320, '1960'],
+                            [500, '1975'],
+                            [700, '1990'],
+                            [900, '2005'],
+                            [1060, '2020'],
+                        ] as const
+                    ).map(([x, label]) => (
+                        <g key={label}>
                             <line
                                 x1={x}
-                                y1="198"
+                                y1="208"
                                 x2={x}
-                                y2="222"
-                                stroke="oklch(0.4 0.02 250 / 0.45)"
+                                y2="232"
+                                stroke="oklch(0.4 0.02 250 / 0.4)"
                                 strokeWidth="1.5"
                             />
+                            <text
+                                x={x}
+                                y="258"
+                                textAnchor="middle"
+                                fill="oklch(0.45 0.02 250 / 0.75)"
+                                fontSize="13"
+                                fontFamily="var(--font-sans), system-ui, sans-serif"
+                            >
+                                {label}
+                            </text>
                         </g>
                     ))}
 
-                    <rect
-                        x="80"
-                        y="108"
-                        width="340"
-                        height="52"
-                        rx="14"
-                        fill="#8ecae6"
-                        opacity="0.85"
-                        className="animate-hero-pulse"
-                    />
-                    <rect
-                        x="300"
-                        y="48"
-                        width="280"
-                        height="52"
-                        rx="14"
-                        fill="#219ebc"
-                        opacity="0.9"
-                    />
-                    <rect
-                        x="520"
-                        y="108"
-                        width="220"
-                        height="52"
-                        rx="14"
-                        fill="#ffb703"
-                        opacity="0.88"
-                    />
-                    <rect
-                        x="680"
-                        y="28"
-                        width="260"
-                        height="52"
-                        rx="14"
-                        fill="#fb8500"
-                        opacity="0.88"
-                    />
-                    <rect
-                        x="880"
-                        y="108"
-                        width="240"
-                        height="52"
-                        rx="14"
-                        fill="#e63946"
-                        opacity="0.85"
-                        className="animate-hero-pulse"
-                        style={{ animationDelay: '1.2s' }}
-                    />
+                    <g className="animate-hero-pulse">
+                        <rect
+                            x="70"
+                            y="118"
+                            width="300"
+                            height="48"
+                            rx="12"
+                            fill="#8ecae6"
+                            opacity="0.88"
+                        />
+                        <text
+                            x="90"
+                            y="148"
+                            fill="oklch(0.22 0.03 250 / 0.85)"
+                            fontSize="15"
+                            fontWeight="600"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            Era Mecânica
+                        </text>
+                    </g>
 
-                    {[200, 420, 610, 780, 980].map((x, i) => (
+                    <g>
+                        <rect
+                            x="280"
+                            y="52"
+                            width="300"
+                            height="48"
+                            rx="12"
+                            fill="#219ebc"
+                            opacity="0.92"
+                        />
+                        <text
+                            x="300"
+                            y="82"
+                            fill="white"
+                            fontSize="15"
+                            fontWeight="600"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            Era dos Mainframes
+                        </text>
+                    </g>
+
+                    <g>
+                        <rect
+                            x="520"
+                            y="118"
+                            width="220"
+                            height="48"
+                            rx="12"
+                            fill="#ffb703"
+                            opacity="0.9"
+                        />
+                        <text
+                            x="540"
+                            y="148"
+                            fill="oklch(0.22 0.03 250 / 0.85)"
+                            fontSize="15"
+                            fontWeight="600"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            Era Pessoal
+                        </text>
+                    </g>
+
+                    <g>
+                        <rect
+                            x="680"
+                            y="34"
+                            width="250"
+                            height="48"
+                            rx="12"
+                            fill="#fb8500"
+                            opacity="0.9"
+                        />
+                        <text
+                            x="700"
+                            y="64"
+                            fill="white"
+                            fontSize="15"
+                            fontWeight="600"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            Era da Internet
+                        </text>
+                    </g>
+
+                    <g className="animate-hero-pulse" style={{ animationDelay: '1.1s' }}>
+                        <rect
+                            x="880"
+                            y="118"
+                            width="250"
+                            height="48"
+                            rx="12"
+                            fill="#e63946"
+                            opacity="0.88"
+                        />
+                        <text
+                            x="900"
+                            y="148"
+                            fill="white"
+                            fontSize="15"
+                            fontWeight="600"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            Mobile & Cloud
+                        </text>
+                    </g>
+
+                    {(
+                        [
+                            [200, '#023047', 8],
+                            [420, '#126782', 8],
+                            [610, '#ffb703', 11],
+                            [780, '#fb8500', 8],
+                            [980, '#e63946', 8],
+                        ] as const
+                    ).map(([x, fill, r]) => (
                         <circle
                             key={x}
                             cx={x}
-                            cy="210"
-                            r={i === 2 ? 11 : 8}
-                            fill={['#023047', '#126782', '#ffb703', '#fb8500', '#e63946'][i]}
+                            cy="220"
+                            r={r}
+                            fill={fill}
                             stroke="#fff"
-                            strokeWidth="2"
+                            strokeWidth="2.5"
                         />
                     ))}
 
-                    <g className="animate-hero-pulse" style={{ animationDelay: '0.6s' }}>
+                    <g className="animate-hero-pulse" style={{ animationDelay: '0.55s' }}>
                         <rect
-                            x="430"
-                            y="250"
-                            width="260"
-                            height="150"
+                            x="400"
+                            y="278"
+                            width="290"
+                            height="148"
                             rx="16"
                             fill="white"
-                            opacity="0.95"
+                            opacity="0.97"
                             filter="url(#cardShadow)"
                         />
+                        <text
+                            x="422"
+                            y="310"
+                            fill="oklch(0.18 0.03 250)"
+                            fontSize="18"
+                            fontWeight="600"
+                            fontFamily="var(--font-heading), Georgia, serif"
+                        >
+                            Era dos Mainframes
+                        </text>
+                        <text
+                            x="422"
+                            y="332"
+                            fill="oklch(0.48 0.02 250)"
+                            fontSize="12"
+                            fontStyle="italic"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            1945 — 1975
+                        </text>
+                        <text
+                            x="422"
+                            y="356"
+                            fill="oklch(0.4 0.02 250)"
+                            fontSize="11"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            Computadores de sala e a base
+                        </text>
+                        <text
+                            x="422"
+                            y="372"
+                            fill="oklch(0.4 0.02 250)"
+                            fontSize="11"
+                            fontFamily="var(--font-sans), system-ui, sans-serif"
+                        >
+                            da computação moderna.
+                        </text>
                         <rect
-                            x="448"
-                            y="268"
-                            width="140"
-                            height="12"
-                            rx="4"
-                            fill="oklch(0.28 0.03 250)"
-                        />
-                        <rect
-                            x="448"
-                            y="290"
-                            width="90"
-                            height="8"
-                            rx="3"
-                            fill="oklch(0.55 0.02 250)"
-                        />
-                        <rect
-                            x="448"
-                            y="312"
-                            width="224"
-                            height="6"
-                            rx="2"
-                            fill="oklch(0.85 0.01 210)"
-                        />
-                        <rect
-                            x="448"
-                            y="326"
-                            width="200"
-                            height="6"
-                            rx="2"
-                            fill="oklch(0.85 0.01 210)"
-                        />
-                        <rect
-                            x="448"
-                            y="348"
-                            width="224"
-                            height="36"
+                            x="422"
+                            y="386"
+                            width="246"
+                            height="28"
                             rx="6"
-                            fill="oklch(0.9 0.02 185)"
+                            fill="url(#cardImage)"
                         />
                     </g>
-
-                    <defs>
-                        <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feDropShadow
-                                dx="0"
-                                dy="12"
-                                stdDeviation="16"
-                                floodColor="oklch(0.2 0.03 250)"
-                                floodOpacity="0.18"
-                            />
-                        </filter>
-                    </defs>
                 </svg>
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-background from-25% via-background/85 via-45% to-transparent to-75%" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/35 to-transparent sm:from-background/80" />
         </div>
     );
 };

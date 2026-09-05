@@ -38,7 +38,9 @@ const TimelineRoute = () => {
 
     return (
         <Timeline
+            key={activeProject.id}
             data={activeProject.data}
+            projectId={activeProject.id}
             projectName={activeProject.name}
             isDemo={activeProject.isDemo}
             showOnboarding={showOnboarding}

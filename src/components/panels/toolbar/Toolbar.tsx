@@ -17,10 +17,9 @@ import { ArrowLeft, MoreVertical, Layers, Palette, Settings, Plus } from 'lucide
 type ToolbarProps = {
     onBack: () => void;
     projectName: string;
-    hasDemoBanner?: boolean;
 };
 
-const Toolbar = ({ onBack, projectName, hasDemoBanner = false }: ToolbarProps) => {
+const Toolbar = ({ onBack, projectName }: ToolbarProps) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const handleOpen = () => {
@@ -43,11 +42,7 @@ const Toolbar = ({ onBack, projectName, hasDemoBanner = false }: ToolbarProps) =
 
     return (
         <>
-            <div
-                className={`fixed left-4 z-[1000] flex items-center gap-2 rounded-xl border border-border bg-white/95 px-3 py-2 shadow-lg backdrop-blur ${
-                    hasDemoBanner ? 'top-14' : 'top-4'
-                }`}
-            >
+            <div className="fixed top-4 left-4 z-[1000] flex items-center gap-2 rounded-xl border border-border bg-white/95 px-3 py-2 shadow-lg shadow-ink/5 backdrop-blur">
                 <Button variant="ghost" size="icon" onClick={onBack} title="Voltar ao dashboard">
                     <ArrowLeft className="h-5 w-5" />
                 </Button>

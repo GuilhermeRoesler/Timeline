@@ -93,16 +93,23 @@ const SidePanel = () => {
         <div
             ref={sidePanelRef}
             className="side-panel"
-            style={{ translate: isSidePanelOpen ? '0 -50%' : '100% -50%' }}
+            style={{
+                translate: isSidePanelOpen ? '0 -50%' : '110% -50%',
+                opacity: isSidePanelOpen ? 1 : 0.96,
+            }}
         >
-            <div className="open-close-area" onClick={handleSwitch}>
-                {isSidePanelOpen ? <ChevronRight /> : <ChevronLeft />}
+            <div className="open-close-area" onClick={handleSwitch} role="button" tabIndex={0}>
+                {isSidePanelOpen ? (
+                    <ChevronRight className="h-4 w-4" />
+                ) : (
+                    <ChevronLeft className="h-4 w-4" />
+                )}
             </div>
             <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleClose}
-                className="absolute top-0 right-0 h-10 w-10 rounded-tr-lg"
+                className="absolute top-2 right-2 h-9 w-9"
                 aria-label="Fechar painel"
             >
                 <X className="h-5 w-5" />

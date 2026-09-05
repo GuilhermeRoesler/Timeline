@@ -33,7 +33,7 @@ const SidePanelForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">Adicionar</h2>
+            <h2 className="font-heading text-2xl tracking-tight text-ink">Adicionar</h2>
             <SidePanelFormType />
 
             <Title />

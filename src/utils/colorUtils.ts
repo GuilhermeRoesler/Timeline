@@ -13,12 +13,13 @@ export function getDefaultColor() {
     const THEME_INDEX = useSettingsStore.getState().THEME_INDEX;
     const color = themeColors[THEME_INDEX];
 
+    const palette = color.map((c) => c.toUpperCase());
     const usedColors = [
         ...periods.map((p) => (p.color || '').toUpperCase()),
         ...events.map((e) => (e.color || '').toUpperCase()),
-    ].filter((c) => c && color.includes(c));
-    const lastColor = usedColors.length > 0 ? usedColors[usedColors.length - 1] : color[0];
-    const idx = color.indexOf(lastColor);
+    ].filter((c) => c && palette.includes(c));
+    const lastColor = usedColors.length > 0 ? usedColors[usedColors.length - 1] : palette[0];
+    const idx = palette.indexOf(lastColor);
     return color[(idx + 1) % color.length];
 }
 

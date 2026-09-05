@@ -12,8 +12,9 @@ import { useStageControlsStore } from '../store/stageControlsStore';
 import { useDetailsBalloonStore } from '../store/detailsBalloonStore';
 import { useSidePanelStore } from '../store/sidePanelStore';
 import type { ApiUserData } from '../types/userData';
-import { DEMO_INITIAL_VIEW } from '../constants/demoView';
+import { DEMO_INITIAL_VIEW, SPACE_DEMO_INITIAL_VIEW } from '../constants/demoView';
 import { computeFitTimelineView, getContentYearBounds } from '../utils/fitTimelineView';
+import { DEMO_SPACE_PROJECT_ID } from '../services/projectStorageService';
 import { Sparkles, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ import { cn } from '@/lib/utils';
 
 type TimelineProps = {
     data: ApiUserData;
+    projectId: string;
     projectName: string;
     isDemo: boolean;
     showOnboarding: boolean;
@@ -29,8 +31,14 @@ type TimelineProps = {
     onBack: () => void;
 };
 
+const getDemoView = (projectId: string) => {
+    if (projectId === DEMO_SPACE_PROJECT_ID) return SPACE_DEMO_INITIAL_VIEW;
+    return DEMO_INITIAL_VIEW;
+};
+
 const Timeline = ({
     data,
+    projectId,
     projectName,
     isDemo,
     showOnboarding,
@@ -71,6 +79,7 @@ const Timeline = ({
             editPeriod: null,
             editEvent: null,
         });
+        useDetailsBalloonStore.getState().clearDetails();
 
         const settings = data.settings;
         if (!settings) {
@@ -79,10 +88,11 @@ const Timeline = ({
 
         const baseYear = settings.base_year;
         const yearSpacing = settings.year_spacing;
+        const demoView = getDemoView(projectId);
         const bounds = isDemo
             ? {
-                  startYear: DEMO_INITIAL_VIEW.startYear,
-                  endYear: DEMO_INITIAL_VIEW.endYear,
+                  startYear: demoView.startYear,
+                  endYear: demoView.endYear,
               }
             : getContentYearBounds(
                   formattedPeriods.map((p) => ({
@@ -101,40 +111,41 @@ const Timeline = ({
             viewportWidth: window.innerWidth,
             viewportHeight: window.innerHeight,
             timelineY: TIMELINE_Y,
-            paddingRatio: isDemo ? 0.08 : 0.16,
+            paddingRatio: isDemo ? 0.1 : 0.16,
         });
 
         useStageControlsStore.getState().setStageScale(view.scale);
         useStageControlsStore.getState().setStagePos(view.pos);
 
-        if (isDemo) {
-            const featured = formattedPeriods.find(
-                (p) => p.id === DEMO_INITIAL_VIEW.featuredPeriodId,
-            );
-            if (featured) {
-                window.setTimeout(() => {
-                    useDetailsBalloonStore.getState().pinPeriod(featured);
-                }, 450);
-            }
-        } else {
-            useDetailsBalloonStore.getState().clearDetails();
+        if (!isDemo) {
+            return;
         }
-    }, [data, isDemo, setPeriods, setEvents, setSettings]);
+
+        const featured = formattedPeriods.find((p) => p.id === demoView.featuredPeriodId);
+        if (!featured) {
+            return;
+        }
+
+        const pinTimeout = window.setTimeout(() => {
+            useDetailsBalloonStore.getState().pinPeriod(featured);
+        }, demoView.featuredPinDelayMs);
+
+        return () => window.clearTimeout(pinTimeout);
+    }, [data, isDemo, projectId, setPeriods, setEvents, setSettings]);
 
     return (
         <>
             {isDemo && bannerVisible && (
-                <div className="fixed top-0 right-0 left-0 z-[1100] flex items-center justify-center gap-3 border-b border-primary/20 bg-ink/90 px-4 py-2.5 text-sm text-primary-foreground backdrop-blur">
+                <div className="animate-hero-rise fixed bottom-6 left-1/2 z-[1100] flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 rounded-full border border-border/80 bg-background/95 px-4 py-2.5 text-sm text-foreground shadow-lg shadow-ink/10 backdrop-blur">
                     <Sparkles className="h-4 w-4 shrink-0 text-primary" />
-                    <span>
-                        Demo interativa — <strong>{projectName}</strong>. Explore e depois crie a
-                        sua.
+                    <span className="min-w-0 truncate">
+                        Demo — <strong className="font-medium">{projectName}</strong>
                     </span>
                     <Link
                         to="/dashboard"
                         className={cn(
                             buttonVariants({ variant: 'secondary', size: 'sm' }),
-                            'bg-white/10 text-xs text-white hover:bg-white/20',
+                            'text-xs',
                         )}
                     >
                         Meus projetos
@@ -143,7 +154,6 @@ const Timeline = ({
                         variant="ghost"
                         size="icon-sm"
                         onClick={() => setBannerVisible(false)}
-                        className="text-white hover:bg-white/15"
                         aria-label="Fechar aviso"
                     >
                         <X className="h-4 w-4" />
@@ -151,11 +161,7 @@ const Timeline = ({
                 </div>
             )}
 
-            <Toolbar
-                onBack={onBack}
-                projectName={projectName}
-                hasDemoBanner={isDemo && bannerVisible}
-            />
+            <Toolbar onBack={onBack} projectName={projectName} />
             <TimelineAxis />
             <InfoCard />
             <SidePanel />

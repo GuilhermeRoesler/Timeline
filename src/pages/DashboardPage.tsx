@@ -43,6 +43,7 @@ import {
 import TimelineThumbnail from '@/components/dashboard/TimelineThumbnail';
 import type { ProjectSummary } from '@/types/project';
 import { cn } from '@/lib/utils';
+import { PORTFOLIO_TAGLINE } from '@/constants/portfolio';
 
 type ProjectFormData = {
     name: string;
@@ -305,6 +306,9 @@ const DashboardPage = () => {
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
     });
 
+    const demoProjects = sortedProjects.filter((p) => p.isDemo);
+    const userProjects = sortedProjects.filter((p) => !p.isDemo);
+
     return (
         <div className="flex min-h-screen flex-col bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,oklch(0.72_0.08_185/0.12),transparent),oklch(0.985_0.008_200)]">
             <header className="border-b border-border/80 bg-background/80 backdrop-blur">
@@ -326,7 +330,7 @@ const DashboardPage = () => {
                             </Link>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            Dados salvos localmente no navegador ·{' '}
+                            {PORTFOLIO_TAGLINE} ·{' '}
                             <Link
                                 to={`/project/${DEMO_PROJECT_ID}`}
                                 className="text-primary hover:underline"
@@ -353,60 +357,119 @@ const DashboardPage = () => {
             </header>
 
             <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">
-                {sortedProjects.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/60 px-8 py-16 text-center">
-                        <div className="mb-6 w-full max-w-sm overflow-hidden rounded-xl opacity-80">
-                            <TimelineThumbnail
-                                periods={[
-                                    { color: '#8ecae6', startYear: 1830, endYear: 1945, level: 1 },
-                                    { color: '#219ebc', startYear: 1945, endYear: 1975, level: 2 },
-                                    { color: '#ffb703', startYear: 1975, endYear: 1995, level: 1 },
-                                    { color: '#fb8500', startYear: 1990, endYear: 2010, level: 3 },
-                                ]}
-                                events={[
-                                    { color: '#023047', year: 1837 },
-                                    { color: '#ffb703', year: 1977 },
-                                    { color: '#e63946', year: 2007 },
-                                ]}
-                            />
+                {demoProjects.length > 0 && (
+                    <section className="mb-10">
+                        <div className="mb-4">
+                            <h2 className="font-heading text-lg tracking-tight text-ink">
+                                Vitrines
+                            </h2>
+                            <p className="text-sm text-muted-foreground">
+                                Projetos de demonstração para explorar o canvas.
+                            </p>
                         </div>
-                        <h2 className="font-heading text-xl text-ink">
-                            Comece sua primeira timeline
-                        </h2>
-                        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                            Crie um projeto em branco ou explore a demo para ver períodos, eventos e
-                            o canvas interativo em ação.
-                        </p>
-                        <div className="mt-6 flex flex-wrap justify-center gap-3">
-                            <Button onClick={() => setModal('create')} className="gap-2">
-                                <Plus className="h-4 w-4" />
-                                Novo projeto
-                            </Button>
-                            <Link
-                                to={`/project/${DEMO_PROJECT_ID}`}
-                                className={buttonVariants({ variant: 'outline' })}
-                            >
-                                Ver demo
-                            </Link>
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {demoProjects.map((project) => (
+                                <ProjectCard
+                                    key={project.id}
+                                    project={project}
+                                    onOpen={() => navigate(`/project/${project.id}`)}
+                                    onEdit={() => {
+                                        setEditingProject(project);
+                                        setModal('edit');
+                                    }}
+                                    onDelete={() => void handleDelete(project)}
+                                    onExport={() => handleExportProject(project)}
+                                />
+                            ))}
                         </div>
-                    </div>
-                ) : (
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        {sortedProjects.map((project) => (
-                            <ProjectCard
-                                key={project.id}
-                                project={project}
-                                onOpen={() => navigate(`/project/${project.id}`)}
-                                onEdit={() => {
-                                    setEditingProject(project);
-                                    setModal('edit');
-                                }}
-                                onDelete={() => void handleDelete(project)}
-                                onExport={() => handleExportProject(project)}
-                            />
-                        ))}
-                    </div>
+                    </section>
                 )}
+
+                <section>
+                    <div className="mb-4">
+                        <h2 className="font-heading text-lg tracking-tight text-ink">
+                            Seus projetos
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                            Criados e salvos neste navegador.
+                        </p>
+                    </div>
+
+                    {userProjects.length === 0 ? (
+                        <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/60 px-8 py-14 text-center">
+                            <div className="mb-6 w-full max-w-sm overflow-hidden rounded-xl opacity-80">
+                                <TimelineThumbnail
+                                    periods={[
+                                        {
+                                            color: '#8ecae6',
+                                            startYear: 1830,
+                                            endYear: 1945,
+                                            level: 1,
+                                        },
+                                        {
+                                            color: '#219ebc',
+                                            startYear: 1945,
+                                            endYear: 1975,
+                                            level: 2,
+                                        },
+                                        {
+                                            color: '#ffb703',
+                                            startYear: 1975,
+                                            endYear: 1995,
+                                            level: 1,
+                                        },
+                                        {
+                                            color: '#fb8500',
+                                            startYear: 1990,
+                                            endYear: 2010,
+                                            level: 3,
+                                        },
+                                    ]}
+                                    events={[
+                                        { color: '#023047', year: 1837 },
+                                        { color: '#ffb703', year: 1977 },
+                                        { color: '#e63946', year: 2007 },
+                                    ]}
+                                />
+                            </div>
+                            <h3 className="font-heading text-xl text-ink">
+                                Comece sua primeira timeline
+                            </h3>
+                            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+                                Crie um projeto em branco ou explore uma vitrine para ver períodos,
+                                eventos e o canvas interativo em ação.
+                            </p>
+                            <div className="mt-6 flex flex-wrap justify-center gap-3">
+                                <Button onClick={() => setModal('create')} className="gap-2">
+                                    <Plus className="h-4 w-4" />
+                                    Novo projeto
+                                </Button>
+                                <Link
+                                    to={`/project/${DEMO_PROJECT_ID}`}
+                                    className={buttonVariants({ variant: 'outline' })}
+                                >
+                                    Ver demo
+                                </Link>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {userProjects.map((project) => (
+                                <ProjectCard
+                                    key={project.id}
+                                    project={project}
+                                    onOpen={() => navigate(`/project/${project.id}`)}
+                                    onEdit={() => {
+                                        setEditingProject(project);
+                                        setModal('edit');
+                                    }}
+                                    onDelete={() => void handleDelete(project)}
+                                    onExport={() => handleExportProject(project)}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </section>
             </main>
 
             <PortfolioFooter />

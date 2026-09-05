@@ -59,11 +59,11 @@ const InfoCard = () => {
             const timeout = window.setTimeout(
                 () => {
                     setLocalEvent(event);
-                    setAnimation('infoCardFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1)');
+                    setAnimation('infoCardFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1)');
                     setLocalPeriod(null);
                     getOtherEvents(event);
                 },
-                pinned ? 0 : 220,
+                pinned ? 0 : 180,
             );
             return () => window.clearTimeout(timeout);
         }
@@ -71,10 +71,10 @@ const InfoCard = () => {
             const timeout = window.setTimeout(
                 () => {
                     setLocalPeriod(period);
-                    setAnimation('infoCardFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1)');
+                    setAnimation('infoCardFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1)');
                     setLocalEvent(null);
                 },
-                pinned ? 0 : 220,
+                pinned ? 0 : 180,
             );
             return () => window.clearTimeout(timeout);
         }

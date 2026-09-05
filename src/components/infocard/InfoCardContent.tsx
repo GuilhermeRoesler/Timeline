@@ -31,7 +31,12 @@ const InfoCardContent = ({
             <p className="date">{date}</p>
             <p className="description">{description || 'Adicione uma descrição aqui...'}</p>
             {image && <img src={image} alt={title} />}
-            <Button variant="destructive" className="delete" onClick={onDelete}>
+            <Button
+                variant="outline"
+                size="sm"
+                className="delete text-destructive hover:bg-destructive/10 hover:text-destructive"
+                onClick={onDelete}
+            >
                 Excluir
             </Button>
         </div>

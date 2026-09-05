@@ -29,7 +29,7 @@ export const useSidePanelStore = create<SidePanelState>((set) => ({
     startValue: '2010-01-01',
     endValue: '2010-01-01',
     dateValue: '2010-01-01',
-    colorValue: '#000000',
+    colorValue: '#219ebc',
     linkValue: '',
     resetFields: () =>
         set({
@@ -40,7 +40,7 @@ export const useSidePanelStore = create<SidePanelState>((set) => ({
             startValue: '2010-01-01',
             endValue: '2010-01-01',
             dateValue: '2010-01-01',
-            colorValue: '#000000',
+            colorValue: '#219ebc',
             linkValue: '',
             editPeriod: null,
             editEvent: null,

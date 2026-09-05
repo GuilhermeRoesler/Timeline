@@ -1,19 +1,23 @@
-/* SIDE PANEL */
+/* SIDE PANEL — aligned with toolbar/card tokens */
 
 .side-panel {
     position: fixed;
     top: 50%;
-    right: 30px;
+    right: 24px;
     width: 400px;
     height: calc(100% - 100px);
-    background-color: oklch(0.975 0.008 200);
-    box-shadow: -8px 0 32px oklch(0.2 0.03 250 / 0.1);
-    border-radius: 14px;
+    background-color: var(--card);
+    box-shadow:
+        0 4px 6px oklch(0.2 0.03 250 / 0.04),
+        -8px 0 32px oklch(0.2 0.03 250 / 0.1);
+    border-radius: var(--radius-xl, 14px);
     padding: 16px;
     font-family: var(--font-sans), system-ui, sans-serif;
-    border: 1px solid oklch(0.88 0.015 210);
-    transition: all 0.3s ease-in-out;
-    padding-left: 35px;
+    border: 1px solid var(--border);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.35s ease;
+    padding-left: 36px;
     overflow-y: auto;
 }
 
@@ -23,19 +27,34 @@
 }
 
 .side-panel form h2 {
-    margin-bottom: 16px;
+    margin-bottom: 4px;
+    font-family: var(--font-heading), Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
 }
 
 .side-panel .open-close-area {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 30px;
+    width: 28px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: var(--muted-foreground);
+    border-right: 1px solid var(--border);
+    border-radius: var(--radius-xl, 14px) 0 0 var(--radius-xl, 14px);
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.side-panel .open-close-area:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
 }
 
 /* IMAGE DISPLAY */
@@ -46,29 +65,14 @@
     height: 200px;
     margin-bottom: 0.5rem;
     overflow: hidden;
+    border-radius: calc(var(--radius) * 0.9);
 }
 
 .side-panel .image-display img {
-    border-radius: 8px;
+    border-radius: calc(var(--radius) * 0.9);
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.side-panel .image-display button {
-    /* position: absolute;
-  padding: 8px 16px;
-  bottom: 0;
-  left: 50%;
-  translate: -50% -5px;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 5;
-  transition: .3s; */
-}
-
-.side-panel .image-display button:hover {
-    /* translate: -50% -10px; */
 }
 
 @keyframes sidePanelSwitchImage {

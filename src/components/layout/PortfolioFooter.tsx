@@ -1,5 +1,5 @@
 import { Code2 } from 'lucide-react';
-import { PORTFOLIO_LINKS } from '../../constants/portfolio';
+import { PORTFOLIO_LINKS, PORTFOLIO_TAGLINE } from '../../constants/portfolio';
 
 const PortfolioFooter = ({ className = '' }: { className?: string }) => {
     return (
@@ -27,7 +27,7 @@ const PortfolioFooter = ({ className = '' }: { className?: string }) => {
                         Código-fonte
                     </a>
                     <span className="text-border">|</span>
-                    <span>Desktop-first · Dados locais</span>
+                    <span>{PORTFOLIO_TAGLINE}</span>
                 </div>
             </div>
         </footer>

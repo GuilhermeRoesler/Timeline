@@ -1,0 +1,100 @@
+{
+    "name": "Demo — Corrida Espacial",
+    "description": "Do Sputnik ao turismo espacial: uma segunda vitrine do canvas com outra paleta e ritmo.",
+    "data": {
+        "periods": [
+            {
+                "id": "space-p1",
+                "title": "Alvorecer Orbital",
+                "description": "A Guerra Fria impulsiona os primeiros satélites e voos tripulados.",
+                "image": "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
+                "color": "#264653",
+                "start_date": "1957-01-01",
+                "end_date": "1969-01-01",
+                "level": 1
+            },
+            {
+                "id": "space-p2",
+                "title": "Era Apollo",
+                "description": "Missões lunares, engenharia extrema e a corrida pela Lua.",
+                "image": "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&q=80",
+                "color": "#2a9d8f",
+                "start_date": "1961-01-01",
+                "end_date": "1975-01-01",
+                "level": 2
+            },
+            {
+                "id": "space-p3",
+                "title": "Ônibus Espaciais",
+                "description": "Voos reutilizáveis, estações e ciência em órbita baixa.",
+                "image": "https://images.unsplash.com/photo-1517976547714-720226b864c1?w=800&q=80",
+                "color": "#e9c46a",
+                "start_date": "1981-01-01",
+                "end_date": "2011-01-01",
+                "level": 1
+            },
+            {
+                "id": "space-p4",
+                "title": "Espaço Comercial",
+                "description": "Empresas privadas, reutilização de foguetes e turismo orbital.",
+                "image": "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=800&q=80",
+                "color": "#f4a261",
+                "start_date": "2002-01-01",
+                "end_date": "2026-01-01",
+                "level": 2
+            }
+        ],
+        "events": [
+            {
+                "id": "space-e1",
+                "title": "Sputnik 1",
+                "description": "A União Soviética coloca o primeiro satélite artificial em órbita.",
+                "image": "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=800&q=80",
+                "color": "#264653",
+                "event_date": "1957-10-04"
+            },
+            {
+                "id": "space-e2",
+                "title": "Yuri Gagarin",
+                "description": "Primeiro ser humano a orbitar a Terra a bordo da Vostok 1.",
+                "image": "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=800&q=80",
+                "color": "#2a9d8f",
+                "event_date": "1961-04-12"
+            },
+            {
+                "id": "space-e3",
+                "title": "Apollo 11",
+                "description": "Armstrong e Aldrin pisam na Lua — marco da exploração humana.",
+                "image": "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&q=80",
+                "color": "#e9c46a",
+                "event_date": "1969-07-20"
+            },
+            {
+                "id": "space-e4",
+                "title": "Estação Espacial Internacional",
+                "description": "Montagem contínua da ISS começa com o módulo Zarya.",
+                "image": "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=800&q=80",
+                "color": "#e76f51",
+                "event_date": "1998-11-20"
+            },
+            {
+                "id": "space-e5",
+                "title": "Falcon 9 reutilizável",
+                "description": "Pouso bem-sucedido de primeiro estágio marca nova era comercial.",
+                "image": "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?w=800&q=80",
+                "color": "#f4a261",
+                "event_date": "2015-12-21"
+            }
+        ],
+        "settings": {
+            "year_spacing": 90,
+            "base_year": 1950,
+            "period_height": 80,
+            "level_spacing": 30,
+            "event_radius": 10,
+            "colorize_on_create": true,
+            "theme_index": 0,
+            "negative_level": true
+        }
+    }
+}

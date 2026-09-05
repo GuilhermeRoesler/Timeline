@@ -1,4 +1,5 @@
 import demoProject from '../data/demoProject.json';
+import demoSpaceProject from '../data/demoSpaceProject.json';
 import type { Project, ProjectData, ProjectSummary } from '../types/project';
 import type { Settings } from '../types/settings';
 import type { ApiEvent, ApiPeriod } from '../types/userData';
@@ -7,6 +8,12 @@ import type { Event } from '../types/event';
 
 const STORAGE_KEY = 'timeline_projects';
 export const DEMO_PROJECT_ID = 'demo-project';
+export const DEMO_SPACE_PROJECT_ID = 'demo-space-project';
+
+const BUNDLED_DEMOS = [
+    { id: DEMO_PROJECT_ID, source: demoProject },
+    { id: DEMO_SPACE_PROJECT_ID, source: demoSpaceProject },
+] as const;
 
 let activeProjectId: string | null = null;
 
@@ -41,25 +48,50 @@ const saveProjects = (projects: Project[]): void => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
 };
 
-const createDemoProject = (): Project => {
+const createBundledDemo = (
+    id: string,
+    source: { name: string; description: string; data: ProjectData },
+    existing?: Project,
+): Project => {
     const now = new Date().toISOString();
     return {
-        id: DEMO_PROJECT_ID,
-        name: demoProject.name,
-        description: demoProject.description,
-        createdAt: now,
+        id,
+        name: source.name,
+        description: source.description,
+        createdAt: existing?.createdAt ?? now,
         updatedAt: now,
         isDemo: true,
-        data: demoProject.data,
+        data: source.data,
     };
 };
 
 export const initializeStorage = (): void => {
-    const projects = loadProjects();
-    if (projects.length === 0) {
-        saveProjects([createDemoProject()]);
-    } else if (!projects.some((p) => p.id === DEMO_PROJECT_ID)) {
-        saveProjects([createDemoProject(), ...projects]);
+    let projects = loadProjects();
+    let changed = false;
+
+    for (const demo of BUNDLED_DEMOS) {
+        const index = projects.findIndex((p) => p.id === demo.id);
+        if (index === -1) {
+            projects = [createBundledDemo(demo.id, demo.source), ...projects];
+            changed = true;
+            continue;
+        }
+
+        const existing = projects[index];
+        const contentChanged =
+            existing.name !== demo.source.name ||
+            existing.description !== demo.source.description ||
+            JSON.stringify(existing.data) !== JSON.stringify(demo.source.data) ||
+            !existing.isDemo;
+
+        if (contentChanged) {
+            projects[index] = createBundledDemo(demo.id, demo.source, existing);
+            changed = true;
+        }
+    }
+
+    if (changed) {
+        saveProjects(projects);
     }
 };
 
