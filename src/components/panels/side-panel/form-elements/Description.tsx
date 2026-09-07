@@ -21,10 +21,11 @@ const Description = () => {
                 <Label htmlFor="side-panel-description-id">Descrição</Label>
                 <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="icon-sm"
                     onClick={handleGenerate}
                     title="Gerar com IA"
+                    className="text-primary hover:bg-accent hover:text-accent-foreground"
                 >
                     <Sparkles className="h-4 w-4" />
                 </Button>

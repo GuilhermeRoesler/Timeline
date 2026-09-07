@@ -46,6 +46,7 @@ const ImageSection = () => {
                         size="icon"
                         className="rounded-r-none border-r-0"
                         onClick={() => useSidePanelStore.setState({ imageSelectedType: 'search' })}
+                        title="Buscar imagem"
                     >
                         <Search className="h-4 w-4" />
                     </Button>
@@ -53,7 +54,7 @@ const ImageSection = () => {
                         type="text"
                         name="imageLink"
                         id="side-panel-image-id"
-                        placeholder="URL da imagem aqui"
+                        placeholder="https://..."
                         value={linkValue}
                         onChange={(e) => useSidePanelStore.setState({ linkValue: e.target.value })}
                         className="rounded-l-none"
@@ -62,8 +63,8 @@ const ImageSection = () => {
                 {linkValue && (
                     <img
                         src={linkValue}
-                        alt="Link digitado incorretamente..."
-                        className="rounded-lg"
+                        alt="Pré-visualização"
+                        className="mt-1 max-h-40 w-full rounded-lg border border-border object-cover"
                     />
                 )}
             </div>
@@ -73,14 +74,14 @@ const ImageSection = () => {
     if (imageSelectedType === 'search') {
         return (
             <div className="space-y-2">
-                <Label htmlFor="side-panel-image-search-id">Buscar imagem</Label>
+                <Label htmlFor="side-panel-image-search-id">Buscar no Unsplash</Label>
                 <div className="flex gap-0">
                     <Input
                         ref={searchRef}
                         type="search"
                         name="image"
                         id="side-panel-image-search-id"
-                        placeholder="Pesquise aqui..."
+                        placeholder="Ex: revolução industrial"
                         defaultValue={titleValue}
                         className="rounded-r-none"
                     />
@@ -90,6 +91,7 @@ const ImageSection = () => {
                         size="icon"
                         className="rounded-l-none border-l-0"
                         onClick={(e) => void handleSendSearch(e)}
+                        title="Buscar"
                     >
                         <Send className="h-4 w-4" />
                     </Button>
@@ -103,10 +105,11 @@ const ImageSection = () => {
     if (imageSelectedType === 'upload') {
         return (
             <div className="space-y-2">
-                <p className="text-xs text-destructive">
-                    Não recomendado por ocupar espaço no localStorage
-                </p>
-                <Label htmlFor="side-panel-image-upload-id">Upload de imagem</Label>
+                <div className="rounded-lg border border-border bg-muted/50 px-3 py-2 text-xs text-muted-foreground">
+                    Upload ocupa espaço no armazenamento local do navegador. Prefira link ou busca
+                    quando possível.
+                </div>
+                <Label htmlFor="side-panel-image-upload-id">Arquivo de imagem</Label>
                 <Input
                     type="file"
                     name="image"
@@ -114,6 +117,13 @@ const ImageSection = () => {
                     accept="image/*"
                     onChange={(e) => handleFileUpload(e)}
                 />
+                {linkValue.startsWith('data:') && (
+                    <img
+                        src={linkValue}
+                        alt="Pré-visualização do upload"
+                        className="mt-1 max-h-40 w-full rounded-lg border border-border object-cover"
+                    />
+                )}
             </div>
         );
     }

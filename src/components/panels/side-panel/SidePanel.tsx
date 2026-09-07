@@ -109,10 +109,10 @@ const SidePanel = () => {
                 variant="ghost"
                 size="icon"
                 onClick={handleClose}
-                className="absolute top-2 right-2 h-9 w-9"
+                className="absolute top-3 right-3 z-10 h-8 w-8"
                 aria-label="Fechar painel"
             >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
             </Button>
             {editPeriod || editEvent ? <SidePanelEditForm /> : <SidePanelForm />}
         </div>

@@ -111,6 +111,8 @@ const InfoCard = () => {
                     date={sameYearEvents[sameYearEventsIndex].date.getYear().toString()}
                     description={sameYearEvents[sameYearEventsIndex].description}
                     image={sameYearEvents[sameYearEventsIndex].image}
+                    color={sameYearEvents[sameYearEventsIndex].color}
+                    kind="event"
                     onClose={handleClose}
                     onDelete={handleDelete}
                 />
@@ -140,6 +142,8 @@ const InfoCard = () => {
                     date={`${localPeriod.start.getYear()} - ${localPeriod.end.getYear()}`}
                     description={localPeriod.description}
                     image={localPeriod.image}
+                    color={localPeriod.color}
+                    kind="period"
                     onClose={handleClose}
                     onDelete={handleDelete}
                 />

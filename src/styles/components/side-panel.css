@@ -11,53 +11,79 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: var(--radius-xl, 14px);
-    padding: 20px 20px 20px 40px;
+    padding: 0;
     font-family: var(--font-sans), system-ui, sans-serif;
     border: 1px solid var(--chrome-border, var(--border));
     transition:
         transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
         opacity 0.35s ease;
-    overflow-y: auto;
-}
-
-.side-panel form {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
 }
 
-.side-panel form h2 {
-    margin-bottom: 0;
+.side-panel-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 0;
+}
+
+.side-panel-form .side-panel-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 20px 20px 12px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.side-panel-form .side-panel-header {
+    padding-right: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.side-panel-form h2 {
+    margin: 0;
     font-family: var(--font-heading), Georgia, serif;
     font-weight: 600;
-    font-size: 1.65rem;
+    font-size: 1.55rem;
     letter-spacing: -0.03em;
     color: var(--ink);
     line-height: 1.15;
 }
 
-.side-panel form .side-panel-kicker {
-    margin: -0.35rem 0 0.25rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+.side-panel-form .side-panel-kicker {
+    margin: 0.35rem 0 0;
+    font-size: 0.8rem;
     color: var(--muted-foreground);
+    line-height: 1.35;
 }
 
-.side-panel form .side-panel-section {
+.side-panel-form .side-panel-section {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding-top: 0.35rem;
+    gap: 0.85rem;
+    padding-top: 1rem;
+    margin-top: 0.35rem;
     border-top: 1px solid var(--border);
 }
 
-.side-panel form .side-panel-section-label {
+.side-panel-form .side-panel-section-label {
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--muted-foreground);
+}
+
+.side-panel-form .side-panel-actions {
+    flex-shrink: 0;
+    padding: 12px 20px 20px 44px;
+    border-top: 1px solid var(--border);
+    background: color-mix(in oklab, var(--muted) 40%, var(--chrome, var(--card)));
 }
 
 .side-panel .open-close-area {
@@ -76,6 +102,7 @@
     transition:
         background 0.2s ease,
         color 0.2s ease;
+    z-index: 2;
 }
 
 .side-panel .open-close-area:hover {
@@ -88,14 +115,16 @@
 .side-panel .image-display {
     position: relative;
     max-width: 100%;
-    height: 200px;
-    margin-bottom: 0.5rem;
+    height: 180px;
+    margin-bottom: 0.35rem;
     overflow: hidden;
     border-radius: calc(var(--radius) * 0.9);
+    border: 1px solid var(--border);
+    background: var(--muted);
 }
 
 .side-panel .image-display img {
-    border-radius: calc(var(--radius) * 0.9);
+    border-radius: inherit;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -140,25 +169,30 @@
 
 .image-mini-browse {
     width: 100%;
-    height: 60px;
-    margin-bottom: 1rem;
+    height: 56px;
+    margin-bottom: 0.25rem;
     display: flex;
-    gap: 5px;
+    gap: 6px;
     overflow: hidden;
     overflow-x: auto;
+    padding-bottom: 2px;
 }
 
 .image-mini-browse img {
     height: 100%;
     width: auto;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: calc(var(--radius) * 0.7);
+    border: 1px solid var(--border);
     cursor: pointer;
-    transition: 0.3s;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .image-mini-browse img:hover {
-    scale: 1.05;
+    transform: scale(1.04);
+    border-color: var(--ring);
 }
 
 .image-mini-browse {

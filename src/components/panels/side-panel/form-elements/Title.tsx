@@ -12,7 +12,7 @@ const Title = () => {
                 type="text"
                 name="title"
                 id="side-panel-title-id"
-                placeholder="Título"
+                placeholder="Ex: Era dos Mainframes"
                 spellCheck={false}
                 required
                 value={titleValue}
