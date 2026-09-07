@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { type Period } from '../types/period';
 import { type Event } from '../types/event';
+import type { UnsplashImage } from '../utils/responsiveImage';
 
 type SidePanelState = {
     isSidePanelOpen: boolean;
@@ -14,7 +15,7 @@ type SidePanelState = {
     colorValue: string;
     linkValue: string;
     resetFields: () => void;
-    links: string[];
+    links: UnsplashImage[];
     linkIndex: number;
     editPeriod: Period | null;
     editEvent: Event | null;
@@ -45,7 +46,7 @@ export const useSidePanelStore = create<SidePanelState>((set) => ({
             editPeriod: null,
             editEvent: null,
         }),
-    links: [''],
+    links: [],
     linkIndex: 0,
     editPeriod: null,
     editEvent: null,

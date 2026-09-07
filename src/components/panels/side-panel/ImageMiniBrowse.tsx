@@ -1,22 +1,30 @@
 import { useSidePanelStore } from '../../../store/sidePanelStore';
+import { getUnsplashBrowseProps } from '@/utils/responsiveImage';
 
 const ImageMiniBrowse = () => {
     const links = useSidePanelStore((state) => state.links);
 
-    if (!links.every((valor) => valor === '')) {
-        return (
-            <div className="image-mini-browse">
-                {links.map((link, index) => (
+    if (links.length === 0) {
+        return null;
+    }
+
+    return (
+        <div className="image-mini-browse">
+            {links.map((image, index) => {
+                const imageProps = getUnsplashBrowseProps(image, 'thumb');
+                return (
                     <img
-                        key={index}
-                        src={link}
+                        key={`${image.thumb}-${index}`}
+                        {...imageProps}
                         alt={`image-${index}`}
+                        loading="lazy"
+                        decoding="async"
                         onClick={() => useSidePanelStore.setState({ linkIndex: index })}
                     />
-                ))}
-            </div>
-        );
-    }
+                );
+            })}
+        </div>
+    );
 };
 
 export default ImageMiniBrowse;

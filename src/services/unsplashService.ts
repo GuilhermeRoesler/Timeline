@@ -1,10 +1,15 @@
 import axios from 'axios';
+import type { UnsplashImage } from '@/utils/responsiveImage';
 
 interface UnsplashPhoto {
-    urls: { small: string };
+    urls: {
+        thumb: string;
+        small: string;
+        regular: string;
+    };
 }
 
-export async function fetchImages(search: string): Promise<string[] | undefined> {
+export async function fetchImages(search: string): Promise<UnsplashImage[] | undefined> {
     try {
         const apiKey = import.meta.env.VITE_UNSPLASH_API_KEY;
         const answer = await axios.get('https://api.unsplash.com/search/photos', {
@@ -14,7 +19,11 @@ export async function fetchImages(search: string): Promise<string[] | undefined>
             },
         });
         const results = answer.data.results as UnsplashPhoto[];
-        return results.map((result) => result.urls.small);
+        return results.map((result) => ({
+            thumb: result.urls.thumb,
+            small: result.urls.small,
+            regular: result.urls.regular,
+        }));
     } catch (erro) {
         console.error(erro);
     }

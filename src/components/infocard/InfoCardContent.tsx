@@ -1,6 +1,7 @@
 import { Calendar, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { getResponsiveImageProps } from '@/utils/responsiveImage';
 
 const InfoCardContent = ({
     title,
@@ -21,6 +22,11 @@ const InfoCardContent = ({
     onClose: () => void;
     onDelete: () => void;
 }) => {
+    const imageProps = getResponsiveImageProps(image, {
+        widths: [400, 800],
+        sizes: '(max-width: 640px) 90vw, 280px',
+    });
+
     return (
         <>
             <div className="accent-bar" style={{ backgroundColor: color }} />
@@ -55,7 +61,7 @@ const InfoCardContent = ({
                 <p className="description">
                     {description || 'Adicione uma descrição no painel de edição.'}
                 </p>
-                {image && <img src={image} alt={title} />}
+                {image && <img {...imageProps} alt={title} loading="lazy" decoding="async" />}
                 <div className="footer">
                     <Button
                         variant="outline"

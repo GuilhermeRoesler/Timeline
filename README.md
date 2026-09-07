@@ -6,7 +6,7 @@
 
 Users can add periods and events, customize **colors, themes, and layers**, and view item details. The project uses React, `Zustand` for state management, and `react-konva` for graphical rendering.
 
-![](public/demo.png)
+![](public/demo.webp)
 
 ## ⚙️ Key Features
 
